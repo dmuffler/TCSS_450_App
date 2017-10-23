@@ -8,4 +8,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_string">Login</string>
+    <string name="skip_string">Skip</string>
+    <string name="register_string">Register</string>
+    <string name="title_string">Smart Convert</string>
+    <string name="submit_string">Submit</string>
+    <string name="username_string">Username</string>
+    <string name="password_string">Password</string>
 </resources>

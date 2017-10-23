@@ -3,6 +3,7 @@ package group6.tcss450.uw.edu.smartconvert;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Switch;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, StartFrag.StartFragInteractionListener,
+        LoginFrag.LoginFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,5 +104,31 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void startFragInteraction(String fragString) {
+        String fragSelect = fragString;
+        switch (fragString) {
+            case "Login":
+                LoginFrag loginFrag = new LoginFrag();
+                FragmentTransaction t = getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_container, loginFrag)
+                        .addToBackStack(null);
+                t.commit();
+                break;
+            case "Skip":
+                break;
+            case "Register":
+                break;
+        }
+    }
+
+    @Override
+    public void loginFragmentInteraction(String fragString) {
+        if (fragString.equals("Submit")) {
+            // Do Something.
+        }
     }
 }
