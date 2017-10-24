@@ -14,16 +14,18 @@ import android.widget.EditText;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link LoginFrag.LoginFragmentInteractionListener} interface
+ * {@link RegisterFragment.RegisterFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class LoginFrag extends Fragment implements View.OnClickListener {
+public class RegisterFragment extends Fragment implements View.OnClickListener {
 
-    private LoginFragmentInteractionListener mListener;
-    private EditText userNameTextField;
-    private EditText userPassTextField;
+    private RegisterFragmentInteractionListener mListener;
+    private EditText nameTextField;
+    private EditText emailTextField;
+    private EditText passwordTextField;
+    private EditText confirmPasswordTextField;
 
-    public LoginFrag() {
+    public RegisterFragment() {
         // Required empty public constructor
     }
 
@@ -31,13 +33,16 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_login, container, false);
+        View v = inflater.inflate(R.layout.fragment_register, container, false);
 
-        Button b = (Button) v.findViewById(R.id.submitButton);
+
+        Button b = (Button) v.findViewById(R.id.registerRegisterButton);
         b.setOnClickListener(this);
 
-        userNameTextField = (EditText) v.findViewById(R.id.usernameField);
-        userPassTextField = (EditText) v.findViewById(R.id.passwordField);
+        nameTextField = (EditText) v.findViewById(R.id.nameFirstLastField);
+        emailTextField = (EditText) v.findViewById(R.id.emailField);
+        passwordTextField = (EditText) v.findViewById(R.id.passRegField);
+        confirmPasswordTextField = (EditText) v.findViewById(R.id.confirmPassRegField);
 
         return v;
     }
@@ -45,8 +50,8 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof LoginFragmentInteractionListener) {
-            mListener = (LoginFragmentInteractionListener) context;
+        if (context instanceof RegisterFragmentInteractionListener) {
+            mListener = (RegisterFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -62,9 +67,9 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (mListener != null) {
-            if (view.getId() == R.id.submitButton) {
-                String homeFrag = "Home";
-                mListener.loginFragmentInteraction(homeFrag);
+            if (view.getId() == R.id.registerRegisterButton) {
+                String tutorialFrag = "Confirm Email";
+                mListener.registerFragmentInteraction(tutorialFrag);
             }
         }
     }
@@ -79,8 +84,8 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface LoginFragmentInteractionListener {
+    public interface RegisterFragmentInteractionListener {
         // TODO: Update argument type and name
-        void loginFragmentInteraction(String fragString);
+        void registerFragmentInteraction(String fragString);
     }
 }

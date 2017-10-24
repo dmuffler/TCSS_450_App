@@ -1,8 +1,10 @@
 package group6.tcss450.uw.edu.smartconvert;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -17,7 +19,8 @@ import android.widget.Switch;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, StartFrag.StartFragInteractionListener,
-        LoginFrag.LoginFragmentInteractionListener {
+        LoginFrag.LoginFragmentInteractionListener, RegisterFragment.RegisterFragmentInteractionListener,
+        ConfirmEmailFragment.ConfirmEmailFragmentInteractionListener, TutorialFragment1.TutorialFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +33,14 @@ public class MainActivity extends AppCompatActivity
                 .add(R.id.main_container, new StartFrag())
                 .commit();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+/*        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -106,21 +109,25 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private void switchFragment(Fragment frag) {
+        FragmentTransaction t = getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_container, frag)
+                .addToBackStack(null);
+        t.commit();
+    }
+
     @Override
     public void startFragInteraction(String fragString) {
         String fragSelect = fragString;
         switch (fragString) {
             case "Login":
-                LoginFrag loginFrag = new LoginFrag();
-                FragmentTransaction t = getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.main_container, loginFrag)
-                        .addToBackStack(null);
-                t.commit();
+                switchFragment(new LoginFrag());
                 break;
             case "Skip":
                 break;
             case "Register":
+                switchFragment(new RegisterFragment());
                 break;
         }
     }
@@ -128,7 +135,30 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void loginFragmentInteraction(String fragString) {
         if (fragString.equals("Submit")) {
-            // Do Something.
+            // Go to home.
+        }
+    }
+
+    @Override
+    public void registerFragmentInteraction(String fragString) {
+        if (fragString.equals("Confirm Email")) {
+            switchFragment(new ConfirmEmailFragment());
+        }
+    }
+
+    @Override
+    public void confirmEmailFragmentInteraction(String fragString) {
+        if (fragString.equals("Tutorial1")) {
+            switchFragment(new TutorialFragment1());
+        }
+    }
+
+    @Override
+    public void tutorialFragmentInteraction(String fragString) {
+        if (fragString.equals("Tutorial2")) {
+            // Go to tutorial2.
+        } else if(fragString.equals("Home Popup")) {
+            // Go to home popup.
         }
     }
 }

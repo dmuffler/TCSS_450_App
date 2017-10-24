@@ -1,7 +1,6 @@
 package group6.tcss450.uw.edu.smartconvert;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -31,11 +30,11 @@ public class StartFrag extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_start, container, false);
 
-        Button b = (Button) v.findViewById(R.id.loginButton);
+        Button b = (Button) v.findViewById(R.id.loginStartButton);
         b.setOnClickListener(this);
-        b = (Button) v.findViewById(R.id.skipButton);
+        b = (Button) v.findViewById(R.id.skipLoginButton);
         b.setOnClickListener(this);
-        b = (Button) v.findViewById(R.id.registerButton);
+        b = (Button) v.findViewById(R.id.registerStartButton);
         b.setOnClickListener(this);
 
         return v;
@@ -45,15 +44,15 @@ public class StartFrag extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         if (mListener != null) {
             switch (view.getId()) {
-                case R.id.loginButton:
+                case R.id.loginStartButton:
                     String loginFrag = "Login";
                     mListener.startFragInteraction(loginFrag);
                     break;
-                case R.id.skipButton:
+                case R.id.skipLoginButton:
                     String skipFrag = "Skip";
                     mListener.startFragInteraction(skipFrag);
                     break;
-                case R.id.registerButton:
+                case R.id.registerStartButton:
                     String registerFrag = "Register";
                     mListener.startFragInteraction(registerFrag);
                     break;
