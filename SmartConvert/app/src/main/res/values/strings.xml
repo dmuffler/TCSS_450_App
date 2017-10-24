@@ -15,4 +15,12 @@
     <string name="submit_string">Submit</string>
     <string name="username_string">Username</string>
     <string name="password_string">Password</string>
+    <string name="name_string">Name (First Last):</string>
+    <string name="email_string">Email:</string>
+    <string name="confirm_password_string">Confirm Password:</string>
+    <string name="pass_string">Password:</string>
+    <string name="confirm_email_title_string">Confirm Email</string>
+    <string name="verification_code_string">Verification Code:</string>
+    <string name="enter_string">Enter</string>
+    <string name="welcome_string">Welcome to \nSmart Convert</string>
 </resources>

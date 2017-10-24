@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/loginButton"
+            android:id="@+id/loginStartButton"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:text="@string/login_string"
@@ -23,25 +23,25 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/skipButton"
+            android:id="@+id/skipLoginButton"
             android:layout_width="105dp"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
             android:text="@string/skip_string"
-            app:layout_constraintTop_toBottomOf="@+id/loginButton"
+            app:layout_constraintTop_toBottomOf="@+id/loginStartButton"
             android:layout_marginLeft="0dp"
-            app:layout_constraintLeft_toLeftOf="@+id/loginButton" />
+            app:layout_constraintLeft_toLeftOf="@+id/loginStartButton" />
 
         <Button
-            android:id="@+id/registerButton"
+            android:id="@+id/registerStartButton"
             android:layout_width="105dp"
             android:layout_height="48dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
             android:text="@string/register_string"
-            app:layout_constraintLeft_toRightOf="@+id/skipButton"
-            app:layout_constraintTop_toBottomOf="@+id/loginButton"
-            android:layout_marginStart="20dp" />
+            app:layout_constraintLeft_toRightOf="@+id/skipLoginButton"
+            app:layout_constraintTop_toBottomOf="@+id/loginStartButton" />
 
         <TextView
             android:id="@+id/appNameView"
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:text="@string/app_name"
             android:textSize="30sp"
-            app:layout_constraintBottom_toTopOf="@+id/loginButton"
+            app:layout_constraintBottom_toTopOf="@+id/loginStartButton"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
