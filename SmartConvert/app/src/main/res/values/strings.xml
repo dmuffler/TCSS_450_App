@@ -23,4 +23,6 @@
     <string name="verification_code_string">Verification Code:</string>
     <string name="enter_string">Enter</string>
     <string name="welcome_string">Welcome to \nSmart Convert</string>
+    <string name="american_curr_string">American</string>
+    <string name="euro_curr_string">Euro</string>
 </resources>

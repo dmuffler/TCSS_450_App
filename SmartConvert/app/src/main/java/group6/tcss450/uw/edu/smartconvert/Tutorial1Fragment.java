@@ -1,7 +1,6 @@
 package group6.tcss450.uw.edu.smartconvert;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,14 +12,14 @@ import android.widget.Button;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TutorialFragment1.TutorialFragmentInteractionListener} interface
+ * {@link Tutorial1Fragment.TutorialFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class TutorialFragment1 extends Fragment implements View.OnClickListener {
+public class Tutorial1Fragment extends Fragment implements View.OnClickListener {
 
     private TutorialFragmentInteractionListener mListener;
 
-    public TutorialFragment1() {
+    public Tutorial1Fragment() {
         // Required empty public constructor
     }
 
@@ -29,9 +28,9 @@ public class TutorialFragment1 extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_tutorial_fragment1, container, false);
+        View v = inflater.inflate(R.layout.fragment_tutorial1, container, false);
 
-        Button b = (Button) v.findViewById(R.id.arrowTutorial1Button);
+        Button b = (Button) v.findViewById(R.id.arrowTutorialRightButton);
         b.setOnClickListener(this);
         b = (Button) v.findViewById(R.id.skipTutorialButton);
         b.setOnClickListener(this);
@@ -59,13 +58,16 @@ public class TutorialFragment1 extends Fragment implements View.OnClickListener 
     @Override
     public void onClick(View view) {
         if (mListener != null) {
-            if (view.getId() == R.id.skipTutorialButton) {
-                String skipFrag = "Home Popup";
-                mListener.tutorialFragmentInteraction(skipFrag);
-            } else if (view.getId() == R.id.arrowTutorial1Button) {
-                String nextFrag = "Tutorial2";
-                mListener.tutorialFragmentInteraction((nextFrag));
+            String frag = "";
+            switch (view.getId()) {
+                case R.id.skipTutorialButton:
+                    frag = "Home Popup";
+                    break;
+                case R.id.arrowTutorialRightButton:
+                    frag = "Tutorial2";
+                    break;
             }
+            mListener.tutorialFragmentInteraction(frag);
         }
     }
 

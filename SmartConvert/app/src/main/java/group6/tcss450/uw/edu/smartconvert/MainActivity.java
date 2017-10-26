@@ -1,26 +1,23 @@
 package group6.tcss450.uw.edu.smartconvert;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Switch;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, StartFrag.StartFragInteractionListener,
         LoginFrag.LoginFragmentInteractionListener, RegisterFragment.RegisterFragmentInteractionListener,
-        ConfirmEmailFragment.ConfirmEmailFragmentInteractionListener, TutorialFragment1.TutorialFragmentInteractionListener {
+        ConfirmEmailFragment.ConfirmEmailFragmentInteractionListener, Tutorial1Fragment.TutorialFragmentInteractionListener,
+        Tutorial2Fragment.TutorialFragmentInteractionListener, Tutorial3Fragment.TutorialFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +116,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void startFragInteraction(String fragString) {
-        String fragSelect = fragString;
         switch (fragString) {
             case "Login":
                 switchFragment(new LoginFrag());
@@ -135,7 +131,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void loginFragmentInteraction(String fragString) {
         if (fragString.equals("Submit")) {
-            // Go to home.
+            //switchFragment(new HomeFragment())
         }
     }
 
@@ -149,16 +145,25 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void confirmEmailFragmentInteraction(String fragString) {
         if (fragString.equals("Tutorial1")) {
-            switchFragment(new TutorialFragment1());
+            switchFragment(new Tutorial1Fragment());
         }
     }
 
     @Override
     public void tutorialFragmentInteraction(String fragString) {
-        if (fragString.equals("Tutorial2")) {
-            // Go to tutorial2.
-        } else if(fragString.equals("Home Popup")) {
-            // Go to home popup.
+        switch (fragString) {
+            case "Tutorial1":
+                switchFragment(new Tutorial1Fragment());
+                break;
+            case "Tutorial2":
+                switchFragment(new Tutorial2Fragment());
+                break;
+            case "Tutorial3":
+                switchFragment(new Tutorial3Fragment());
+                break;
+            case "Home Popup":
+                //switchFragment(new HomePopupFragment);
+                break;
         }
     }
 }
