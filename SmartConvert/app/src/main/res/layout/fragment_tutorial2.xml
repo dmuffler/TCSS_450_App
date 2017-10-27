@@ -82,6 +82,84 @@
                 android:layout_weight="1"
                 android:enabled="false" />
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/currBTutorialView"
+            android:layout_width="145dp"
+            android:layout_height="19dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="@string/euro_curr_string"
+            app:layout_constraintBottom_toTopOf="@+id/currBFormTutorial"
+            android:layout_marginRight="16dp"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <Button
+            android:id="@+id/convertButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/convert_string"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.315" />
+
+        <EditText
+            android:id="@+id/currBFormTutorial"
+            android:layout_width="145dp"
+            android:layout_height="39dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="87dp"
+            android:editable="false"
+            android:ems="10"
+            android:enabled="false"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:text="@string/example_amount_2_string"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/currAFormTutorial"
+            android:layout_width="145dp"
+            android:layout_height="39dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="87dp"
+            android:editable="false"
+            android:ems="10"
+            android:enabled="false"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:text="@string/example_amount_1_string"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/currATutorialView"
+            android:layout_width="145dp"
+            android:layout_height="19dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="@string/american_curr_string"
+            app:layout_constraintBottom_toTopOf="@+id/currAFormTutorial"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/convertArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="->"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/currBFormTutorial"
+            android:layout_marginTop="8dp" />
+
     </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>

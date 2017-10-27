@@ -61,7 +61,7 @@ public class Tutorial1Fragment extends Fragment implements View.OnClickListener 
             String frag = "";
             switch (view.getId()) {
                 case R.id.skipTutorialButton:
-                    frag = "Home Popup";
+                    frag = "Home";
                     break;
                 case R.id.arrowTutorialRightButton:
                     frag = "Tutorial2";
