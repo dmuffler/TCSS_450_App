@@ -161,8 +161,8 @@ public class MainActivity extends AppCompatActivity
             case "Tutorial3":
                 switchFragment(new Tutorial3Fragment());
                 break;
-            case "Home Popup":
-                //switchFragment(new HomePopupFragment);
+            case "Home":
+                //switchFragment(new HomeFragment());
                 break;
         }
     }
