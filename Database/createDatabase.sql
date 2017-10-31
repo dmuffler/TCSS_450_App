@@ -4,11 +4,12 @@ use SmartConvert
 create table Users
 (UserID		int				primary key, 
 UserFN		varchar(128)	not null,
-UserLN		varchar(128)	not null)
+UserLN		varchar(128)	not null,
+UserEmail	varchar(128)	not null)
 
 create table LoginData
 (LoginID	int				primary key,
-Username	varchar(128)	not null,
+Username	varchar(128)	unique not null,
 UserPassword	varchar(128)	not null)
 
 create table UserLogin
