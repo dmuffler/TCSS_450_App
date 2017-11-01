@@ -84,8 +84,6 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
                 Log.d("LOGIN", username + " " + password);
                 task = new CheckLoginData();
                 task.execute(PARTIAL_URL, username, password);
-                //String homeFrag = "Home";
-                //mListener.loginFragmentInteraction(homeFrag);
             }
         }
     }
