@@ -31,9 +31,10 @@ import java.net.URLEncoder;
 public class LoginFrag extends Fragment implements View.OnClickListener {
 
     private static final String PARTIAL_URL = "http://cssgate.insttech.washington.edu/~if30/";
+    //private static final String PARTIAL_URL = "http://cssgate.insttech.washington.edu/~dmuffler/";
+
     private LoginFragmentInteractionListener mListener;
     private View v;
-    //private AsyncTask<String, Void, String> mTask;
     private EditText userNameTextField;
     private EditText userPassTextField;
 
@@ -133,16 +134,16 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
+            Log.e("HERE", response);
             return response;
         }
         @Override
         protected void onPostExecute(String result) {
-            // Something wrong with the network or the URL.
-            if (result.startsWith("Unable to")) {
-                Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
-                return;
+            Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+            if (result.equals("Login Successful")) {
+                String homeFrag = "Home";
+                mListener.loginFragmentInteraction(homeFrag);
             }
-            Log.d("LOGIN", "SUCCESSFUL CONNECTION");
         }
     }
 }
