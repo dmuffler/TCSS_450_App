@@ -1,25 +1,27 @@
 package group6.tcss450.uw.edu.smartconvert;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link StartFrag.StartFragInteractionListener} interface
+ * {@link HomeFragment.HomeFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class StartFrag extends Fragment implements View.OnClickListener {
+public class HomeFragment extends Fragment implements  View.OnClickListener {
 
-    private StartFragInteractionListener mListener;
+    private HomeFragmentInteractionListener mListener;
+    private TextView currentLocationField;
 
-    public StartFrag() {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
@@ -28,42 +30,17 @@ public class StartFrag extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_start, container, false);
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Button b = (Button) v.findViewById(R.id.loginStartButton);
-        b.setOnClickListener(this);
-        b = (Button) v.findViewById(R.id.skipLoginButton);
-        b.setOnClickListener(this);
-        b = (Button) v.findViewById(R.id.registerStartButton);
-        b.setOnClickListener(this);
-
-        return v;
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (mListener != null) {
-            String frag = "";
-            switch (view.getId()) {
-                case R.id.loginStartButton:
-                    frag = "Login";
-                    break;
-                case R.id.skipLoginButton:
-                    frag = "Skip";
-                    break;
-                case R.id.registerStartButton:
-                    frag = "Register";
-                    break;
-            }
-            mListener.startFragInteraction(frag);
-        }
+        currentLocationField = (TextView) v.findViewById(R.id.currentLocationNameView);
+        return  v;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof StartFragInteractionListener) {
-            mListener = (StartFragInteractionListener) context;
+        if (context instanceof HomeFragmentInteractionListener) {
+            mListener = (HomeFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -76,6 +53,15 @@ public class StartFrag extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
+    @Override
+    public void onClick(View view) {
+        if (mListener != null) {
+            if (view.getId() == R.id.convertHomeButton) {
+                mListener.homeFragmentInteraction("Convert");
+            }
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -86,8 +72,8 @@ public class StartFrag extends Fragment implements View.OnClickListener {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface StartFragInteractionListener {
+    public interface HomeFragmentInteractionListener {
         // TODO: Update argument type and name
-        void startFragInteraction(String fragString);
+        void homeFragmentInteraction(String fragString);
     }
 }

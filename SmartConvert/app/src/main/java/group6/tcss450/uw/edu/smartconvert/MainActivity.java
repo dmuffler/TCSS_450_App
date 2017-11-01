@@ -17,7 +17,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, StartFrag.StartFragInteractionListener,
         LoginFrag.LoginFragmentInteractionListener, RegisterFragment.RegisterFragmentInteractionListener,
         ConfirmEmailFragment.ConfirmEmailFragmentInteractionListener, Tutorial1Fragment.TutorialFragmentInteractionListener,
-        Tutorial2Fragment.TutorialFragmentInteractionListener, Tutorial3Fragment.TutorialFragmentInteractionListener {
+        Tutorial2Fragment.TutorialFragmentInteractionListener, Tutorial3Fragment.TutorialFragmentInteractionListener,
+        HomeFragment.HomeFragmentInteractionListener {
 
 
 
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity
                 switchFragment(new LoginFrag());
                 break;
             case "Skip":
+                switchFragment(new HomeFragment());
                 break;
             case "Register":
                 switchFragment(new RegisterFragment());
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void loginFragmentInteraction(String fragString) {
         if (fragString.equals("Submit")) {
-            //switchFragment(new HomeFragment());
+            switchFragment(new HomeFragment());
         }
     }
 
@@ -164,8 +166,15 @@ public class MainActivity extends AppCompatActivity
                 switchFragment(new Tutorial3Fragment());
                 break;
             case "Home":
-                //switchFragment(new HomeFragment());
+                switchFragment(new HomeFragment());
                 break;
+        }
+    }
+
+    @Override
+    public void homeFragmentInteraction(String fragString) {
+        if (fragString.equals("Convert")) {
+            //switchFragment(new CurrencyFragment());
         }
     }
 }
