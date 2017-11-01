@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void loginFragmentInteraction(String fragString) {
         if (fragString.equals("Submit")) {
-            //switchFragment(new HomeFragment())
+            //switchFragment(new HomeFragment());
         }
     }
 

@@ -3,7 +3,7 @@ ini_set('checkUserAccount', '1');
 error_reporting(E_ALL);
 
     //Connect to an ssh
-    $dsn = 'mysql:host=cssgate.insttech.washington.edu;dbname=if30';
+    $dsn = 'mysql:host=localhost;dbname=if30';
     $username = 'if30';
     $password = 'crarsh*';
     $uName = $_GET[my_username];
@@ -18,7 +18,7 @@ error_reporting(E_ALL);
         $users = $user_query->fetchAll(PDO::FETCH_ASSOC);
         //echo json_encode($users);
         if($users){
-            print("Login Successful ");
+            print("Login Successful");
         } else {
             print("Login Failed: User not found or Wrong password");
         }
