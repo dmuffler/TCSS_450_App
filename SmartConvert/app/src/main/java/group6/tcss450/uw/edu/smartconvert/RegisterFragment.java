@@ -129,7 +129,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             String email = "&my_email=" + strings[3];
             String pass = "&my_password=" + strings[4];
             try {
-                URL urlObject = new URL(url + fName + lName + email + pass);
+                URL urlObject = new URL(url + REGISTER + fName + lName + email + pass);
                 urlConnection = (HttpURLConnection) urlObject.openConnection();
                 InputStream content = urlConnection.getInputStream();
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
