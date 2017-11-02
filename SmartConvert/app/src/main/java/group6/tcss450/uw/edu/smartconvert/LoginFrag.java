@@ -84,8 +84,6 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
                 Log.d("LOGIN", username + " " + password);
                 task = new CheckLoginData();
                 task.execute(PARTIAL_URL, username, password);
-                //String homeFrag = "Home";
-                //mListener.loginFragmentInteraction(homeFrag);
             }
         }
     }
@@ -114,7 +112,8 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
                 throw new IllegalArgumentException("Three String arguments required.");
             }
             String response = "";
-            HttpURLConnection urlConnection = null; String url = strings[0];
+            HttpURLConnection urlConnection = null;
+            String url = strings[0];
             String username = "?my_username=" + strings[1];
             String password = "&my_password=" + strings[2];
             try {
@@ -128,8 +127,7 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
                 }
             } catch (Exception e) {
                 Log.d("ERROR CONN", url + LOGIN + username + password);
-                response = "Unable to connect, Reason: "
-                        + e.getMessage();
+                response = "Unable to connect, Reason: " + e.getMessage();
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();

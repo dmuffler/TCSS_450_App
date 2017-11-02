@@ -43,20 +43,19 @@ public class StartFrag extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (mListener != null) {
+            String frag = "";
             switch (view.getId()) {
                 case R.id.loginStartButton:
-                    String loginFrag = "Login";
-                    mListener.startFragInteraction(loginFrag);
+                    frag = "Login";
                     break;
                 case R.id.skipLoginButton:
-                    String skipFrag = "Skip";
-                    mListener.startFragInteraction(skipFrag);
+                    frag = "Skip";
                     break;
                 case R.id.registerStartButton:
-                    String registerFrag = "Register";
-                    mListener.startFragInteraction(registerFrag);
+                    frag = "Register";
                     break;
             }
+            mListener.startFragInteraction(frag);
         }
     }
 

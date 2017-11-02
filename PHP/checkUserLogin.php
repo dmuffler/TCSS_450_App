@@ -6,12 +6,12 @@ error_reporting(E_ALL);
     $dsn = 'mysql:host=localhost;dbname=if30';
     $username = 'if30';
     $password = 'crarsh*';
-    $uName = $_GET[my_username];
+    $uEmail = $_GET[my_username];
     $uPass = $_GET[my_password];
 
     try{
         $db = new PDO($dsn, $username, $password);
-        $checkLogin = "select * from User where username='$uName' and pwd='$uPass'";
+        $checkLogin = "select * from LoginData where Email='$uEmail' and Pwd='$uPass'";
         //echo json_encode($checkLogin);
         $user_query = $db->query($checkLogin);
         //echo json_encode($user_query);
