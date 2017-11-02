@@ -1,14 +1,22 @@
 package group6.tcss450.uw.edu.smartconvert;
 
 import android.content.Context;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 /**
@@ -19,8 +27,12 @@ import android.widget.EditText;
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener {
 
+    private static final String PARTIAL_URL = "http://cssgate.insttech.washington.edu/~if30/";
+
     private RegisterFragmentInteractionListener mListener;
-    private EditText nameTextField;
+    private View v;
+    private EditText fNameTextField;
+    private EditText lNameTextField;
     private EditText emailTextField;
     private EditText passwordTextField;
     private EditText confirmPasswordTextField;
@@ -33,13 +45,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_register, container, false);
+        v = inflater.inflate(R.layout.fragment_register, container, false);
 
 
         Button b = (Button) v.findViewById(R.id.registerRegisterButton);
         b.setOnClickListener(this);
 
-        nameTextField = (EditText) v.findViewById(R.id.nameFirstLastField);
+        fNameTextField = (EditText) v.findViewById(R.id.nameFirstField);
+        lNameTextField = (EditText) v.findViewById(R.id.nameLastField);
         emailTextField = (EditText) v.findViewById(R.id.emailField);
         passwordTextField = (EditText) v.findViewById(R.id.passRegField);
         confirmPasswordTextField = (EditText) v.findViewById(R.id.confirmPassRegField);
@@ -68,8 +81,19 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         if (mListener != null) {
             if (view.getId() == R.id.registerRegisterButton) {
-                String tutorialFrag = "Confirm Email";
-                mListener.registerFragmentInteraction(tutorialFrag);
+                AsyncTask<String, String, String> task = null;
+                String fName = ((EditText) v.findViewById(R.id.nameFirstField)).getText().toString();
+                String lName = ((EditText) v.findViewById(R.id.nameLastField)).getText().toString();
+                String email = ((EditText) v.findViewById(R.id.emailField)).getText().toString();
+                String pass = ((EditText) v.findViewById(R.id.passRegField)).getText().toString();
+                String confirmPass = ((EditText) v.findViewById(R.id.confirmPassRegField)).getText().toString();
+                Log.d("REGISTER",  fName + " " + lName + " " + email + " " + pass + " " + confirmPass);
+                if(pass.equals(confirmPass)){
+                    task = new RegisterData();
+                    task.execute(PARTIAL_URL, fName, lName, email, pass);
+                } else {
+                    Log.d("REGISTER", "Password don't match");
+                }
             }
         }
     }
@@ -87,5 +111,49 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public interface RegisterFragmentInteractionListener {
         // TODO: Update argument type and name
         void registerFragmentInteraction(String fragString);
+    }
+    private class RegisterData extends AsyncTask<String, String, String>{
+        private final String REGISTER ="registerUser.php";
+        @Override
+        protected String doInBackground(String... strings){
+
+            if (strings.length != 5) {
+                Log.d("ACTIVITY" , strings.length + "");
+                throw new IllegalArgumentException("Five String arguments required.");
+            }
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            String url = strings[0];
+            String fName = "?my_firstname=" + strings[1];
+            String lName = "&my_lastname=" + strings[2];
+            String email = "&my_email=" + strings[3];
+            String pass = "&my_password=" + strings[4];
+            try {
+                URL urlObject = new URL(url + fName + lName + email + pass);
+                urlConnection = (HttpURLConnection) urlObject.openConnection();
+                InputStream content = urlConnection.getInputStream();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                String s = "";
+                while ((s = buffer.readLine()) != null) {
+                    response += s;
+                }
+            } catch (Exception e) {
+                Log.d("ERROR CONN", url + REGISTER + fName + lName + email + pass);
+                response = "Unable to connect, Reason: " + e.getMessage();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            Log.e("HERE", response);
+            return response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+            if (result.equals("Register successful.")) {
+                String confirmEmail = "Confirm Email";
+                mListener.registerFragmentInteraction(confirmEmail);
+            }
+        }
     }
 }

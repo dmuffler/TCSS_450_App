@@ -13,9 +13,10 @@
     <string name="register_string">Register</string>
     <string name="title_string">Smart Convert</string>
     <string name="submit_string">Submit</string>
-    <string name="username_string">Username</string>
+    <string name="username_string">Email</string>
     <string name="password_string">Password</string>
-    <string name="name_string">Name (First Last):</string>
+    <string name="Fname_string">First Name:</string>
+    <string name="Lname_string">Last Name:</string>
     <string name="email_string">Email:</string>
     <string name="confirm_password_string">Confirm Password:</string>
     <string name="pass_string">Password:</string>
