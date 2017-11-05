@@ -19,7 +19,12 @@ error_reporting(E_ALL);
         $lastID = ($getIDResult[0]['count(*)']) + 1;
     //End of getting LastID inserted
         $insertUserInfo = "insert into UserInfo values ($lastID, '$FName','$LName')";
-        $insertLoginData = "insert into LoginData values ('$uEmail', '$uPass', $lastID)";
+        /**
+         * 0 = not confirmed
+         * 1 = confirmed
+         */
+        $insertLoginData = "insert into LoginData (Email, Pwd, UserID, Confirmed) values ('$uEmail', '$uPass', $lastID,0)";
+    
         //echo json_encode($insertUserInfo);
         //echo json_encode($insertLoginData);
         $userInfo_query = $db->query($insertUserInfo);

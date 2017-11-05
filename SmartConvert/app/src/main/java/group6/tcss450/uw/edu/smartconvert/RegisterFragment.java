@@ -1,6 +1,8 @@
 package group6.tcss450.uw.edu.smartconvert;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -97,7 +99,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -114,6 +115,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     }
     private class RegisterData extends AsyncTask<String, String, String>{
         private final String REGISTER ="registerUser.php";
+        private String email;
+        private String fName;
+        private String lName;
+        private String pass;
         @Override
         protected String doInBackground(String... strings){
 
@@ -124,10 +129,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             String response = "";
             HttpURLConnection urlConnection = null;
             String url = strings[0];
-            String fName = "?my_firstname=" + strings[1];
-            String lName = "&my_lastname=" + strings[2];
-            String email = "&my_email=" + strings[3];
-            String pass = "&my_password=" + strings[4];
+            fName = "?my_firstname=" + strings[1];
+            lName = "&my_lastname=" + strings[2];
+            email = "&my_email=" + strings[3];
+            pass = "&my_password=" + strings[4];
             try {
                 URL urlObject = new URL(url + REGISTER + fName + lName + email + pass);
                 urlConnection = (HttpURLConnection) urlObject.openConnection();
@@ -144,15 +149,57 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            Log.e("HERE", response);
+            Log.e("REGISTER RESPONSE", response);
             return response;
         }
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
             if (result.equals("Register successful.")) {
+                AsyncTask<String, String, String> cTask = new SendConfirmation();
+                cTask.execute(PARTIAL_URL, email);
                 String confirmEmail = "Confirm Email";
                 mListener.registerFragmentInteraction(confirmEmail);
+            }
+            Toast.makeText(getActivity(), "Confirmation Code sending, please wait for a few minutes", Toast.LENGTH_LONG).show();
+        }
+    }
+    private class SendConfirmation extends AsyncTask<String, String, String>{
+        private final String SEND_CONFIRMATION ="sendConfirmation.php";
+        @Override
+        protected String doInBackground(String... strings){
+
+            if (strings.length != 2) {
+                Log.d("ACTIVITY" , strings.length + "");
+                throw new IllegalArgumentException("One String arguments required.");
+            }
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            String url = strings[0];
+            String email = "?my_email=" + strings[1];
+            try {
+                URL urlObject = new URL(url + SEND_CONFIRMATION + email);
+                urlConnection = (HttpURLConnection) urlObject.openConnection();
+                InputStream content = urlConnection.getInputStream();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                String s = "";
+                while ((s = buffer.readLine()) != null) {
+                    response += s;
+                }
+            } catch (Exception e) {
+                Log.d("ERROR CONN", url + SEND_CONFIRMATION + email);
+                response = "Unable to connect, Reason: " + e.getMessage();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            //Log.e("CONFIRMATION RESPONSE", response);
+            return response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            if (result.equals("sent")) {
+                Log.e("RESPONSE", result);
             }
         }
     }
