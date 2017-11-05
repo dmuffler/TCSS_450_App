@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -20,6 +21,7 @@ public class HomeFragment extends Fragment implements  View.OnClickListener {
 
     private HomeFragmentInteractionListener mListener;
     private TextView currentLocationField;
+    private View v;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -30,9 +32,11 @@ public class HomeFragment extends Fragment implements  View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_home, container, false);
-
+        v = inflater.inflate(R.layout.fragment_home, container, false);
+        Button b = v.findViewById(R.id.convertHomeButton);
+        b.setOnClickListener(this);
         currentLocationField = (TextView) v.findViewById(R.id.currentLocationNameView);
+
         return  v;
     }
 

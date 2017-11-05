@@ -1,5 +1,6 @@
 package group6.tcss450.uw.edu.smartconvert;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity
         LoginFrag.LoginFragmentInteractionListener, RegisterFragment.RegisterFragmentInteractionListener,
         ConfirmEmailFragment.ConfirmEmailFragmentInteractionListener, Tutorial1Fragment.TutorialFragmentInteractionListener,
         Tutorial2Fragment.TutorialFragmentInteractionListener, Tutorial3Fragment.TutorialFragmentInteractionListener,
-        HomeFragment.HomeFragmentInteractionListener {
+        HomeFragment.HomeFragmentInteractionListener, ConvertFragment.ConvertFragmentInteractionListener{
 
 
 
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void loginFragmentInteraction(String fragString) {
-        if (fragString.equals("Submit")) {
+        if (fragString.equals("Home")) {
             switchFragment(new HomeFragment());
         }
     }
@@ -173,8 +174,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void homeFragmentInteraction(String fragString) {
-        if (fragString.equals("Convert")) {
-            //switchFragment(new CurrencyFragment());
+        switch (fragString) {
+            case "Convert":
+                switchFragment(new ConvertFragment());
+                break;
         }
+    }
+
+    @Override
+    public void convertFragmentInteraction(String Str) {
+
     }
 }

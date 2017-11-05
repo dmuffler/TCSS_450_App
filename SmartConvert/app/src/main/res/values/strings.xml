@@ -31,4 +31,6 @@
     <string name="example_amount_1_string">5.00</string>
     <string name="example_amount_2_string">4.31</string>
     <string name="curr_location_string">Current Location</string>
+    <string name="def_location_string">Default Location</string>
+
 </resources>
