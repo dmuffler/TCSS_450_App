@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity
                 switchFragment(new LoginFrag());
                 break;
             case "Skip":
-                switchFragment(new HomeFragment());
+                switchFragment(new Tutorial1Fragment());
                 break;
             case "Register":
                 switchFragment(new RegisterFragment());
