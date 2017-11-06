@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -33,9 +34,19 @@ import java.net.URL;
 public class ConvertFragment extends Fragment implements View.OnClickListener{
 
     private static final String PARTIAL_URL = "http://cssgate.insttech.washington.edu/~if30/";
+    private static final String API_URL = "https://www.amdoren.com/api/currency.php";
+    private static final String API_KEY = "?api_key=RDyzVhu8ThK2dLnEPximNXmkGFMbNn";
+    private static final String FROM_TOKEN = "&from=";
+    private static final String TO_TOKEN = "&to=";
+    private static final String AMOUNT_TOKEN = "&amount=";
+    private static int amount = 50;
+    private static String Currency1 = "USD";
+    private static String Currency2 = "EUR";
     private ConvertFragmentInteractionListener mListener;
     private View v;
+
     private String jsonResult = "hello";
+    private EditText mEditText;
     public ConvertFragment() {
         // Required empty public constructor
     }
@@ -45,6 +56,8 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_convert, container, false);
+        //Log.i("wow", API_URL+API_KEY+FROM_TOKEN+Currency1+TO_TOKEN+Currency2+AMOUNT_TOKEN+amount);
+        mEditText = v.findViewById(R.id.NumCurrAField);
         connToDatabase();
         Button b = v.findViewById(R.id.convertCurrButton);
         b.setOnClickListener(this);
@@ -55,6 +68,7 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
     private void connToDatabase(){
         AsyncTask<String, String, String> task = new GetAvailableCurrencies();
         Log.d("CONVERT PAGE", "GET AVAILABLE CURRENCIES");
+
         task.execute(PARTIAL_URL);
     }
     @Override
@@ -76,11 +90,19 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
+        AsyncTask<String, Void, String> task = null;
+        String message = "";//((EditText) view.findViewById(R.id.NumCurrBField)).toString();
         if (mListener != null) {
             if (view.getId() == R.id.convertCurrButton) {
+
+                task = new ConvertCurrencies();
+
                 Log.d("CONVERT",jsonResult);
+                Log.i("wow", API_URL+API_KEY+FROM_TOKEN+Currency1+TO_TOKEN+Currency2+AMOUNT_TOKEN+amount);
             }
+
         }
+        task.execute(API_URL+API_KEY+FROM_TOKEN+Currency1+TO_TOKEN+Currency2+AMOUNT_TOKEN+amount, message);
     }
 
     /**
@@ -99,6 +121,49 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
     }
     public interface AsyncResponse {
         void processDone(String str);
+    }
+    private class ConvertCurrencies extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            String url = strings[0];
+            try {
+                URL urlObject = new URL(url);
+                urlConnection = (HttpURLConnection) urlObject.openConnection();
+                InputStream content = urlConnection.getInputStream();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                String s = "";
+                while ((s = buffer.readLine()) != null) {
+                    response += s + "\n";
+                }
+            } catch (Exception e) {
+                Log.d("ERROR CONN", "ay");
+                response = "Unable to connect, Reason: " + e.getMessage();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            Log.e("SUCCESSFUL", response);
+            //jsonResult = response;
+            return response;
+
+        }
+        @Override
+        protected void onPostExecute (String Result) {
+            try {
+                JSONObject jObject = new JSONObject(Result);
+                String value = jObject.getString("amount");
+                mEditText.setText(value);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+
+        }
     }
     private class GetAvailableCurrencies extends AsyncTask<String, String, String> {
         private final String GETCURRENCIES ="availableCurrencies.php";

@@ -32,5 +32,8 @@
     <string name="example_amount_2_string">4.31</string>
     <string name="curr_location_string">Current Location</string>
     <string name="def_location_string">Default Location</string>
+    <string name="Currency1">USD</string>
+    <string name="Currency2">Euro</string>
+    <string name="Value1">50</string>
 
 </resources>
