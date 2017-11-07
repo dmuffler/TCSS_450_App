@@ -106,7 +106,7 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
         void confirmEmailFragmentInteraction(String fragString);
     }
     private class SendConfirmation extends AsyncTask<String, String, String> {
-        private final String CHECK_CODE ="checkConfirmation.php";
+        private final String CHECK_CODE ="checkCode.php";
         @Override
         protected String doInBackground(String... strings){
 
