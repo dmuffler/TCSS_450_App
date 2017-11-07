@@ -13,7 +13,7 @@ error_reporting(E_ALL);
         $query = $db->query($select_sql);
         $users = $query->fetchAll(PDO::FETCH_ASSOC);
         if( $users){
-            $result = array("code"=>100, "size"=>count($users));
+            //$result = array("code"=>100, "size"=>count($users));
             $curr_array = array();
             #iterate through the results
             for($i = 0; $i < count($users); $i++){
@@ -21,7 +21,7 @@ error_reporting(E_ALL);
                 $currDesc = $users[$i]['Description'];
                 $curr_array[$i] = array($currID=>$currDesc);
             }
-            $result["Currencies"] = $curr_array;
+            $result = $curr_array;
         } else {
             $result = array("code"=>200, "message"=>"ERROR: Database not working properly");
         }
