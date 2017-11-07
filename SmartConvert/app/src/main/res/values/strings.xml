@@ -36,6 +36,6 @@
     <string name="Currency2">Euro</string>
     <string name="Value1">50</string>
 
-    <string name="email_key">key</string>
+    <string name="email_key">email_key</string>
 
 </resources>

@@ -134,9 +134,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void loginFragmentInteraction(String fragString) {
+    public void loginFragmentInteraction(String fragString, String emailString) {
         if (fragString.equals("Home")) {
             switchFragment(new HomeFragment());
+        } else if (fragString.equals("Confirm Email")) {
+            ConfirmEmailFragment confirmEmailFragment = new ConfirmEmailFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(getString(R.string.email_key), emailString);
+            confirmEmailFragment.setArguments(bundle);
+            switchFragment(confirmEmailFragment);
         }
     }
 

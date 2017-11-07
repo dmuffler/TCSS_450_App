@@ -18,7 +18,11 @@ error_reporting(E_ALL);
         $users = $user_query->fetchAll(PDO::FETCH_ASSOC);
         //echo json_encode($users);
         if($users){
-            print("Login Successful");
+            if($users[0]['Confirmed']){
+                print("Login Successful");
+            } else {
+                print("Email not confirmed yet");
+            }
         } else {
             print("Login Failed: User not found or Wrong password");
         }

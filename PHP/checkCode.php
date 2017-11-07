@@ -18,7 +18,15 @@ $code = $_GET[my_code];
         if($users){
             $theCorrectCode = $users[0]['ConfirmCode'];
             if($code == $theCorrectCode){
-                print "True";
+                $update_db = "update LoginData set Confirmed = 1 where Email = '$email'";
+                //echo json_encode($update_db);
+                $update_query = $db->query($update_db);
+                //echo json_encode($update_query);
+                if($update_query){
+                    print "True";
+                } else {
+                    print "Database update failed";
+                }
             } else {
                 print "False";
             }

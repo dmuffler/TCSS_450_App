@@ -100,10 +100,11 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
      */
     public interface LoginFragmentInteractionListener {
         // TODO: Update argument type and name
-        void loginFragmentInteraction(String fragString);
+        void loginFragmentInteraction(String fragString, String emailString);
     }
     private class CheckLoginData extends AsyncTask<String, String, String>{
         private final String LOGIN ="checkUserLogin.php";
+        String emailToSend;
         @Override
         protected String doInBackground(String... strings){
 
@@ -114,6 +115,7 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
             String response = "";
             HttpURLConnection urlConnection = null;
             String url = strings[0];
+            emailToSend = strings[1];
             String username = "?my_username=" + strings[1];
             String password = "&my_password=" + strings[2];
             try {
@@ -140,7 +142,11 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
             Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
             if (result.equals("Login Successful")) {
                 String homeFrag = "Home";
-                mListener.loginFragmentInteraction(homeFrag);
+                mListener.loginFragmentInteraction(homeFrag, emailToSend);
+            } else if (result.equals("Email not confirmed yet")){
+                String homeFrag = "Confirm Email";
+                Log.d("CONFIRM", emailToSend);
+                mListener.loginFragmentInteraction(homeFrag, emailToSend);
             }
         }
     }
