@@ -13,9 +13,17 @@ $code = $_GET[my_code];
         //echo json_encode($check_code);
         $check_query = $db->query($check_code);
         //echo json_encode($check_query);
-        $users = $check_code->fetchAll(PDO::FETCH_ASSOC);
+        $users = $check_query->fetchAll(PDO::FETCH_ASSOC);
+        //echo json_encode($users);
         if($users){
-            
+            $theCorrectCode = $users[0]['ConfirmCode'];
+            if($code == $theCorrectCode){
+                print "True";
+            } else {
+                print "False";
+            }
+        } else {
+            $result = array("code"=>200, "message"=>"Email not registered");
         }
     } catch (PDOException $e){
         $error_message = $e->getMessage();

@@ -111,7 +111,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
      */
     public interface RegisterFragmentInteractionListener {
         // TODO: Update argument type and name
-        void registerFragmentInteraction(String fragString);
+        void registerFragmentInteraction(String fragString, String emailString);
     }
     private class RegisterData extends AsyncTask<String, String, String>{
         private final String REGISTER ="registerUser.php";
@@ -159,7 +159,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 AsyncTask<String, String, String> cTask = new SendConfirmation();
                 cTask.execute(PARTIAL_URL, email);
                 String confirmEmail = "Confirm Email";
-                mListener.registerFragmentInteraction(confirmEmail);
+                mListener.registerFragmentInteraction(confirmEmail, email);
+            } else {
+                Log.e("CONFIRMATION RESPONSE A", result);
             }
             Toast.makeText(getActivity(), "Confirmation Code sending, please wait for a few minutes", Toast.LENGTH_LONG).show();
         }
@@ -171,7 +173,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
             if (strings.length != 2) {
                 Log.d("ACTIVITY" , strings.length + "");
-                throw new IllegalArgumentException("One String arguments required.");
+                throw new IllegalArgumentException("Two String arguments required.");
             }
             String response = "";
             HttpURLConnection urlConnection = null;
@@ -200,6 +202,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         protected void onPostExecute(String result) {
             if (result.equals("sent")) {
                 Log.e("RESPONSE", result);
+            } else {
+                Log.e("Registration RESPONSE B", result);
             }
         }
     }
