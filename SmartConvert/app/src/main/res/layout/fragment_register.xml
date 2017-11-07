@@ -19,6 +19,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="15dp"
             android:text="@string/confirm_password_string"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passRegField" />
@@ -41,8 +42,10 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="-1dp"
+            android:drawableBottom="@android:color/black"
             android:ems="10"
             android:inputType="textPersonName"
+            android:textColor="@android:color/holo_orange_light"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameFirstView" />
 
@@ -53,8 +56,10 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="74dp"
+            android:drawableBottom="@android:color/black"
             android:ems="10"
             android:inputType="textPersonName"
+            android:textColor="@android:color/holo_orange_light"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameFirstView" />
 
@@ -66,6 +71,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="124dp"
             android:text="@string/Lname_string"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -78,6 +84,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="13dp"
             android:text="@string/pass_string"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailField" />
@@ -89,8 +96,10 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="0dp"
+            android:drawableBottom="@android:color/black"
             android:ems="10"
             android:inputType="textEmailAddress"
+            android:textColor="@android:color/holo_orange_light"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailView" />
 
@@ -102,6 +111,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="87dp"
             android:text="@string/email_string"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameFirstField" />
@@ -113,8 +123,10 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="0dp"
+            android:drawableBottom="@android:color/black"
             android:ems="10"
             android:inputType="textPassword"
+            android:textColor="@android:color/holo_orange_light"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passRegView" />
 
@@ -126,6 +138,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="50dp"
             android:text="@string/Fname_string"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -137,8 +150,10 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="0dp"
+            android:drawableBottom="@android:color/black"
             android:ems="10"
             android:inputType="textPassword"
+            android:textColor="@android:color/holo_orange_light"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirmPassRegView" />
     </android.support.constraint.ConstraintLayout>
