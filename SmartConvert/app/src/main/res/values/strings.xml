@@ -37,5 +37,11 @@
     <string name="Value1">50</string>
 
     <string name="email_key">email_key</string>
+    <string name="verificationCodeHint">Please enter the code</string>
+    <string name="amount">amount</string>
+    <string name="fname_hint">your first name</string>
+    <string name="lname_hint">your last name</string>
+    <string name="email_hint">your email</string>
+    <string name="password_hint">password</string>
 
 </resources>
