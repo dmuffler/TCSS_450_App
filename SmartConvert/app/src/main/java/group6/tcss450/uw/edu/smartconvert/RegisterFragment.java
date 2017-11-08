@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 
 
@@ -84,17 +85,31 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         if (mListener != null) {
             if (view.getId() == R.id.registerRegisterButton) {
                 AsyncTask<String, String, String> task = null;
-                String fName = ((EditText) v.findViewById(R.id.nameFirstField)).getText().toString();
-                String lName = ((EditText) v.findViewById(R.id.nameLastField)).getText().toString();
-                String email = ((EditText) v.findViewById(R.id.emailField)).getText().toString();
-                String pass = ((EditText) v.findViewById(R.id.passRegField)).getText().toString();
-                String confirmPass = ((EditText) v.findViewById(R.id.confirmPassRegField)).getText().toString();
+                String fName = fNameTextField.getText().toString();
+                String lName = lNameTextField.getText().toString();
+                String email = emailTextField.getText().toString();
+                String pass = passwordTextField.getText().toString();
+                String confirmPass = confirmPasswordTextField.getText().toString();
+
                 Log.d("REGISTER",  fName + " " + lName + " " + email + " " + pass + " " + confirmPass);
-                if(pass.equals(confirmPass)){
+                if(email.contains("@") && email.contains(".") && pass.equals(confirmPass) &&
+                        (pass.length() >= 6 && pass.length() <= 12) &&
+                        !(fName.isEmpty())){
                     task = new RegisterData();
                     task.execute(PARTIAL_URL, fName, lName, email, pass);
                 } else {
-                    Log.d("REGISTER", "Password don't match");
+                    if(!(pass.length() >= 6 && pass.length() <= 12)){
+                        passwordTextField.setError("Password length has to be between 6-12 characters");
+                    }
+                    if(!(pass.equals(confirmPass))){
+                        confirmPasswordTextField.setError("Password not the same");
+                    }
+                    if (fName.isEmpty()){
+                        fNameTextField.setError("Please enter your first name");
+                    }
+                    if (!(email.contains("@") && email.contains("."))){
+                        emailTextField.setError("Please Enter a valid Email Address");
+                    }
                 }
             }
         }
