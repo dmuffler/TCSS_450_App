@@ -69,7 +69,6 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="0dp"
             android:ems="10"
-            android:inputType="number"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textSize="24sp"
