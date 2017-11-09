@@ -20,6 +20,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -92,9 +94,19 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 String confirmPass = confirmPasswordTextField.getText().toString();
 
                 Log.d("REGISTER",  fName + " " + lName + " " + email + " " + pass + " " + confirmPass);
-                if(email.contains("@") && email.contains(".") && pass.equals(confirmPass) &&
+/*                if(email.contains("@") && email.contains(".") && pass.equals(confirmPass) &&
                         (pass.length() >= 6 && pass.length() <= 12) &&
                         !(fName.isEmpty())){
+                    task = new RegisterData();
+                    task.execute(PARTIAL_URL, fName, lName, email, pass);
+                } else {*/
+                // Inspired by https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
+                Pattern pattern = Pattern.compile("([a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~])+(\\.[a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~]+)*@([a-zA-Z]{3,})(\\.[a-zA-Z]{2,})*$");
+                Matcher matcher = pattern.matcher(email);
+
+                if (matcher.find()&& pass.equals(confirmPass) &&
+                        (pass.length() >= 6 && pass.length() <= 12) &&
+                        !(fName.isEmpty())) {
                     task = new RegisterData();
                     task.execute(PARTIAL_URL, fName, lName, email, pass);
                 } else {
