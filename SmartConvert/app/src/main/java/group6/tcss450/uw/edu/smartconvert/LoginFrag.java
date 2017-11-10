@@ -23,24 +23,28 @@ import java.net.URLEncoder;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link LoginFrag.LoginFragmentInteractionListener} interface
- * to handle interaction events.
+ * Login Fragment is a fragment that handles the login page.
+ * User already have an acount registered with the app should be able to login successfully.
+ * Otherwise, it will not let user log in and they will stay in the login page
+ *
+ * This class is making one ASYNC CALL
+ *
+ * @author Irene Fransiga, Donald Muffler, Josh Lau
+ * @version Nov 10, 2017
  */
 public class LoginFrag extends Fragment implements View.OnClickListener {
-
+    /**The URL to connect to the main database**/
     private static final String PARTIAL_URL = "http://cssgate.insttech.washington.edu/~if30/";
-    //private static final String PARTIAL_URL = "http://cssgate.insttech.washington.edu/~dmuffler/";
-
+    /**The Listener to communicate with main activity class**/
     private LoginFragmentInteractionListener mListener;
+    /**A reference to the confirm email fragment**/
     private View v;
+    /**The field that will handle the email text that the user will type**/
     private EditText userNameTextField;
+    /**The field that will handle the password text that the user will type**/
     private EditText userPassTextField;
 
-    public LoginFrag() {
-        // Required empty public constructor
-    }
+    public LoginFrag() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,51 +77,56 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
         super.onDetach();
         mListener = null;
     }
-
+    /**
+     * Listener of items in the fragment.
+     * In this case, the button is doing an async task to verify the the user has already registered
+     * @param view of the item that is being clicked
+     */
     @Override
     public void onClick(View view) {
         if (mListener != null) {
             if (view.getId() == R.id.submitButton) {
-                AsyncTask<String, String, String> task = null;
                 String username = ((EditText) v.findViewById(R.id.usernameField)).getText().toString();
                 String password = ((EditText) v.findViewById(R.id.passwordField)).getText().toString();
                 Log.d("LOGIN", username + " " + password);
-                task = new CheckLoginData();
+                AsyncTask<String, String, String> task = new CheckLoginData();
                 task.execute(PARTIAL_URL, username, password);
             }
         }
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * The interface that should be implemented by main activities
+     * or any activities that contain this fragment.
      */
     public interface LoginFragmentInteractionListener {
         // TODO: Update argument type and name
         void loginFragmentInteraction(String fragString, String emailString);
     }
+    /**
+     * This class's job is to connect to the php file to check if the user has already registered
+     */
     private class CheckLoginData extends AsyncTask<String, String, String>{
+        /**the file name to connect to. PARTIAL_URL + this file name**/
         private final String LOGIN ="checkUserLogin.php";
+        /**The email to be sent to the main activity to sent to the confirmation page**/
         String emailToSend;
+
         @Override
         protected String doInBackground(String... strings){
-
+            //EXPECTED = partial url, username(email), and password
             if (strings.length != 3) {
                 Log.d("ACTIVITY" , strings.length + "");
                 throw new IllegalArgumentException("Three String arguments required.");
             }
+
             String response = "";
             HttpURLConnection urlConnection = null;
             String url = strings[0];
             emailToSend = strings[1];
             String username = "?my_username=" + strings[1];
             String password = "&my_password=" + strings[2];
+
             try {
                 URL urlObject = new URL(url + LOGIN + username + password);
                 urlConnection = (HttpURLConnection) urlObject.openConnection();
@@ -137,6 +146,7 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
             Log.e("HERE", response);
             return response;
         }
+
         @Override
         protected void onPostExecute(String result) {
             Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();

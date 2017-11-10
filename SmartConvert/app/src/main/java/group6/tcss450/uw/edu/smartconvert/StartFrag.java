@@ -10,36 +10,41 @@ import android.widget.Button;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link StartFrag.StartFragInteractionListener} interface
- * to handle interaction events.
+ * Start Fragment is a fragment that handles the start page when the user launch the app.
+ *
+ * This fragment does not do any ASYNC TASK call
+ *
+ * @author Irene Fransiga, Donald Muffler, Josh Lau
+ * @version Nov 10, 2017
  */
 public class StartFrag extends Fragment implements View.OnClickListener {
-
+    /**The Listener to communicate with main activity class**/
     private StartFragInteractionListener mListener;
 
-    public StartFrag() {
-        // Required empty public constructor
-    }
+    public StartFrag() {}
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_start, container, false);
 
         Button b = (Button) v.findViewById(R.id.loginStartButton);
         b.setOnClickListener(this);
+
         b = (Button) v.findViewById(R.id.skipLoginButton);
         b.setOnClickListener(this);
+
         b = (Button) v.findViewById(R.id.registerStartButton);
         b.setOnClickListener(this);
 
         return v;
     }
-
+    /**
+     * Listener of items in the fragment.
+     *
+     * @param view of the item that is being clicked
+     */
     @Override
     public void onClick(View view) {
         if (mListener != null) {
@@ -48,9 +53,11 @@ public class StartFrag extends Fragment implements View.OnClickListener {
                 case R.id.loginStartButton:
                     frag = "Login";
                     break;
+
                 case R.id.skipLoginButton:
                     frag = "Skip";
                     break;
+
                 case R.id.registerStartButton:
                     frag = "Register";
                     break;
@@ -77,17 +84,10 @@ public class StartFrag extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * The interface that should be implemented by main activities
+     * or any activities that contain this fragment.
      */
     public interface StartFragInteractionListener {
-        // TODO: Update argument type and name
         void startFragInteraction(String fragString);
     }
 }

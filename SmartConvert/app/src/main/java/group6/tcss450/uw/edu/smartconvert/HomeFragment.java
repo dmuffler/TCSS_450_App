@@ -12,20 +12,25 @@ import android.widget.TextView;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link HomeFragment.HomeFragmentInteractionListener} interface
- * to handle interaction events.
+ * Home Fragment is a fragment that handles the home fragment or where the user will go to after login.
+ * User who have completed their tutorial or successfully login will be redirected to this fragment.
+ * Home Fragment is not yet doing any API calls of ASYNC TASK call
+ *
+ * As of version Nov10,2017 Home Fragment is not display user's current location yet
+ * as we have not implemented the API calls for this
+ *
+ * @author Irene Fransiga, Donald Muffler, Josh Lau
+ * @version Nov 10, 2017
  */
 public class HomeFragment extends Fragment implements  View.OnClickListener {
-
+    /**The Listener to communicate with main activity class**/
     private HomeFragmentInteractionListener mListener;
+    /**The field that will handle the TEXT VIEW to display user's current location**/
     private TextView currentLocationField;
+    /**A reference to the confirm email fragment**/
     private View v;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    public HomeFragment() {}
 
 
     @Override
@@ -67,17 +72,10 @@ public class HomeFragment extends Fragment implements  View.OnClickListener {
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * The interface that should be implemented by main activities
+     * or any activities that contain this fragment.
      */
     public interface HomeFragmentInteractionListener {
-        // TODO: Update argument type and name
         void homeFragmentInteraction(String fragString);
     }
 }

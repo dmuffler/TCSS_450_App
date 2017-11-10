@@ -21,28 +21,35 @@ import java.net.URL;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ConfirmEmailFragment.ConfirmEmailFragmentInteractionListener} interface
- * to handle interaction events.
+ * Confirm Email Fragment is a fragment that handles the confirmation page.
+ * User who just registered or tried to login in without without first confirming
+ * their credential will be directed to this page.
+ *
+ * @author Irene Fransiga, Donald Muffler, Josh Lau
+ * @version Nov 10, 2017
  */
 public class ConfirmEmailFragment extends Fragment implements View.OnClickListener {
 
+    /**The URL to connect to the main database**/
     private static final String PARTIAL_URL = "http://cssgate.insttech.washington.edu/~if30/";
+    /**The Listener to communicate with main activity class**/
     private ConfirmEmailFragmentInteractionListener mListener;
+    /**The field to refer to the code that the user will be entering**/
     private EditText verificationTextField;
+    /**field to store the user email for database use**/
     private String uEmail;
+    /**A reference to the confirm email fragment**/
     private View v;
 
-    public ConfirmEmailFragment() {
-        // Required empty public constructor
-    }
-
+    /**
+     * This is just an empty constructor, to call this class
+     */
+    public ConfirmEmailFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         v = inflater.inflate(R.layout.fragment_confirm_email, container, false);
 
         Button b = (Button) v.findViewById(R.id.enterVerificationButton);
@@ -51,15 +58,20 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
         verificationTextField = (EditText) v.findViewById(R.id.verificationField);
         return v;
     }
+
+    /**
+     * To get email from Bundle
+     */
     @Override
     public void onStart(){
         super.onStart();
         if(getArguments()!= null){
             String email = getArguments().getString(getString(R.string.email_key));
-            Log.d("CONFIRM EMAIL", getString(R.string.email_key) + email);
+            //Log.d("CONFIRM EMAIL", getString(R.string.email_key) + email);
             uEmail = email;
         }
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -77,6 +89,11 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
         mListener = null;
     }
 
+    /**
+     * Listener of items in the fragment.
+     * In this case, the button is doing an async task to verify the code entered
+     * @param view of the item that is being clicked
+     */
     @Override
     public void onClick(View view) {
         if (mListener != null) {
@@ -92,24 +109,22 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * The interface that should be implemented by main activities
+     * or any activities that contain this fragment.
      */
     public interface ConfirmEmailFragmentInteractionListener {
-        // TODO: Update argument type and name
         void confirmEmailFragmentInteraction(String fragString);
     }
+
+    /**
+     * This class's job is to connect to the php file to check if the code matches with the email ID.
+     */
     private class SendConfirmation extends AsyncTask<String, String, String> {
+        /**the file name to connect to. PARTIAL_URL + this file name**/
         private final String CHECK_CODE ="checkCode.php";
         @Override
         protected String doInBackground(String... strings){
-
+            //REQUIRED = PARTIAL_URL + the user email + the code
             if (strings.length != 3) {
                 Log.d("ACTIVITY" , strings.length + "");
                 throw new IllegalArgumentException("Three String arguments required.");
@@ -119,6 +134,7 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
             String url = strings[0];
             String email = "?my_email=" + strings[1];
             String code = "&my_code=" + strings[2];
+
             try {
                 URL urlObject = new URL(url + CHECK_CODE + email + code);
                 urlConnection = (HttpURLConnection) urlObject.openConnection();
@@ -129,7 +145,7 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
                     response += s;
                 }
             } catch (Exception e) {
-                Log.d("ERROR CONN", url + CHECK_CODE + email + code);
+                Log.e("ERROR CONN", url + CHECK_CODE + email + code);
                 response = "Unable to connect, Reason: " + e.getMessage();
             } finally {
                 if (urlConnection != null)
@@ -138,6 +154,7 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
             //Log.e("CONFIRMATION RESPONSE", response);
             return response;
         }
+
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("True")) {

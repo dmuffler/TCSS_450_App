@@ -25,33 +25,39 @@ import java.util.regex.Pattern;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RegisterFragment.RegisterFragmentInteractionListener} interface
- * to handle interaction events.
+ * Register Fragment is a fragment that handles the registration page.
+ * User who wish to create an account will go to this page
+ *
+ * This fragment is making one ASYNC TASK call to register the user to the database
+ *
+ * @author Irene Fransiga, Donald Muffler, Josh Lau
+ * @version Nov 10, 2017
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener {
-
+    /**The URL to connect to the main database**/
     private static final String PARTIAL_URL = "http://cssgate.insttech.washington.edu/~if30/";
-
+    /**The Listener to communicate with main activity class**/
     private RegisterFragmentInteractionListener mListener;
+    /**A reference to the confirm email fragment**/
     private View v;
+    /**The field that will handle the first name edit text**/
     private EditText fNameTextField;
+    /**The field that will handle the last name edit text**/
     private EditText lNameTextField;
+    /**The field that will handle the email of the user edit text**/
     private EditText emailTextField;
+    /**The field that will handle the password edit text**/
     private EditText passwordTextField;
+    /**The field that will handle the confirmation password edit text**/
     private EditText confirmPasswordTextField;
 
-    public RegisterFragment() {
-        // Required empty public constructor
-    }
+    public RegisterFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.fragment_register, container, false);
 
+        v = inflater.inflate(R.layout.fragment_register, container, false);
 
         Button b = (Button) v.findViewById(R.id.registerRegisterButton);
         b.setOnClickListener(this);
@@ -81,12 +87,16 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         super.onDetach();
         mListener = null;
     }
-
+    /**
+     * Listener of items in the fragment.
+     * In this case, the button is doing an async task to register the user to our database
+     * @param view of the item that is being clicked
+     */
     @Override
     public void onClick(View view) {
         if (mListener != null) {
             if (view.getId() == R.id.registerRegisterButton) {
-                AsyncTask<String, String, String> task = null;
+
                 String fName = fNameTextField.getText().toString();
                 String lName = lNameTextField.getText().toString();
                 String email = emailTextField.getText().toString();
@@ -100,14 +110,19 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     task = new RegisterData();
                     task.execute(PARTIAL_URL, fName, lName, email, pass);
                 } else {*/
+
                 // Inspired by https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
-                Pattern pattern = Pattern.compile("([a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~])+(\\.[a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~]+)*@([a-zA-Z]{3,})(\\.[a-zA-Z]{2,})*$");
+                Pattern pattern = Pattern.compile("([a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~])+(" +
+                        "\\.[a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~]+)*@([a-zA-Z]{3,})(\\.[a-zA-Z]{2,})*$");
                 Matcher matcher = pattern.matcher(email);
 
+                /**
+                 * Checker to see if the input is valid
+                 * We allow last name to be empty because not everyone has a last name
+                 */
                 if (matcher.find()&& pass.equals(confirmPass) &&
-                        (pass.length() >= 6 && pass.length() <= 12) &&
-                        !(fName.isEmpty())) {
-                    task = new RegisterData();
+                        (pass.length() >= 6 && pass.length() <= 12) && !(fName.isEmpty())) {
+                    AsyncTask<String, String, String> task = new RegisterData();
                     task.execute(PARTIAL_URL, fName, lName, email, pass);
                 } else {
                     if(!(pass.length() >= 6 && pass.length() <= 12)){
@@ -126,26 +141,29 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
+
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * The interface that should be implemented by main activities
+     * or any activities that contain this fragment.
      */
     public interface RegisterFragmentInteractionListener {
-        // TODO: Update argument type and name
         void registerFragmentInteraction(String fragString, String emailString);
     }
+    /**
+     * This class's job is to connect to the php file to register the user
+     */
     private class RegisterData extends AsyncTask<String, String, String>{
+        /**the file name to connect to. PARTIAL_URL + this file name**/
         private final String REGISTER ="registerUser.php";
+        /**The field to take the user's email**/
         private String email;
+        /**The field to take the user's first name**/
         private String fName;
+        /**The field to take the user's last name**/
         private String lName;
+        /**The field to take the user's password**/
         private String pass;
+
         @Override
         protected String doInBackground(String... strings){
 
@@ -176,12 +194,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            Log.e("REGISTER RESPONSE", response);
+            //Log.e("REGISTER RESPONSE", response);
             return response;
         }
         @Override
         protected void onPostExecute(String result) {
-            //Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
             if (result.equals("Register successful.")) {
                 AsyncTask<String, String, String> cTask = new SendConfirmation();
                 cTask.execute(PARTIAL_URL, email);
@@ -190,22 +207,32 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             } else {
                 Log.e("CONFIRMATION RESPONSE A", result);
             }
-            Toast.makeText(getActivity(), "Confirmation Code sending, please wait for a few minutes", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Confirmation Code sending, " +
+                    "please wait for a few minutes", Toast.LENGTH_LONG).show();
         }
     }
+
+    /**
+     * A helper class to directly send the code after the user clicked the "register" button
+     * and after the database has successfully registered the user.
+     */
     private class SendConfirmation extends AsyncTask<String, String, String>{
+        /**the file name to connect to. PARTIAL_URL + this file name**/
         private final String SEND_CONFIRMATION ="sendConfirmation.php";
+
         @Override
         protected String doInBackground(String... strings){
-
+            //EXPECTED = the partial URL and the email to send the code to
             if (strings.length != 2) {
                 Log.d("ACTIVITY" , strings.length + "");
                 throw new IllegalArgumentException("Two String arguments required.");
             }
+
             String response = "";
             HttpURLConnection urlConnection = null;
             String url = strings[0];
             String email = "?my_email=" + strings[1];
+
             try {
                 URL urlObject = new URL(url + SEND_CONFIRMATION + email);
                 urlConnection = (HttpURLConnection) urlObject.openConnection();
@@ -222,9 +249,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            //Log.e("CONFIRMATION RESPONSE", response);
             return response;
         }
+
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("sent")) {
