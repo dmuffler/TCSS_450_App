@@ -43,5 +43,10 @@
     <string name="lname_hint">your last name</string>
     <string name="email_hint">your email</string>
     <string name="password_hint">password</string>
+    <string name="end_tutorial_first_string">Change the spinner on the left to reflect what currency you want to convert from.</string>
+    <string name="end_tutorial_second_string">Change the spinner on the right to reflect what you want to convert to.</string>
+    <string name="end_tutorial_third_string">Press the convert button to see the results!</string>
+    <string name="end_tutorial_fourth_string">Current location will be used if locations is allowed when it pops up.</string>
+    <string name="end_tutorial_fifth_string">Enjoy!</string>
 
 </resources>
