@@ -1,8 +1,6 @@
 package group6.tcss450.uw.edu.smartconvert;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +16,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.InetAddress;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,38 +36,52 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     /**The Listener to communicate with main activity class**/
     private RegisterFragmentInteractionListener mListener;
     /**A reference to the confirm email fragment**/
-    private View v;
+    private View mView;
     /**The field that will handle the first name edit text**/
-    private EditText fNameTextField;
+    private EditText mFNameTextField;
     /**The field that will handle the last name edit text**/
-    private EditText lNameTextField;
+    private EditText mLNameTextField;
     /**The field that will handle the email of the user edit text**/
-    private EditText emailTextField;
+    private EditText mEmailTextField;
     /**The field that will handle the password edit text**/
-    private EditText passwordTextField;
+    private EditText mPasswordTextField;
     /**The field that will handle the confirmation password edit text**/
-    private EditText confirmPasswordTextField;
+    private EditText mConfirmPasswordTextField;
 
+    /**
+     * Constructor.
+     */
     public RegisterFragment() {}
 
+    /**
+     * Creates the view of the fragment.
+     * @param inflater infates the view.
+     * @param container the container.
+     * @param savedInstanceState the saved state.
+     * @return the view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_register, container, false);
+        mView = inflater.inflate(R.layout.fragment_register, container, false);
 
-        Button b = (Button) v.findViewById(R.id.registerRegisterButton);
+        Button b = (Button) mView.findViewById(R.id.registerRegisterButton);
         b.setOnClickListener(this);
 
-        fNameTextField = (EditText) v.findViewById(R.id.nameFirstField);
-        lNameTextField = (EditText) v.findViewById(R.id.nameLastField);
-        emailTextField = (EditText) v.findViewById(R.id.emailField);
-        passwordTextField = (EditText) v.findViewById(R.id.passRegField);
-        confirmPasswordTextField = (EditText) v.findViewById(R.id.confirmPassRegField);
+        mFNameTextField = (EditText) mView.findViewById(R.id.nameFirstField);
+        mLNameTextField = (EditText) mView.findViewById(R.id.nameLastField);
+        mEmailTextField = (EditText) mView.findViewById(R.id.emailField);
+        mPasswordTextField = (EditText) mView.findViewById(R.id.passRegField);
+        mConfirmPasswordTextField = (EditText) mView.findViewById(R.id.confirmPassRegField);
 
-        return v;
+        return mView;
     }
 
+    /**
+     * Attaches a fragment to an activity.
+     * @param context context of the current state.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -82,6 +93,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * Detaches the fragment from the activity.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
@@ -97,11 +111,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         if (mListener != null) {
             if (view.getId() == R.id.registerRegisterButton) {
 
-                String fName = fNameTextField.getText().toString();
-                String lName = lNameTextField.getText().toString();
-                String email = emailTextField.getText().toString();
-                String pass = passwordTextField.getText().toString();
-                String confirmPass = confirmPasswordTextField.getText().toString();
+                String fName = mFNameTextField.getText().toString();
+                String lName = mLNameTextField.getText().toString();
+                String email = mEmailTextField.getText().toString();
+                String pass = mPasswordTextField.getText().toString();
+                String confirmPass = mConfirmPasswordTextField.getText().toString();
 
                 Log.d("REGISTER",  fName + " " + lName + " " + email + " " + pass + " " + confirmPass);
 /*                if(email.contains("@") && email.contains(".") && pass.equals(confirmPass) &&
@@ -126,16 +140,16 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     task.execute(PARTIAL_URL, fName, lName, email, pass);
                 } else {
                     if(!(pass.length() >= 6 && pass.length() <= 12)){
-                        passwordTextField.setError("Password length has to be between 6-12 characters");
+                        mPasswordTextField.setError("Password length has to be between 6-12 characters");
                     }
                     if(!(pass.equals(confirmPass))){
-                        confirmPasswordTextField.setError("Password not the same");
+                        mConfirmPasswordTextField.setError("Password not the same");
                     }
                     if (fName.isEmpty()){
-                        fNameTextField.setError("Please enter your first name");
+                        mFNameTextField.setError("Please enter your first name");
                     }
                     if (!(email.contains("@") && email.contains("."))){
-                        emailTextField.setError("Please Enter a valid Email Address");
+                        mEmailTextField.setError("Please Enter a valid Email Address");
                     }
                 }
             }
@@ -156,14 +170,19 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         /**the file name to connect to. PARTIAL_URL + this file name**/
         private final String REGISTER ="registerUser.php";
         /**The field to take the user's email**/
-        private String email;
+        private String mEmail;
         /**The field to take the user's first name**/
-        private String fName;
+        private String mFName;
         /**The field to take the user's last name**/
-        private String lName;
+        private String mLName;
         /**The field to take the user's password**/
-        private String pass;
+        private String mPass;
 
+        /**
+         * Tries to register the user based on the data inputed.
+         * @param strings user data to send to database.
+         * @return response from php if registration was successful.
+         */
         @Override
         protected String doInBackground(String... strings){
 
@@ -174,12 +193,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             String response = "";
             HttpURLConnection urlConnection = null;
             String url = strings[0];
-            fName = "?my_firstname=" + strings[1];
-            lName = "&my_lastname=" + strings[2];
-            email = "&my_email=" + strings[3];
-            pass = "&my_password=" + strings[4];
+            mFName = "?my_firstname=" + strings[1];
+            mLName = "&my_lastname=" + strings[2];
+            mEmail = "&my_email=" + strings[3];
+            mPass = "&my_password=" + strings[4];
             try {
-                URL urlObject = new URL(url + REGISTER + fName + lName + email + pass);
+                URL urlObject = new URL(url + REGISTER + mFName + mLName + mEmail + mPass);
                 urlConnection = (HttpURLConnection) urlObject.openConnection();
                 InputStream content = urlConnection.getInputStream();
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
@@ -188,7 +207,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     response += s;
                 }
             } catch (Exception e) {
-                Log.d("ERROR CONN", url + REGISTER + fName + lName + email + pass);
+                Log.d("ERROR CONN", url + REGISTER + mFName + mLName + mEmail + mPass);
                 response = "Unable to connect, Reason: " + e.getMessage();
             } finally {
                 if (urlConnection != null)
@@ -197,13 +216,18 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             //Log.e("REGISTER RESPONSE", response);
             return response;
         }
+
+        /**
+         * Called once doInBackground ic completed. Wraps up the aSynch task.
+         * @param result the result from doInBackground - if registratio was successful.
+         */
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("Register successful.")) {
                 AsyncTask<String, String, String> cTask = new SendConfirmation();
-                cTask.execute(PARTIAL_URL, email);
+                cTask.execute(PARTIAL_URL, mEmail);
                 String confirmEmail = "Confirm Email";
-                mListener.registerFragmentInteraction(confirmEmail, email);
+                mListener.registerFragmentInteraction(confirmEmail, mEmail);
             } else {
                 Log.e("CONFIRMATION RESPONSE A", result);
             }
@@ -220,6 +244,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         /**the file name to connect to. PARTIAL_URL + this file name**/
         private final String SEND_CONFIRMATION ="sendConfirmation.php";
 
+        /**
+         * Sends confirmation to email.
+         * @param strings confirmation to send to database.
+         * @return confirmation was successful or not.
+         */
         @Override
         protected String doInBackground(String... strings){
             //EXPECTED = the partial URL and the email to send the code to
@@ -252,6 +281,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             return response;
         }
 
+        /**
+         * Called once doInBackground ic completed. Wraps up the aSynch task.
+         * @param result the result from doInBackground - confirmation was successful.
+         */
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("sent")) {

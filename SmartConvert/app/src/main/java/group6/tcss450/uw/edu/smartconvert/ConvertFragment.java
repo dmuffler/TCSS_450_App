@@ -1,7 +1,6 @@
 package group6.tcss450.uw.edu.smartconvert;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -53,48 +52,59 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
     private static final String API_KEY = "?api_key=qY3C5xzDnLREziBPh8aekJ2DErsRyf";
     
     /**The field that will know which currency that the user wanted to convert from**/
-    private String currencyFrom;
+    private String mCurrencyFrom;
     /**The field that will know which currency that the user wanted to convert to**/
-    private String currencyTo;
+    private String mCurrencyTo;
     /**The Listener to communicate with main activity class**/
     private ConvertFragmentInteractionListener mListener;
     /**A reference to the confirm email fragment**/
-    private View v;
+    private View mView;
     /**The field that refers to the amount that the user enter (FROM)**/
     private EditText mCurAEditText;
     /** the field that refers to the TEXTEDIT for the program to show the conversion result**/
     private TextView mCurBEditText;
     /** the spinner reference to the FROM available currencies**/
-    private Spinner curASpinner;
+    private Spinner mCurASpinner;
     /** the spinner reference to the TO available currencies**/
-    private Spinner curBSpinner;
+    private Spinner mCurBSpinner;
+
+    /**
+     * Constructor.
+     */
     public ConvertFragment() { }
 
+    /**
+     * Creates the view of the fragment.
+     * @param inflater infates the view.
+     * @param container the container.
+     * @param savedInstanceState the saved state.
+     * @return the view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_convert, container, false);
-        mCurAEditText = v.findViewById(R.id.NumCurrAField);
-        mCurBEditText = v.findViewById(R.id.NumCurrBField);
-        curASpinner = v.findViewById(R.id.CurrencyASpinner);
-        curBSpinner = v.findViewById(R.id.CurrencyBSpinner);
+        mView = inflater.inflate(R.layout.fragment_convert, container, false);
+        mCurAEditText = mView.findViewById(R.id.NumCurrAField);
+        mCurBEditText = mView.findViewById(R.id.NumCurrBField);
+        mCurASpinner = mView.findViewById(R.id.CurrencyASpinner);
+        mCurBSpinner = mView.findViewById(R.id.CurrencyBSpinner);
 
-        curASpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mCurASpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String curFrom = (String) parent.getAdapter().getItem(position);
-                currencyFrom = curFrom;
+                mCurrencyFrom = curFrom;
                 Toast.makeText(getActivity(), "The currency FROM is " + curFrom, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        curBSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mCurBSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String curTo = (String) parent.getAdapter().getItem(position);
-                currencyTo = curTo;
+                mCurrencyTo = curTo;
                 Toast.makeText(getActivity(), "The currency TO is " + curTo, Toast.LENGTH_SHORT).show();
             }
 
@@ -103,10 +113,10 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
         });
 
         connToDatabase();
-        Button b = v.findViewById(R.id.convertCurrButton);
+        Button b = mView.findViewById(R.id.convertCurrButton);
         b.setOnClickListener(this);
 
-        return v;
+        return mView;
     }
 
     /**
@@ -119,6 +129,10 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
         task.execute(PARTIAL_URL);
     }
 
+    /**
+     * Attaches a fragment to an activity.
+     * @param context context of the current state.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -130,12 +144,19 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    /**
+     * Detaches the fragment from the activity.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Listener for button presses.
+     * @param view the button that was pressed.
+     */
     @Override
     public void onClick(View view) {
         AsyncTask<String, Void, String> task = null;
@@ -146,10 +167,10 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                 String from_Token ="&from=";
                 String amount_Token = "&amount=";
                 task = new ConvertCurrencies();
-                Log.i("CONVERTING THE VALUE", API_URL + API_KEY + from_Token + currencyFrom +
-                        to_Token + currencyTo + amount_Token + mCurAEditText.getText());
-                task.execute(API_URL + API_KEY + from_Token + currencyFrom + to_Token +
-                        currencyTo + amount_Token + mCurAEditText.getText(), message);
+                Log.i("CONVERTING THE VALUE", API_URL + API_KEY + from_Token + mCurrencyFrom +
+                        to_Token + mCurrencyTo + amount_Token + mCurAEditText.getText());
+                task.execute(API_URL + API_KEY + from_Token + mCurrencyFrom + to_Token +
+                        mCurrencyTo + amount_Token + mCurAEditText.getText(), message);
             }
         }
     }
@@ -167,6 +188,11 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
      */
     private class ConvertCurrencies extends AsyncTask<String, Void, String> {
 
+        /**
+         * Gets information to convert currencies.
+         * @param strings currencies to convert.
+         * @return currency information.
+         */
         @Override
         protected String doInBackground(String... strings) {
 
@@ -195,10 +221,14 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
 
         }
 
+        /**
+         * Called once doInBackground ic completed. Wraps up the aSynch task.
+         * @param result the result from doInBackground - a json with conversion information.
+         */
         @Override
-        protected void onPostExecute (String Result) {
+        protected void onPostExecute (String result) {
             try {
-                JSONObject jObject = new JSONObject(Result);
+                JSONObject jObject = new JSONObject(result);
                 Log.e("POST", jObject.getString("error").equals("400") + "");
                 //This is needed because our API key is the free one and we are limited to 50 calls/month
                 if(jObject.getString("error").equals("400")){
@@ -221,6 +251,12 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
     private class GetAvailableCurrencies extends AsyncTask<String, String, String> {
         /**the file name to connect to. PARTIAL_URL + this file name**/
         private final String GETCURRENCIES ="availableCurrencies.php";
+
+        /**
+         * Gets available currencies from database.
+         * @param strings currencies to get sent to php.
+         * @return currencies.
+         */
         @Override
         protected String doInBackground(String... strings){
             String response = "";
@@ -246,6 +282,10 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
             return response;
         }
 
+        /**
+         * Called once doInBackground ic completed. Wraps up the aSynch task.
+         * @param result the result from doInBackground - currencies to convert.
+         */
         @Override
         protected void onPostExecute(String result) {
             try {
@@ -258,8 +298,8 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                 ArrayAdapter<String> curArray = new ArrayAdapter<>(getActivity(),
                         android.R.layout.simple_spinner_item, curKey);
                 curArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                curASpinner.setAdapter(curArray);
-                curBSpinner.setAdapter(curArray);
+                mCurASpinner.setAdapter(curArray);
+                mCurBSpinner.setAdapter(curArray);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

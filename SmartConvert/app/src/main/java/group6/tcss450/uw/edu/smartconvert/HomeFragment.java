@@ -1,7 +1,6 @@
 package group6.tcss450.uw.edu.smartconvert;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,25 +25,39 @@ public class HomeFragment extends Fragment implements  View.OnClickListener {
     /**The Listener to communicate with main activity class**/
     private HomeFragmentInteractionListener mListener;
     /**The field that will handle the TEXT VIEW to display user's current location**/
-    private TextView currentLocationField;
+    private TextView mCurrentLocationField;
     /**A reference to the confirm email fragment**/
-    private View v;
+    private View mView;
 
+    /**
+     * Constructor.
+     */
     public HomeFragment() {}
 
 
+    /**
+     * Creates the view of the fragment.
+     * @param inflater infates the view.
+     * @param container the container.
+     * @param savedInstanceState the saved state.
+     * @return the view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.fragment_home, container, false);
-        Button b = v.findViewById(R.id.convertHomeButton);
+        mView = inflater.inflate(R.layout.fragment_home, container, false);
+        Button b = mView.findViewById(R.id.convertHomeButton);
         b.setOnClickListener(this);
-        currentLocationField = (TextView) v.findViewById(R.id.currentLocationNameView);
+        mCurrentLocationField = (TextView) mView.findViewById(R.id.currentLocationNameView);
 
-        return  v;
+        return mView;
     }
 
+    /**
+     * Attaches a fragment to an activity.
+     * @param context context of the current state.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -56,12 +69,19 @@ public class HomeFragment extends Fragment implements  View.OnClickListener {
         }
     }
 
+    /**
+     * Detaches the fragment from the activity.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Listener for button presses.
+     * @param view the button that was pressed.
+     */
     @Override
     public void onClick(View view) {
         if (mListener != null) {
