@@ -127,7 +127,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
                 // Inspired by https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
                 Pattern pattern = Pattern.compile("([a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~])+(" +
-                        "\\.[a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~]+)*@([a-zA-Z]{3,})(\\.[a-zA-Z]{2,})*$");
+                        "\\.[a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~]+)*@([a-zA-Z]{2,})(\\.[a-zA-Z]{2,})*$");
                 Matcher matcher = pattern.matcher(email);
 
                 /**
@@ -148,7 +148,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     if (fName.isEmpty()){
                         mFNameTextField.setError("Please enter your first name");
                     }
-                    if (!(email.contains("@") && email.contains("."))){
+                    if (!matcher.find()){
                         mEmailTextField.setError("Please Enter a valid Email Address");
                     }
                 }
@@ -219,7 +219,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
         /**
          * Called once doInBackground ic completed. Wraps up the aSynch task.
-         * @param result the result from doInBackground - if registratio was successful.
+         * @param result the result from doInBackground - if registration was successful.
          */
         @Override
         protected void onPostExecute(String result) {
