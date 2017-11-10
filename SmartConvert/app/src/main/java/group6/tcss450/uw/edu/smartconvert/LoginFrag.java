@@ -1,7 +1,6 @@
 package group6.tcss450.uw.edu.smartconvert;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,10 +15,8 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 
 /**
@@ -38,29 +35,43 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
     /**The Listener to communicate with main activity class**/
     private LoginFragmentInteractionListener mListener;
     /**A reference to the confirm email fragment**/
-    private View v;
+    private View mView;
     /**The field that will handle the email text that the user will type**/
-    private EditText userNameTextField;
+    private EditText mUserNameTextField;
     /**The field that will handle the password text that the user will type**/
-    private EditText userPassTextField;
+    private EditText mUserPassTextField;
 
+    /**
+     * Constructor.
+     */
     public LoginFrag() {}
 
+    /**
+     * Creates the view of the fragment.
+     * @param inflater infates the view.
+     * @param container the container.
+     * @param savedInstanceState the saved state.
+     * @return the view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.fragment_login, container, false);
+        mView = inflater.inflate(R.layout.fragment_login, container, false);
 
-        Button b = (Button) v.findViewById(R.id.submitButton);
+        Button b = (Button) mView.findViewById(R.id.submitButton);
         b.setOnClickListener(this);
 
-        userNameTextField = (EditText) v.findViewById(R.id.usernameField);
-        userPassTextField = (EditText) v.findViewById(R.id.passwordField);
+        mUserNameTextField = (EditText) mView.findViewById(R.id.usernameField);
+        mUserPassTextField = (EditText) mView.findViewById(R.id.passwordField);
 
-        return v;
+        return mView;
     }
 
+    /**
+     * Attaches a fragment to an activity.
+     * @param context context of the current state.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -72,11 +83,15 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * Detaches the fragment from the activity.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
+
     /**
      * Listener of items in the fragment.
      * In this case, the button is doing an async task to verify the the user has already registered
@@ -86,8 +101,8 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         if (mListener != null) {
             if (view.getId() == R.id.submitButton) {
-                String username = ((EditText) v.findViewById(R.id.usernameField)).getText().toString();
-                String password = ((EditText) v.findViewById(R.id.passwordField)).getText().toString();
+                String username = ((EditText) mView.findViewById(R.id.usernameField)).getText().toString();
+                String password = ((EditText) mView.findViewById(R.id.passwordField)).getText().toString();
                 Log.d("LOGIN", username + " " + password);
                 AsyncTask<String, String, String> task = new CheckLoginData();
                 task.execute(PARTIAL_URL, username, password);
@@ -112,6 +127,11 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
         /**The email to be sent to the main activity to sent to the confirmation page**/
         String emailToSend;
 
+        /**
+         * Sends user credentials to database.
+         * @param strings
+         * @return String, login successful or not.
+         */
         @Override
         protected String doInBackground(String... strings){
             //EXPECTED = partial url, username(email), and password
@@ -147,6 +167,10 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
             return response;
         }
 
+        /**
+         * Called once doInBackground ic completed. Wraps up the aSynch task.
+         * @param result the result from doInBackground - a string denoting if login was successful.
+         */
         @Override
         protected void onPostExecute(String result) {
             Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();

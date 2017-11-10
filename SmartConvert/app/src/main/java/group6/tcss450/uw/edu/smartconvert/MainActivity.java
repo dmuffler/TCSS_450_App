@@ -14,6 +14,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * Main class that handles fragment transactions and data passing between screens.
+ * @author Irene Fransiga, Donald Muffler, Josh Lau
+ * @version Nov 10, 2017
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, StartFrag.StartFragInteractionListener,
         LoginFrag.LoginFragmentInteractionListener, RegisterFragment.RegisterFragmentInteractionListener,
@@ -22,7 +27,10 @@ public class MainActivity extends AppCompatActivity
         HomeFragment.HomeFragmentInteractionListener, ConvertFragment.ConvertFragmentInteractionListener{
 
 
-
+    /**
+     * The view of the main container adds in the first fragment.
+     * @param savedInstanceState the state the program was last in.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +61,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /**
+     * Handler for when the back button is pressed.
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -63,6 +74,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Inflates the menu.
+     * @param menu the menu to be inflated.
+     * @return boolean if inflation occurred.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -70,6 +86,11 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Handler for the options selection.
+     * @param item which item was selected.
+     * @return boolean if an option was selected.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -85,6 +106,11 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Handler for navigation items.
+     * @param item the item that was selected.
+     * @return boolean if an item was selected.
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -110,6 +136,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Helper method for dealing with fragment transactions.
+     * @param frag the frag to show.
+     */
     private void switchFragment(Fragment frag) {
         FragmentTransaction t = getSupportFragmentManager()
                 .beginTransaction()
@@ -118,6 +148,10 @@ public class MainActivity extends AppCompatActivity
         t.commit();
     }
 
+    /**
+     * Fragment interaction for the starting screen.
+     * @param fragString which button was pressed on the start screen.
+     */
     @Override
     public void startFragInteraction(String fragString) {
         switch (fragString) {
@@ -133,6 +167,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Fragment interaction for the login screen.
+     * @param fragString which button was pressed on the login screen.
+     * @param emailString the user's email who logged in.
+     */
     @Override
     public void loginFragmentInteraction(String fragString, String emailString) {
         if (fragString.equals("Home")) {
@@ -146,6 +185,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Fragment interaction for the register screen.
+     * @param fragString which button was pressed on the register screen.
+     * @param emailString the user's email who registered.
+     */
     @Override
     public void registerFragmentInteraction(String fragString, String emailString) {
         if (fragString.equals("Confirm Email")) {
@@ -157,6 +201,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Fragment interaction for the email confirmation screen.
+     * @param fragString which button was pressed on the email confirmation screen.
+     */
     @Override
     public void confirmEmailFragmentInteraction(String fragString) {
         if (fragString.equals("Tutorial1")) {
@@ -164,6 +212,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Fragment interaction for the tutorial screens.
+     * @param fragString which button was pressed on the tutorial screens.
+     */
     @Override
     public void tutorialFragmentInteraction(String fragString) {
         switch (fragString) {
@@ -182,6 +234,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Fragment interaction for the home screen.
+     * @param fragString which button was pressed on the home screen.
+     */
     @Override
     public void homeFragmentInteraction(String fragString) {
         switch (fragString) {
@@ -191,6 +247,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Fragment interaction for the convert screen.
+     * @param Str which button was pressed on the convert screen.
+     */
     @Override
     public void convertFragmentInteraction(String Str) {
 

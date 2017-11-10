@@ -21,9 +21,18 @@ public class StartFrag extends Fragment implements View.OnClickListener {
     /**The Listener to communicate with main activity class**/
     private StartFragInteractionListener mListener;
 
+    /**
+     * Constructor.
+     */
     public StartFrag() {}
 
-
+    /**
+     * Creates the view of the fragment.
+     * @param inflater infates the view.
+     * @param container the container.
+     * @param savedInstanceState the saved state.
+     * @return the view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,7 +51,6 @@ public class StartFrag extends Fragment implements View.OnClickListener {
     }
     /**
      * Listener of items in the fragment.
-     *
      * @param view of the item that is being clicked
      */
     @Override
@@ -66,6 +74,10 @@ public class StartFrag extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * Attaches a fragment to an activity.
+     * @param context context of the current state.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -77,6 +89,9 @@ public class StartFrag extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * Detaches the fragment from the activity.
+     */
     @Override
     public void onDetach() {
         super.onDetach();

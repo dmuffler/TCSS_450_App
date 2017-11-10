@@ -10,20 +10,31 @@ import android.widget.Button;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Tutorial1Fragment.TutorialFragmentInteractionListener} interface
- * to handle interaction events.
+ * Tutorial Fragment that shows the user the different screens that are in the app.
+ * @author Irene Fransiga, Donald Muffler, Josh Lau
+ * @version Nov 10, 2017
  */
 public class Tutorial2Fragment extends Fragment implements View.OnClickListener {
 
+    /**
+     * An interface that reports back to the containing activiy.
+     */
     private TutorialFragmentInteractionListener mListener;
 
+    /**
+     * Constructor.
+     */
     public Tutorial2Fragment() {
         // Required empty public constructor
     }
 
-
+    /**
+     * Creates the view of the fragment.
+     * @param inflater infates the view.
+     * @param container the container.
+     * @param savedInstanceState the saved state.
+     * @return the view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,6 +51,10 @@ public class Tutorial2Fragment extends Fragment implements View.OnClickListener 
         return v ;
     }
 
+    /**
+     * Attaches a fragment to an activity.
+     * @param context context of the current state.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -51,12 +66,19 @@ public class Tutorial2Fragment extends Fragment implements View.OnClickListener 
         }
     }
 
+    /**
+     * Detaches the fragment from the activity.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Listener for button presses.
+     * @param view the button that was pressed.
+     */
     @Override
     public void onClick(View view) {
         if (mListener != null) {
@@ -77,14 +99,8 @@ public class Tutorial2Fragment extends Fragment implements View.OnClickListener 
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * The interface that should be implemented by main activities
+     * or any activities that contain this fragment.
      */
     public interface TutorialFragmentInteractionListener {
         // TODO: Update argument type and name

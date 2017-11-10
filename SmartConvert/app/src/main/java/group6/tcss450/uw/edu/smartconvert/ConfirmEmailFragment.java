@@ -1,7 +1,6 @@
 package group6.tcss450.uw.edu.smartconvert;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,28 +34,35 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
     /**The Listener to communicate with main activity class**/
     private ConfirmEmailFragmentInteractionListener mListener;
     /**The field to refer to the code that the user will be entering**/
-    private EditText verificationTextField;
+    private EditText mVerificationTextField;
     /**field to store the user email for database use**/
-    private String uEmail;
+    private String mEmail;
     /**A reference to the confirm email fragment**/
-    private View v;
+    private View mView;
 
     /**
      * This is just an empty constructor, to call this class
      */
     public ConfirmEmailFragment() { }
 
+    /**
+     * Creates the view of the fragment.
+     * @param inflater infates the view.
+     * @param container the container.
+     * @param savedInstanceState the saved state.
+     * @return the view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_confirm_email, container, false);
+        mView = inflater.inflate(R.layout.fragment_confirm_email, container, false);
 
-        Button b = (Button) v.findViewById(R.id.enterVerificationButton);
+        Button b = (Button) mView.findViewById(R.id.enterVerificationButton);
         b.setOnClickListener(this);
 
-        verificationTextField = (EditText) v.findViewById(R.id.verificationField);
-        return v;
+        mVerificationTextField = (EditText) mView.findViewById(R.id.verificationField);
+        return mView;
     }
 
     /**
@@ -68,10 +74,14 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
         if(getArguments()!= null){
             String email = getArguments().getString(getString(R.string.email_key));
             //Log.d("CONFIRM EMAIL", getString(R.string.email_key) + email);
-            uEmail = email;
+            mEmail = email;
         }
     }
 
+    /**
+     * Attaches a fragment to an activity.
+     * @param context context of the current state.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -83,6 +93,9 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    /**
+     * Detaches the fragment from the activity.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
@@ -99,9 +112,9 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
         if (mListener != null) {
             if (view.getId() == R.id.enterVerificationButton) {
                 AsyncTask<String, String, String> task = new SendConfirmation();
-                String code = ((EditText) v.findViewById(R.id.verificationField)).getText().toString();
-                Log.d("CONFIRM",  uEmail + " " + code);
-                task.execute(PARTIAL_URL, uEmail, code);
+                String code = ((EditText) mView.findViewById(R.id.verificationField)).getText().toString();
+                Log.d("CONFIRM",  mEmail + " " + code);
+                task.execute(PARTIAL_URL, mEmail, code);
                 //String confirmFrag = "Tutorial1";
                 //mListener.confirmEmailFragmentInteraction(confirmFrag);
             }
@@ -122,6 +135,12 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
     private class SendConfirmation extends AsyncTask<String, String, String> {
         /**the file name to connect to. PARTIAL_URL + this file name**/
         private final String CHECK_CODE ="checkCode.php";
+
+        /**
+         * Connects to php to send confirmation email.
+         * @param strings user email and code to send to email.
+         * @return boolean, confirmation code successful or not.
+         */
         @Override
         protected String doInBackground(String... strings){
             //REQUIRED = PARTIAL_URL + the user email + the code
@@ -155,6 +174,10 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
             return response;
         }
 
+        /**
+         * Called once doInBackground ic completed. Wraps up the aSynch task.
+         * @param result the result from doInBackground - a boolean if confirmation was successful.
+         */
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("True")) {
