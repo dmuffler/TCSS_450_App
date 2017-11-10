@@ -228,11 +228,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 cTask.execute(PARTIAL_URL, mEmail);
                 String confirmEmail = "Confirm Email";
                 mListener.registerFragmentInteraction(confirmEmail, mEmail);
-            } else {
+                Toast.makeText(getActivity(), "Confirmation Code sending, " +
+                        "please wait for a few minutes", Toast.LENGTH_LONG).show();
+            } else if (result.equals("LoginDataFailed")){
+                Toast.makeText(getActivity(), "Email is already registered", Toast.LENGTH_LONG).show();
                 Log.e("CONFIRMATION RESPONSE A", result);
             }
-            Toast.makeText(getActivity(), "Confirmation Code sending, " +
-                    "please wait for a few minutes", Toast.LENGTH_LONG).show();
+
         }
     }
 

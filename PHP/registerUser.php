@@ -35,12 +35,12 @@ error_reporting(E_ALL);
             print("Register successful.");
         } else {
             if(!$userInfo_query){
-                print("Registration failed. UserInfoFailed");
+                print("UserInfoFailed");
                 $deleteLoginData = "delete from LoginData where UserID = $lastID";
                 $deleteLoginData_query = $db->query($deleteLoginData);
             } 
             if(!$loginData_query){
-                print("Registration failed. LoginDataFailed");
+                print("LoginDataFailed");
                 $deleteUserInfo = "delete from UserInfo where UserID = $lastID";
                 $deleteUserInfo_query = $db->query($deleteUserInfo);
             }
