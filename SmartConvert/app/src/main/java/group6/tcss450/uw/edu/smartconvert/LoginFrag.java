@@ -115,7 +115,6 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
      * or any activities that contain this fragment.
      */
     public interface LoginFragmentInteractionListener {
-        // TODO: Update argument type and name
         void loginFragmentInteraction(String fragString, String emailString);
     }
     /**

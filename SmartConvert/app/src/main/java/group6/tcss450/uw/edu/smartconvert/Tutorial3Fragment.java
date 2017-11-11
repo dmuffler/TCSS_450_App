@@ -99,7 +99,6 @@ public class Tutorial3Fragment extends Fragment implements View.OnClickListener 
      * or any activities that contain this fragment.
      */
     public interface TutorialFragmentInteractionListener {
-        // TODO: Update argument type and name
         void tutorialFragmentInteraction(String fragString);
     }
 }
