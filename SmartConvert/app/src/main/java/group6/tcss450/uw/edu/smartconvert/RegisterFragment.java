@@ -101,6 +101,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         super.onDetach();
         mListener = null;
     }
+
     /**
      * Listener of items in the fragment.
      * In this case, the button is doing an async task to register the user to our database
