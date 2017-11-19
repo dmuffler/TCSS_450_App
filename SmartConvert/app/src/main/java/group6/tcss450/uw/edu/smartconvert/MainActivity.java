@@ -3,6 +3,7 @@ package group6.tcss450.uw.edu.smartconvert;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Main class that handles fragment transactions and data passing between screens.
@@ -26,6 +30,10 @@ public class MainActivity extends AppCompatActivity
         Tutorial2Fragment.TutorialFragmentInteractionListener, Tutorial3Fragment.TutorialFragmentInteractionListener,
         HomeFragment.HomeFragmentInteractionListener, ConvertFragment.ConvertFragmentInteractionListener{
 
+    /**
+     * The current fragment displayed on the screen.
+     */
+    String mCurrentFrag = null;
 
     /**
      * The view of the main container adds in the first fragment.
@@ -41,7 +49,7 @@ public class MainActivity extends AppCompatActivity
             setSupportActionBar(toolbar);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.main_container, new StartFrag())
+                    .add(R.id.main_container, new StartFrag(), "Start")
                     .commit();
 
 /*        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -65,7 +73,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Handler for when the back button is pressed.
+     * Handler for when the back button is pressed. This will skip the login and register screens
+     * if the user attempts to navigate back on the screens immediately following them.
      */
     @Override
     public void onBackPressed() {
@@ -73,6 +82,16 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+
+            // Series of conditionals checking if the screens following login and registration are
+            // current. If so, the login, register, and confirm email will be skipped.
+            if (mCurrentFrag.equals("Home") || mCurrentFrag.equals("Confirm Email")) {
+                 popStack(1);
+                mCurrentFrag = "Start";
+            } else if (mCurrentFrag.equals("Tutorial1")) {
+                popStack(2);
+                mCurrentFrag = "Start";
+            }
             super.onBackPressed();
         }
     }
@@ -141,14 +160,35 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Helper method for dealing with fragment transactions.
-     * @param frag the frag to show.
+     * @param theFrag the frag to show.
+     * @param theFragString the String to retrieve the frag.
      */
-    private void switchFragment(Fragment frag) {
+    private void switchFragment(final Fragment theFrag, final String theFragString) {
+        mCurrentFrag = theFragString;
         FragmentTransaction t = getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_container, frag)
+                .replace(R.id.main_container, theFrag, theFragString)
                 .addToBackStack(null);
         t.commit();
+    }
+
+    /**
+     * Recursive function to pop the backstack of fragments. If the backstack is empty,
+     * an error is thrown to the user. Warning: index 0 of the backstack is the main screen.
+     * If index 0 is popped, the application will close.
+     * @param theCount the amount of times the backstack will be poppped.
+     */
+    private void popStack(final int theCount) {
+        if (theCount == 0) {
+            return;
+        } else {
+            if (getSupportFragmentManager().popBackStackImmediate()) {
+                popStack(theCount - 1);
+            } else {
+                Log.e("Error popping backstack", "Backstack is empty");
+                return;
+            }
+        }
     }
 
     /**
@@ -159,13 +199,13 @@ public class MainActivity extends AppCompatActivity
     public void startFragInteraction(String fragString) {
         switch (fragString) {
             case "Login":
-                switchFragment(new LoginFrag());
+                switchFragment(new LoginFrag(), "Login");
                 break;
             case "Skip":
-                switchFragment(new HomeFragment());
+                switchFragment(new HomeFragment(), "Skip");
                 break;
             case "Register":
-                switchFragment(new RegisterFragment());
+                switchFragment(new RegisterFragment(), "Register");
                 break;
         }
     }
@@ -178,13 +218,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void loginFragmentInteraction(String fragString, String emailString) {
         if (fragString.equals("Home")) {
-            switchFragment(new HomeFragment());
+            switchFragment(new HomeFragment(), "Home");
         } else if (fragString.equals("Confirm Email")) {
             ConfirmEmailFragment confirmEmailFragment = new ConfirmEmailFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable(getString(R.string.email_key), emailString);
             confirmEmailFragment.setArguments(bundle);
-            switchFragment(confirmEmailFragment);
+            switchFragment(confirmEmailFragment, "Comfirm Email");
         }
     }
 
@@ -200,7 +240,7 @@ public class MainActivity extends AppCompatActivity
             Bundle bundle = new Bundle();
             bundle.putSerializable(getString(R.string.email_key), emailString);
             confirmEmailFragment.setArguments(bundle);
-            switchFragment(confirmEmailFragment);
+            switchFragment(confirmEmailFragment, "Confirm Email");
         }
     }
 
@@ -211,7 +251,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void confirmEmailFragmentInteraction(String fragString) {
         if (fragString.equals("Tutorial1")) {
-            switchFragment(new Tutorial1Fragment());
+            switchFragment(new Tutorial1Fragment(), "Tutorial1");
         }
     }
 
@@ -223,16 +263,16 @@ public class MainActivity extends AppCompatActivity
     public void tutorialFragmentInteraction(String fragString) {
         switch (fragString) {
             case "Tutorial1":
-                switchFragment(new Tutorial1Fragment());
+                switchFragment(new Tutorial1Fragment(), "Tutorial1");
                 break;
             case "Tutorial2":
-                switchFragment(new Tutorial2Fragment());
+                switchFragment(new Tutorial2Fragment(), "Tutorial2");
                 break;
             case "Tutorial3":
-                switchFragment(new Tutorial3Fragment());
+                switchFragment(new Tutorial3Fragment(), "Tutorial3");
                 break;
             case "Home":
-                switchFragment(new HomeFragment());
+                switchFragment(new HomeFragment(), "Home");
                 break;
         }
     }
@@ -245,7 +285,7 @@ public class MainActivity extends AppCompatActivity
     public void homeFragmentInteraction(String fragString) {
         switch (fragString) {
             case "Convert":
-                switchFragment(new ConvertFragment());
+                switchFragment(new ConvertFragment(), "Convert");
                 break;
         }
     }
