@@ -45,11 +45,11 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
      * (50 limit/month)
      * **/
     //private static final String API_KEY = "?api_key=RDyzVhu8ThK2dLnEPximNXmkGFMbNn";
-
+    private static final String API_KEY = "?api_key=UV7JzRjHFceNsjdTXtxWpKcDj3aLp5";
     /**The API key to access the Currency API
      * (50 limit/month)
      * **/
-    private static final String API_KEY = "?api_key=qY3C5xzDnLREziBPh8aekJ2DErsRyf";
+    /*private static final String API_KEY = "?api_key=qY3C5xzDnLREziBPh8aekJ2DErsRyf";*/
     
     /**The field that will know which currency that the user wanted to convert from**/
     private String mCurrencyFrom;
