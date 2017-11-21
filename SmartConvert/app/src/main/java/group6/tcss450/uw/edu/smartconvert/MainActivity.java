@@ -83,16 +83,27 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
 
-            // Series of conditionals checking if the screens following login and registration are
-            // current. If so, the login, register, and confirm email will be skipped.
+            /* Series of conditionals checking if the screens following login and registration are
+             current. If so, the login, register, and confirm email will be skipped.
+             However, if the email is not confirmed, pressing the back button at confirm email
+             will instead bring the user back to the login screen with the credentials entered in
+             for ease of use.*/
             if (mCurrentFrag.equals("Home") || mCurrentFrag.equals("Confirm Email")) {
-                 popStack(1);
-                mCurrentFrag = "Start";
+                popStack(1);
             } else if (mCurrentFrag.equals("Tutorial1")) {
                 popStack(2);
-                mCurrentFrag = "Start";
             }
+
+            // The back action.
             super.onBackPressed();
+
+            // The back stack check to make sure the the back press won't cause an exception.
+            if (getSupportFragmentManager().getBackStackEntryCount() < 2) {
+                mCurrentFrag = "Start";
+            } else {
+                mCurrentFrag = getSupportFragmentManager().getBackStackEntryAt(
+                        getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+            }
         }
     }
 
@@ -168,7 +179,7 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction t = getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_container, theFrag, theFragString)
-                .addToBackStack(null);
+                .addToBackStack(theFragString);
         t.commit();
     }
 
@@ -202,7 +213,7 @@ public class MainActivity extends AppCompatActivity
                 switchFragment(new LoginFrag(), "Login");
                 break;
             case "Skip":
-                switchFragment(new HomeFragment(), "Skip");
+                switchFragment(new HomeFragment(), "Home_Skip");
                 break;
             case "Register":
                 switchFragment(new RegisterFragment(), "Register");
