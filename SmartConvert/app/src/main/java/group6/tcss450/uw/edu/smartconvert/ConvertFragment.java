@@ -39,13 +39,15 @@ import java.net.URL;
 public class ConvertFragment extends Fragment implements View.OnClickListener{
     /**The URL to connect to the main database**/
     private static final String PARTIAL_URL = "http://cssgate.insttech.washington.edu/~if30/";
+    /**The apikeyurl**/
+    private final String PARTIAL_KEY_URL = "http://cssgate.insttech.washington.edu/~jtml/";
     /**The partial URL to call the Currency API**/
-    private static final String API_URL = "https://www.amdoren.com/api/currency.php";
+    private static final String API_URL = "https://www.amdoren.com/api/currency.php?api_key=";
     /**The API key to access the Currency API
      * (50 limit/month)
      * **/
     //private static final String API_KEY = "?api_key=RDyzVhu8ThK2dLnEPximNXmkGFMbNn";
-    private static final String API_KEY = "?api_key=UV7JzRjHFceNsjdTXtxWpKcDj3aLp5";
+    private String mApiKey = "";
     /**The API key to access the Currency API
      * (50 limit/month)
      * **/
@@ -127,6 +129,9 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
         Log.d("CONVERT PAGE", "GET AVAILABLE CURRENCIES");
 
         task.execute(PARTIAL_URL);
+        AsyncTask<String, String, String> key = new GetApiKey();
+        Log.d("CONVERT PAGE", "GET APIKEY");
+        key.execute(PARTIAL_KEY_URL);
     }
 
     /**
@@ -167,9 +172,9 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                 String from_Token ="&from=";
                 String amount_Token = "&amount=";
                 task = new ConvertCurrencies();
-                Log.i("CONVERTING THE VALUE", API_URL + API_KEY + from_Token + mCurrencyFrom +
+                Log.i("CONVERTING THE VALUE", API_URL + mApiKey + from_Token + mCurrencyFrom +
                         to_Token + mCurrencyTo + amount_Token + mCurAEditText.getText());
-                task.execute(API_URL + API_KEY + from_Token + mCurrencyFrom + to_Token +
+                task.execute(API_URL + mApiKey + from_Token + mCurrencyFrom + to_Token +
                         mCurrencyTo + amount_Token + mCurAEditText.getText(), message);
             }
         }
@@ -304,5 +309,72 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                 e.printStackTrace();
             }
         }
+    }
+    private class GetApiKey extends AsyncTask<String, String, String> {
+        /**the file name to connect to. PARTIAL_API_URL + this file name**/
+        private final String PHP ="apisql.php";
+
+        /**
+         * Connects to get api key.
+         * @param strings user email and code to send to email.
+         * @return boolean, confirmation code successful or not.
+         */
+
+        @Override
+        protected String doInBackground(String... strings){
+            //REQUIRED = PARTIAL_URL + the user email + the code
+
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            String url = strings[0];
+
+
+            try {
+                URL urlObject = new URL(url + PHP);// + email + code);
+                urlConnection = (HttpURLConnection) urlObject.openConnection();
+                InputStream content = urlConnection.getInputStream();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                String s = "";
+                while ((s = buffer.readLine()) != null) {
+                    response += s;
+                }
+            } catch (Exception e) {
+                Log.e("ERROR CONN", url + PHP);
+                response = "Unable to connect, Reason: " + e.getMessage();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+
+            return response;
+
+        }
+
+
+
+
+
+
+
+        /**
+         * Called once doInBackground ic completed. Wraps up the aSynch task.
+         * @param result the result from doInBackground - a json with conversion information.
+         */
+        @Override
+        protected void onPostExecute (String result) {
+            try {
+                JSONObject jObject = new JSONObject(result);
+
+                String value = jObject.getString("api");
+                mApiKey = value;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+
+        }
+
     }
 }
