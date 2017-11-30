@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +16,11 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -110,6 +114,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (mListener != null) {
+
             if (view.getId() == R.id.registerRegisterButton) {
 
                 String fName = mFNameTextField.getText().toString();
@@ -131,14 +136,17 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                         "\\.[a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~]+)*@([a-zA-Z]{2,})(\\.[a-zA-Z]{2,})*$");
                 Matcher matcher = pattern.matcher(email);
 
-                /**
+                /*
                  * Checker to see if the input is valid
                  * We allow last name to be empty because not everyone has a last name
                  */
                 if (matcher.find()&& pass.equals(confirmPass) &&
                         (pass.length() >= 6 && pass.length() <= 12) && !(fName.isEmpty())) {
                     AsyncTask<String, String, String> task = new RegisterData();
-                    task.execute(PARTIAL_URL, fName, lName, email, pass);
+                    pass = Encryption.encodePass(pass);
+                    if (pass != null) {
+                        task.execute(PARTIAL_URL, fName, lName, email, pass);
+                    }
                 } else {
                     if(!(pass.length() >= 6 && pass.length() <= 12)){
                         mPasswordTextField.setError("Password length has to be between 6-12 characters");
