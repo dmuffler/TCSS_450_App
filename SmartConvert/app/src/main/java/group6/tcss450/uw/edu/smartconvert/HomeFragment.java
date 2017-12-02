@@ -3,6 +3,8 @@ package group6.tcss450.uw.edu.smartconvert;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,6 +24,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -163,7 +170,13 @@ public class HomeFragment extends Fragment implements  View.OnClickListener,
         Log.d(TAG, mCurrentLocation.toString());
         final String loc = "Lat : " + String.valueOf(mCurrentLocation.getLatitude())
                         + " Long: " + String.valueOf(mCurrentLocation.getLongitude());
-        mCurrentLocationField.setText(loc);
+        Geocoder geo = new Geocoder(getActivity(), Locale.getDefault());
+        try {
+            List<Address> list = geo.getFromLocation(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), 1);
+            mCurrentLocationField.setText(list.get(0).getCountryCode());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
