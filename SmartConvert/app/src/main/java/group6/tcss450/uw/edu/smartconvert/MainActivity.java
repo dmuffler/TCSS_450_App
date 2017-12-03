@@ -35,6 +35,7 @@ import com.google.android.gms.location.LocationServices;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
@@ -378,7 +379,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void profileOnFragmentInteraction(String page) {
-    
+
     }
 
     /***********************************************************************************************
@@ -520,12 +521,14 @@ public class MainActivity extends AppCompatActivity
 
     private void translateCoord() {
         Geocoder geo = new Geocoder(this, Locale.getDefault());
+        Currency code = Currency.getInstance(Locale.getDefault());
         try {
             List<Address> list = geo.getFromLocation(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), 1);
             SharedPreferences pref = getSharedPreferences(getString(R.string.prefs), this.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             if (list.size() > 0) {
                 editor.putString(getString(R.string.location_key), list.get(0).getCountryName());
+                editor.putString(getString(R.string.currency_key), code.getCurrencyCode());
                 editor.apply();
             }
         } catch (IOException e) {

@@ -54,5 +54,6 @@
     <string name="curLocation_text">Current Location =</string>
     <string name="location_key">location_key</string>
     <string name="prefs">prefs</string>
+    <string name="currency_key">currency_key</string>
 
 </resources>
