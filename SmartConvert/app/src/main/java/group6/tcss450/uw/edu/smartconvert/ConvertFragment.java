@@ -1,6 +1,7 @@
 package group6.tcss450.uw.edu.smartconvert;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -300,8 +301,21 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                 curArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 mCurASpinner.setAdapter(curArray);
                 mCurBSpinner.setAdapter(curArray);
+                setSpinner();
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+        }
+
+        private void setSpinner() {
+            SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.prefs), Context.MODE_PRIVATE);
+            String code = preferences.getString(getString(R.string.currency_key), null);
+            if (code != null) {
+                for (int i = 0; i < mCurBSpinner.getAdapter().getCount(); i++) {
+                    if (mCurBSpinner.getAdapter().getItem(i).toString().equals(code)) {
+                        mCurBSpinner.setSelection(i);
+                    }
+                }
             }
         }
     }

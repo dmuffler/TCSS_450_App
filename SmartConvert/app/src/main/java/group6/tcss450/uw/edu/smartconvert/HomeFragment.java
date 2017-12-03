@@ -34,8 +34,6 @@ public class HomeFragment extends Fragment implements  View.OnClickListener {
 
     private String mCurrentLocation;
 
-    private List<Address> list;
-
     /**
      * Constructor.
      */
