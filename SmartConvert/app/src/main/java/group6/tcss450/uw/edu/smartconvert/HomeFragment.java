@@ -173,7 +173,7 @@ public class HomeFragment extends Fragment implements  View.OnClickListener,
         Geocoder geo = new Geocoder(getActivity(), Locale.getDefault());
         try {
             List<Address> list = geo.getFromLocation(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), 1);
-            mCurrentLocationField.setText(list.get(0).getCountryCode());
+            mCurrentLocationField.setText(list.get(0).getCountryName());
         } catch (IOException e) {
             e.printStackTrace();
         }
