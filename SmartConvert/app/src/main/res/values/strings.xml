@@ -52,5 +52,7 @@
     <string name="username_profile">Email:</string>
     <string name="edit_String">Edit</string>
     <string name="curLocation_text">Current Location =</string>
+    <string name="location_key">location_key</string>
+    <string name="prefs">prefs</string>
 
 </resources>
