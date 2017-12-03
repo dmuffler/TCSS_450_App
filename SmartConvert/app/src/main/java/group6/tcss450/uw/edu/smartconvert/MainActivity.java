@@ -378,6 +378,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void profileOnFragmentInteraction(String page) {
+    
+    }
 
     /***********************************************************************************************
      **************************************Locations************************************************
