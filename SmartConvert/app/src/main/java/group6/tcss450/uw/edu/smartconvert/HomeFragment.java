@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-
 /**
  * Home Fragment is a fragment that handles the home fragment or where the user will go to after login.
  * User who have completed their tutorial or successfully login will be redirected to this fragment.
@@ -22,9 +21,7 @@ import android.widget.TextView;
  * @author Irene Fransiga, Donald Muffler, Josh Lau
  * @version Nov 10, 2017
  */
-public class HomeFragment extends Fragment implements  View.OnClickListener/*,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        LocationListener*/ {
+public class HomeFragment extends Fragment implements  View.OnClickListener {
 
     /**The Listener to communicate with main activity class**/
     private HomeFragmentInteractionListener mListener;
@@ -36,6 +33,8 @@ public class HomeFragment extends Fragment implements  View.OnClickListener/*,
     private View mView;
 
     private String mCurrentLocation;
+
+    private List<Address> list;
 
     /**
      * Constructor.
