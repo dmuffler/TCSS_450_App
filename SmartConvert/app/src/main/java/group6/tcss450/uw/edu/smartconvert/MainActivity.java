@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            switchFragment(new ProfileFragment(), "Profile");
+            switchFragment(new SettingFragment(), "Setting");
         }
 
         return super.onOptionsItemSelected(item);
@@ -218,8 +218,8 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.nav_profile) {
+            switchFragment(new ProfileFragment(), "Profile");
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {

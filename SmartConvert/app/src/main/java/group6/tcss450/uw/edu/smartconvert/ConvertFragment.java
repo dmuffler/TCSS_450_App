@@ -253,6 +253,10 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
         /**the file name to connect to. PARTIAL_URL + this file name**/
         private final String GETCURRENCIES ="availableCurrencies.php";
 
+        private final String GETCOUNTRYCODE = "http://countryapi.gear.host/v1/Country/getCountries?pName=";
+        private String countryName;
+        private String countryCode;
+
         /**
          * Gets available currencies from database.
          * @param strings currencies to get sent to php.

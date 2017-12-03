@@ -55,5 +55,6 @@
     <string name="location_key">location_key</string>
     <string name="prefs">prefs</string>
     <string name="currency_key">currency_key</string>
+    <string name="profile_navText">Profile</string>
 
 </resources>
