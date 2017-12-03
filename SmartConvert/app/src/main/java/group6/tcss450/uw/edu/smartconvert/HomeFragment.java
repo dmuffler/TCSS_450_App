@@ -24,6 +24,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,7 +49,7 @@ import java.util.Locale;
  */
 public class HomeFragment extends Fragment implements  View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener{
 
     /**The Listener to communicate with main activity class**/
     private HomeFragmentInteractionListener mListener;
@@ -70,6 +75,8 @@ public class HomeFragment extends Fragment implements  View.OnClickListener,
     private static final int MY_PERMISSIONS_LOCATIONS = 814;
     private LocationRequest mLocationRequest;
     private Location mCurrentLocation;
+
+    private List<Address> list;
 
     /**
      * Constructor.
@@ -172,11 +179,12 @@ public class HomeFragment extends Fragment implements  View.OnClickListener,
                         + " Long: " + String.valueOf(mCurrentLocation.getLongitude());
         Geocoder geo = new Geocoder(getActivity(), Locale.getDefault());
         try {
-            List<Address> list = geo.getFromLocation(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), 1);
-            mCurrentLocationField.setText(list.get(0).getCountryName());
+            list = geo.getFromLocation(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), 1);
+            //mCurrentLocationField.setText(list.get(0).getCountryName());
         } catch (IOException e) {
             e.printStackTrace();
         }
+        mCurrentLocationField.setText(list.get(0).getCountryName());
     }
 
     @Override

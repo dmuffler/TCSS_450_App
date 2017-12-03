@@ -2,6 +2,7 @@ package group6.tcss450.uw.edu.smartconvert;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity
         LoginFrag.LoginFragmentInteractionListener, RegisterFragment.RegisterFragmentInteractionListener,
         ConfirmEmailFragment.ConfirmEmailFragmentInteractionListener, Tutorial1Fragment.TutorialFragmentInteractionListener,
         Tutorial2Fragment.TutorialFragmentInteractionListener, Tutorial3Fragment.TutorialFragmentInteractionListener,
-        HomeFragment.HomeFragmentInteractionListener, ConvertFragment.ConvertFragmentInteractionListener{
+        HomeFragment.HomeFragmentInteractionListener, ConvertFragment.ConvertFragmentInteractionListener, ProfileFragment.ProfileOnFragmentInteractionListener{
 
     /**
      * The current fragment displayed on the screen.
@@ -114,7 +115,8 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu;
+        // this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            switchFragment(new ProfileFragment(), "Profile");
         }
 
         return super.onOptionsItemSelected(item);
@@ -307,6 +309,11 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void convertFragmentInteraction(String Str) {
+
+    }
+
+    @Override
+    public void profileOnFragmentInteraction(String page) {
 
     }
 }
