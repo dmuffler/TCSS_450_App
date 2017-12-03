@@ -217,7 +217,7 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            Log.e("SUCCESSFUL", response);
+            Log.e("SUCCESSFUL", "CONVERT CURRENCIES " + response);
             return response;
 
         }
@@ -253,9 +253,9 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
         /**the file name to connect to. PARTIAL_URL + this file name**/
         private final String GETCURRENCIES ="availableCurrencies.php";
 
-        private final String GETCOUNTRYCODE = "http://countryapi.gear.host/v1/Country/getCountries?pName=";
-        private String countryName;
-        private String countryCode;
+        private final String GETCOUNTRYCODE = "http://countryapi.gear.host/v1/Country/getCountries?pAlpha2Code=";
+        //private String countryName;
+        //private String countryCode;
 
         /**
          * Gets available currencies from database.
@@ -283,7 +283,7 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            Log.e("SUCCESSFUL", response);
+            Log.e("SUCCESSFUL",  "GET CURRENCIES " + response);
             return response;
         }
 
@@ -313,14 +313,52 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
 
         private void setSpinner() {
             SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.prefs), Context.MODE_PRIVATE);
-            String code = preferences.getString(getString(R.string.currency_key), null);
-            if (code != null) {
+            String code = preferences.getString(getString(R.string.locationCode_key), null);
+            //Log.d("SET SPINNER", code);
+            String currencyCode = getCountryCode(code);
+            if (currencyCode != null) {
                 for (int i = 0; i < mCurBSpinner.getAdapter().getCount(); i++) {
                     if (mCurBSpinner.getAdapter().getItem(i).toString().equals(code)) {
                         mCurBSpinner.setSelection(i);
                     }
                 }
             }
+        }
+        protected String getCountryCode(String countryCode) {
+            String response = "";
+            String code;
+            HttpURLConnection urlConnection = null;
+            try {
+                URL urlObject = new URL(GETCOUNTRYCODE + countryCode);
+                urlConnection = (HttpURLConnection) urlObject.openConnection();
+                InputStream content = urlConnection.getInputStream();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                String s = "";
+                while ((s = buffer.readLine()) != null) {
+                    response += s;
+                }
+            } catch (Exception e) {
+                Log.d("ERROR CONN", GETCOUNTRYCODE + countryCode);
+                response = "Unable to connect, Reason: " + e.getMessage();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            Log.e("SUCCESSFUL ", "GET COUNTRY CODE API " + response);
+            code = getCodeHelper(response);
+            Log.e("SUCCESSFUL ", "GET CURRENCY CODE " + code);
+
+            return code;
+        }
+        protected String getCodeHelper(String response){
+            String code = null;
+            try {
+                JSONObject jObject = new JSONObject(response);
+                code = jObject.getString("CurrencyCode");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return code;
         }
     }
 }

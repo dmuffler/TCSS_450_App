@@ -56,5 +56,7 @@
     <string name="prefs">prefs</string>
     <string name="currency_key">currency_key</string>
     <string name="profile_navText">Profile</string>
+    <string name="settingsString">Settings</string>
+    <string name="locationCode_key">locationCode</string>
 
 </resources>

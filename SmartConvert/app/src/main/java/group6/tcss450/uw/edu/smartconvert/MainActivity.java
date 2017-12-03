@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
         Tutorial2Fragment.TutorialFragmentInteractionListener, Tutorial3Fragment.TutorialFragmentInteractionListener,
         HomeFragment.HomeFragmentInteractionListener, ConvertFragment.ConvertFragmentInteractionListener,
         ProfileFragment.ProfileOnFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, SettingFragment.SettingOnFragmentInteractionListener{
 
 
     private GoogleApiClient mGoogleApiClient;
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity
             /* Series of conditionals checking if the screens following login and registration are
              current. If so, the login, register, and confirm email will be skipped.*/
             FragmentManager fragMan = getSupportFragmentManager();
-            List<Fragment> fragList = fragMan.getFragments();
+            //List<Fragment> fragList = fragMan.getFragments();
 
             String fragName = "";
             if (fragMan.getBackStackEntryCount() > 0) {
@@ -511,6 +511,11 @@ public class MainActivity extends AppCompatActivity
         }
         super.onStop(); }
 
+    @Override
+    public void settingOnFragmentInteraction(Uri uri) {
+
+    }
+
     /**
      * The interface that should be implemented by main activities
      * or any activities that contain this fragment.
@@ -529,6 +534,8 @@ public class MainActivity extends AppCompatActivity
             if (list.size() > 0) {
                 editor.putString(getString(R.string.location_key), list.get(0).getCountryName());
                 editor.putString(getString(R.string.currency_key), code.getCurrencyCode());
+                editor.putString(getString(R.string.locationCode_key), code.getCurrencyCode());
+                Log.d("SharedPrefs ", "Country Code" + code.getCurrencyCode());
                 editor.apply();
             }
         } catch (IOException e) {
