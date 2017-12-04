@@ -32,7 +32,6 @@
             android:layout_marginRight="0dp"
             android:background="?android:attr/selectableItemBackground"
             android:text=">"
-            android:textColor="@android:color/holo_orange_light"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -62,7 +61,6 @@
             android:layout_marginRight="16dp"
             android:background="?android:attr/selectableItemBackground"
             android:text="@string/skip_string"
-            android:textColor="@android:color/holo_orange_light"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
