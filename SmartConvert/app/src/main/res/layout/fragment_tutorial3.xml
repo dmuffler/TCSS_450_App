@@ -17,7 +17,6 @@
             android:layout_marginLeft="-10dp"
             android:background="?android:attr/selectableItemBackground"
             android:text="&lt;"
-            android:textColor="@android:color/holo_orange_light"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -32,7 +31,6 @@
             android:layout_marginRight="16dp"
             android:background="?android:attr/selectableItemBackground"
             android:text="@string/skip_string"
-            android:textColor="@android:color/holo_orange_light"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
@@ -82,7 +80,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:editable="false"
                 android:text="@string/end_tutorial_first_string"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -95,7 +92,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:editable="false"
                 android:text="@string/end_tutorial_second_string"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -105,7 +101,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:editable="false"
                 android:text="@string/end_tutorial_third_string"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -115,7 +110,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:editable="false"
                 android:text="@string/end_tutorial_fourth_string"
                 android:textSize="18sp"
                 android:textStyle="bold" />
