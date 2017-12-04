@@ -131,15 +131,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     task.execute(PARTIAL_URL, fName, lName, email, pass);
                 } else {*/
 
-                // Inspired by https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
+/*                // Inspired by https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
                 Pattern pattern = Pattern.compile("([a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~])+(" +
                         "\\.[a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~]+)*@([a-zA-Z]{2,})(\\.[a-zA-Z]{2,})*$");
                 Matcher matcher = pattern.matcher(email);
 
-                /*
+                *//*
                  * Checker to see if the input is valid
                  * We allow last name to be empty because not everyone has a last name
-                 */
+                 *//*
                 if (matcher.find()&& pass.equals(confirmPass) &&
                         (pass.length() >= 6 && pass.length() <= 12) && !(fName.isEmpty())) {
                     AsyncTask<String, String, String> task = new RegisterData();
@@ -160,7 +160,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     if (!matcher.find()){
                         mEmailTextField.setError("Please Enter a valid Email Address");
                     }
+                }*/
+
+                if (validateInput()) {
+                    pass = Encryption.encodePass(pass);
+                    AsyncTask<String, String, String> task = new RegisterData();
+                    task.execute(PARTIAL_URL, fName, lName, email, pass);
                 }
+
+
             }
         }
     }
@@ -304,5 +312,61 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 Log.e("Registration RESPONSE B", result);
             }
         }
+    }
+
+    private boolean validateInput() {
+        boolean validEmail = false;
+        boolean validPass = false;
+        boolean validFirst = false;
+        boolean validLast = false;
+
+        String email = mEmailTextField.getText().toString();
+        // Regex inspired by https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
+        // Expanded upon to fit our needs.
+        if (checkString(email, "([a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~])+(" +
+                "\\.[a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~]+)*@([a-zA-Z]{2,})(\\.[a-zA-Z]{2,})*$")) {
+            validEmail = true;
+        } else {
+            mEmailTextField.setError("A valid uw email must be entered");
+        }
+
+        String password1 = mPasswordTextField.getText().toString();
+        String password2 = mConfirmPasswordTextField.getText().toString();
+        if (checkString(password1, "[a-z]")
+                && checkString(password1, "[A-Z]")
+                && checkLength(password1, 8)
+                && checkString(password1, "[!@#$%^&*()_+-`~?.>,<;:\'\"]$")
+                && password1.equals(password2)) {
+            validPass = true;
+        } else {
+            mPasswordTextField.setError("Password must contain an uppercase, lowercase, special character, " +
+                    "must be at least 8 characters in length, and must match");
+        }
+
+        String firstName = mFNameTextField.getText().toString();
+        if (checkString(firstName, "([a-zA-Z])$"))  {
+            validFirst = true;
+        } else {
+            mFNameTextField.setError("Please enter a valid first name");
+        }
+
+        String lastName = mLNameTextField.getText().toString();
+        if (checkString(lastName, "([a-zA-Z])$")) {
+            validLast = true;
+        } else {
+            mLNameTextField.setError("Please enter a valid last name");
+        }
+
+        return validEmail && validPass && validFirst && validLast;
+    }
+
+    private boolean checkString(String theString, String thePattern) {
+        Pattern casePattern = Pattern.compile(thePattern);
+        Matcher matcher = casePattern.matcher(theString);
+        return matcher.find();
+    }
+
+    private boolean checkLength(String theString, int theLength) {
+        return theString.length() >= theLength;
     }
 }

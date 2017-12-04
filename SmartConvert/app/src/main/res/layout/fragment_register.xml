@@ -46,8 +46,6 @@
             android:ems="10"
             android:hint="@string/fname_hint"
             android:inputType="textPersonName"
-            android:textColor="@android:color/holo_orange_light"
-            android:textColorHint="@android:color/holo_orange_light"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameFirstView" />
 
@@ -62,8 +60,6 @@
             android:ems="10"
             android:hint="@string/lname_hint"
             android:inputType="textPersonName"
-            android:textColor="@android:color/holo_orange_light"
-            android:textColorHint="@android:color/holo_orange_light"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameFirstView" />
 
@@ -106,8 +102,6 @@
             android:ems="10"
             android:hint="@string/email_hint"
             android:inputType="textEmailAddress"
-            android:textColor="@android:color/holo_orange_light"
-            android:textColorHint="@android:color/holo_orange_light"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailView" />
 
@@ -136,8 +130,6 @@
             android:ems="10"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
-            android:textColor="@android:color/holo_orange_light"
-            android:textColorHint="@android:color/holo_orange_light"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passRegView" />
 
@@ -166,8 +158,6 @@
             android:ems="10"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
-            android:textColor="@android:color/holo_orange_light"
-            android:textColorHint="@android:color/holo_orange_light"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirmPassRegView" />
     </android.support.constraint.ConstraintLayout>
