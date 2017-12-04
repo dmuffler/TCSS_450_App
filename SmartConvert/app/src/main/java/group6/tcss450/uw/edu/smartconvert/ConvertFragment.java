@@ -1,7 +1,6 @@
 package group6.tcss450.uw.edu.smartconvert;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -70,8 +69,6 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
     private Spinner mCurASpinner;
     /** the spinner reference to the TO available currencies**/
     private Spinner mCurBSpinner;
-
-    private String currencyCode;
 
     /**
      * Constructor.
@@ -224,7 +221,7 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            Log.e("SUCCESSFUL", "CONVERT CURRENCIES " + response);
+            Log.e("SUCCESSFUL", response);
             return response;
 
         }
@@ -248,6 +245,9 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+
+
         }
     }
     /**
@@ -256,10 +256,6 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
     private class GetAvailableCurrencies extends AsyncTask<String, String, String> {
         /**the file name to connect to. PARTIAL_URL + this file name**/
         private final String GETCURRENCIES ="availableCurrencies.php";
-
-        private final String GETCOUNTRYCODE = "http://countryapi.gear.host/v1/Country/getCountries?pAlpha2Code=";
-        //private String countryName;
-        //private String countryCode;
 
         /**
          * Gets available currencies from database.
@@ -287,7 +283,7 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            Log.e("SUCCESSFUL",  "GET CURRENCIES " + response);
+            Log.e("SUCCESSFUL", response);
             return response;
         }
 
@@ -309,63 +305,6 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                 curArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 mCurASpinner.setAdapter(curArray);
                 mCurBSpinner.setAdapter(curArray);
-                setSpinner();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        private void setSpinner() {
-            SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.prefs), Context.MODE_PRIVATE);
-            String code = preferences.getString(getString(R.string.locationCode_key), null);
-            AsyncTask<String, String, String> task = null;
-            task = new GetCurrencyCode();
-            task.execute(code);
-        }
-    }
-    private class GetCurrencyCode extends AsyncTask<String, String, String> {
-        private final String GETCOUNTRYCODE = "http://countryapi.gear.host/v1/Country/getCountries?pAlpha2Code=";
-        @Override
-        protected String doInBackground(String... params) {
-            String response = "";
-            HttpURLConnection urlConnection = null;
-            //everything that is needed for the API calls is taken care of before calling this class
-            String code = params[0];
-            try {
-                URL urlObject = new URL(GETCOUNTRYCODE + code);
-                urlConnection = (HttpURLConnection) urlObject.openConnection();
-                InputStream content = urlConnection.getInputStream();
-                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                String s = "";
-                while ((s = buffer.readLine()) != null) {
-                    response += s + "\n";
-                }
-            } catch (Exception e) {
-                Log.d("ERROR CONN", "ay");
-                response = "Unable to connect, Reason: " + e.getMessage();
-            } finally {
-                if (urlConnection != null)
-                    urlConnection.disconnect();
-            }
-            Log.e("SUCCESSFUL", "CONVERT CURRENCIES " + response);
-            return response;
-        }
-        @Override
-        protected void onPostExecute (String result) {
-            try {
-                JSONObject jObject = new JSONObject(result);
-                JSONArray response = jObject.getJSONArray("Response");
-                JSONObject respObj = response.getJSONObject(0);
-                String code = respObj.getString("CurrencyCode");
-                currencyCode = code;
-
-                if (currencyCode != null) {
-                    for (int i = 0; i < mCurBSpinner.getAdapter().getCount(); i++) {
-                        if (mCurBSpinner.getAdapter().getItem(i).toString().equals(currencyCode)) {
-                            mCurBSpinner.setSelection(i);
-                        }
-                    }
-                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

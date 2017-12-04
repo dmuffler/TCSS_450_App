@@ -103,7 +103,7 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
             if (view.getId() == R.id.submitButton) {
                 String username = ((EditText) mView.findViewById(R.id.usernameField)).getText().toString();
                 String password = ((EditText) mView.findViewById(R.id.passwordField)).getText().toString();
-                password = Encryption.encodePass(password);
+                Log.d("LOGIN", username + " " + password);
                 AsyncTask<String, String, String> task = new CheckLoginData();
                 task.execute(PARTIAL_URL, username, password);
             }

@@ -19,6 +19,8 @@
             android:ems="10"
             android:hint="@string/password_string"
             android:inputType="textPassword"
+            android:textColor="@android:color/holo_orange_light"
+            android:textColorHint="@android:color/holo_orange_light"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/usernameField" />
@@ -31,6 +33,8 @@
             android:ems="10"
             android:hint="@string/username_string"
             android:inputType="textPersonName"
+            android:textColor="@android:color/holo_orange_light"
+            android:textColorHint="@android:color/holo_orange_light"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

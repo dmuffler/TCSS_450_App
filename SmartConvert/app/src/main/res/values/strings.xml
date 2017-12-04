@@ -47,16 +47,5 @@
     <string name="end_tutorial_third_string">Press the convert button to see the results!</string>
     <string name="end_tutorial_fourth_string">Current location will be used if locations is allowed when it pops up.</string>
     <string name="end_tutorial_fifth_string">Enjoy!</string>
-    <string name="defaultCountryText">Default Country =</string>
-    <string name="profile_string">Your Profile</string>
-    <string name="username_profile">Email:</string>
-    <string name="edit_String">Edit</string>
-    <string name="curLocation_text">Current Location =</string>
-    <string name="location_key">location_key</string>
-    <string name="prefs">prefs</string>
-    <string name="currency_key">currency_key</string>
-    <string name="profile_navText">Profile</string>
-    <string name="settingsString">Settings</string>
-    <string name="locationCode_key">locationCode</string>
 
 </resources>

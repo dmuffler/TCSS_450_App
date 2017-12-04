@@ -1,17 +1,7 @@
 package group6.tcss450.uw.edu.smartconvert;
 
-import android.Manifest;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -24,18 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-
-import java.io.IOException;
-import java.util.Currency;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Main class that handles fragment transactions and data passing between screens.
@@ -47,31 +28,12 @@ public class MainActivity extends AppCompatActivity
         LoginFrag.LoginFragmentInteractionListener, RegisterFragment.RegisterFragmentInteractionListener,
         ConfirmEmailFragment.ConfirmEmailFragmentInteractionListener, Tutorial1Fragment.TutorialFragmentInteractionListener,
         Tutorial2Fragment.TutorialFragmentInteractionListener, Tutorial3Fragment.TutorialFragmentInteractionListener,
-        HomeFragment.HomeFragmentInteractionListener, ConvertFragment.ConvertFragmentInteractionListener,
-        ProfileFragment.ProfileOnFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener, SettingFragment.SettingOnFragmentInteractionListener{
+        HomeFragment.HomeFragmentInteractionListener, ConvertFragment.ConvertFragmentInteractionListener{
 
-
-    private GoogleApiClient mGoogleApiClient;
-
-   // private static final String TAG = "MyLocationsActivity";
     /**
-     * The desired interval for location updates.
-     * Inexact. Updates may be more or less frequent.  */
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
-    /**
-     *  The fastest rate for active location updates.
-     *  Exact. Updates will never be more frequent
-     *  than this value.  */
-    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
-            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
-    private static final int MY_PERMISSIONS_LOCATIONS = 814;
-    private LocationRequest mLocationRequest;
-    private Location mCurrentLocation;
-
-
-
-
+     * The current fragment displayed on the screen.
+     */
+    String mCurrentFrag = null;
 
     /**
      * The view of the main container adds in the first fragment.
@@ -108,38 +70,6 @@ public class MainActivity extends AppCompatActivity
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
         }
-
-        // Create an instance of GoogleAPIClient.
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
-
-        mLocationRequest = new LocationRequest();
-
-        // Sets the desired interval for active location updates. This interval is
-        // inexact. You may not receive updates at all if no location sources are available, or
-        // you may receive them slower than requested. You may also receive updates faster than //
-        // requested if other applications are requesting location at a faster interval.
-        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-
-        // Sets the fastest rate for active location updates. This interval is exact, and your
-        // application will never receive updates faster than this value.
-        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS) ;
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION
-                            , Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS_LOCATIONS);
-        }
     }
 
     /**
@@ -154,20 +84,25 @@ public class MainActivity extends AppCompatActivity
         } else {
 
             /* Series of conditionals checking if the screens following login and registration are
-             current. If so, the login, register, and confirm email will be skipped.*/
-            FragmentManager fragMan = getSupportFragmentManager();
-            //List<Fragment> fragList = fragMan.getFragments();
-
-            String fragName = "";
-            if (fragMan.getBackStackEntryCount() > 0) {
-                fragName = fragMan.getBackStackEntryAt(fragMan.getBackStackEntryCount() - 1).getName();
+             current. If so, the login, register, and confirm email will be skipped.
+             However, if the email is not confirmed, pressing the back button at confirm email
+             will instead bring the user back to the login screen with the credentials entered in
+             for ease of use.*/
+            if (mCurrentFrag.equals("Home") || mCurrentFrag.equals("Confirm Email")) {
+                popStack(1);
+            } else if (mCurrentFrag.equals("Tutorial1")) {
+                popStack(2);
             }
 
-            if (fragName.equals("Home") || fragName.equals("Confirm Email") || fragName.equals("Tutorial1")) {
-                popStack(1);
-                onBackPressed();
-            } else if (fragMan.getBackStackEntryCount() > 0) {
-                super.onBackPressed();
+            // The back action.
+            super.onBackPressed();
+
+            // The back stack check to make sure the the back press won't cause an exception.
+            if (getSupportFragmentManager().getBackStackEntryCount() < 2) {
+                mCurrentFrag = "Start";
+            } else {
+                mCurrentFrag = getSupportFragmentManager().getBackStackEntryAt(
+                        getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
             }
         }
     }
@@ -179,8 +114,7 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu;
-        // this adds items to the action bar if it is present.
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -199,7 +133,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            switchFragment(new SettingFragment(), "Setting");
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -216,8 +150,8 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_profile) {
-            switchFragment(new ProfileFragment(), "Profile");
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -241,6 +175,7 @@ public class MainActivity extends AppCompatActivity
      * @param theFragString the String to retrieve the frag.
      */
     private void switchFragment(final Fragment theFrag, final String theFragString) {
+        mCurrentFrag = theFragString;
         FragmentTransaction t = getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_container, theFrag, theFragString)
@@ -373,171 +308,5 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void convertFragmentInteraction(String Str) {
 
-    }
-
-    @Override
-    public void profileOnFragmentInteraction(String page) {
-
-    }
-
-    /***********************************************************************************************
-     **************************************Locations************************************************
-     ***********************************************************************************************
-     */
-
-
-    @Override
-    public void onLocationChanged(Location location) {
-        Log.d("HERE", "IN LOC");
-        mCurrentLocation = location;
-        translateCoord();
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        // If the initial location was never previously requested, we use
-        // FusedLocationApi.getLastLocation() to get it. If it was previously requested, we store
-        // its value in the Bundle and check for it in onCreate(). We
-        // do not request it again unless the user specifically requests location updates by pressing
-        // the Start Updates button.
-
-        // Because we cache the value of the initial location in the Bundle, it means that if the
-        // user launches the activity,
-        // moves to a new location, and then changes the device orientation, the original location
-        // is displayed as the activity is re-created.
-        if (mCurrentLocation == null) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                //if (mCurrentLocation != null)
-                //    Log.i(TAG, mCurrentLocation.toString());
-                startLocationUpdates();
-            }
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        // The connection to Google Play services was lost for some reason. We call connect() to
-        // attempt to re-establish the connection.
-        //Log.i(TAG, "Connection suspended");
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // Refer to the javadoc for ConnectionResult to see what error codes
-        // might be returned in
-        // onConnectionFailed.
-        //Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_LOCATIONS: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // locations-related task you need to do.
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Toast.makeText(this, "Locations need to be working for this portion, please provide permission"
-                            , Toast.LENGTH_SHORT)
-                            .show();
-                }             return;
-            }
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-    }
-
-    /**
-     *  Requests location updates from the FusedLocationApi.
-     */
-    protected void startLocationUpdates() {
-        // The final argument to {@code requestLocationUpdates()} is a LocationListener
-        // (http://developer.android.com/reference/com/google/android/gms/location/Loca tionListener.html).
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(
-                    mGoogleApiClient, mLocationRequest, this);
-        }
-    }
-
-    /**
-     *  Removes location updates from the FusedLocationApi.
-     */
-    protected void stopLocationUpdates() {
-        // It is a good practice to remove location requests when the activity is in a paused or
-        // stopped state. Doing so helps battery performance and is especially
-        // recommended in applications that request frequent location updates.
-        // The final argument to {@code requestLocationUpdates()} is a LocationListener
-        // (http://developer.android.com/reference/com/google/android/gms/location/Loca tionListener.html).
-        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        stopLocationUpdates();
-        if (mGoogleApiClient != null && mGoogleApiClient.isConnected())
-            mGoogleApiClient.disconnect();
-    }
-
-    @Override
-    public void onStart() {
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
-        }
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.disconnect();
-        }
-        super.onStop(); }
-
-    @Override
-    public void settingOnFragmentInteraction(Uri uri) {
-
-    }
-
-    /**
-     * The interface that should be implemented by main activities
-     * or any activities that contain this fragment.
-     */
-    public interface HomeFragmentInteractionListener {
-        void homeFragmentInteraction(String fragString);
-    }
-
-    private void translateCoord() {
-        Geocoder geo = new Geocoder(this, Locale.getDefault());
-        Currency code = Currency.getInstance(Locale.getDefault());
-        try {
-            List<Address> list = geo.getFromLocation(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), 1);
-            SharedPreferences pref = getSharedPreferences(getString(R.string.prefs), this.MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
-            if (list.size() > 0) {
-                editor.putString(getString(R.string.location_key), list.get(0).getCountryName());
-                //editor.putString(getString(R.string.currency_key), list.get(0).getCurrencyCode());
-                editor.putString(getString(R.string.locationCode_key), list.get(0).getCountryCode());
-                Log.d("SharedPrefs ", "Country Code: " + list.get(0).getCountryCode());
-                editor.apply();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
