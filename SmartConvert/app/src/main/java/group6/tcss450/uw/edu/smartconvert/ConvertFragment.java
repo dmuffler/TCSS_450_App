@@ -316,53 +316,6 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
             AsyncTask<String, String, String> task = null;
             task = new GetCurrencyCode();
             task.execute(code);
-            //Log.d("SET SPINNER", code);
-
-            //String currencyCode = getCountryCode(code);
-            //if (currencyCode != null) {
-               // for (int i = 0; i < mCurBSpinner.getAdapter().getCount(); i++) {
-                  //  if (mCurBSpinner.getAdapter().getItem(i).toString().equals(currencyCode)) {
-                   //     mCurBSpinner.setSelection(i);
-                   // }
-               // }
-           // }
-        }
-
-        protected String getCountryCode(String countryCode) {
-            String response = "";
-            String code;
-            HttpURLConnection urlConnection = null;
-            try {
-                URL urlObject = new URL(GETCOUNTRYCODE + countryCode);
-                urlConnection = (HttpURLConnection) urlObject.openConnection();
-                InputStream content = urlConnection.getInputStream();
-                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                String s = "";
-                while ((s = buffer.readLine()) != null) {
-                    response += s;
-                }
-            } catch (Exception e) {
-                Log.d("ERROR CONN", GETCOUNTRYCODE + countryCode);
-                response = "Unable to connect, Reason: " + e.getMessage();
-            } finally {
-                if (urlConnection != null)
-                    urlConnection.disconnect();
-            }
-            Log.e("SUCCESSFUL ", "GET COUNTRY CODE API " + response);
-            code = getCodeHelper(response);
-            Log.e("SUCCESSFUL ", "GET CURRENCY CODE " + code);
-
-            return code;
-        }
-        protected String getCodeHelper(String response){
-            String code = null;
-            try {
-                JSONObject jObject = new JSONObject(response);
-                code = jObject.getString("CurrencyCode");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return code;
         }
     }
     private class GetCurrencyCode extends AsyncTask<String, String, String> {
