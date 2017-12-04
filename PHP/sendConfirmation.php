@@ -13,7 +13,7 @@ $to = $_GET[my_email];
     $code = uniqueCode();
     $subject = "Confirmation Code for Smart Convert";
     $msg = "Thank you for registering with Smart Convert, your code is $code";
-    $headers = "From: sample@example.com" . "\r\n" .
+    $headers = "From: smartconvert@gmail.com" . "\r\n";
 
     mail($to,$subject,$msg,$headers);
     print("sent");
