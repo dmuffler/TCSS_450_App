@@ -533,9 +533,9 @@ public class MainActivity extends AppCompatActivity
             SharedPreferences.Editor editor = pref.edit();
             if (list.size() > 0) {
                 editor.putString(getString(R.string.location_key), list.get(0).getCountryName());
-                editor.putString(getString(R.string.currency_key), code.getCurrencyCode());
-                editor.putString(getString(R.string.locationCode_key), code.getCurrencyCode());
-                Log.d("SharedPrefs ", "Country Code" + code.getCurrencyCode());
+                //editor.putString(getString(R.string.currency_key), list.get(0).getCurrencyCode());
+                editor.putString(getString(R.string.locationCode_key), list.get(0).getCountryCode());
+                Log.d("SharedPrefs ", "Country Code: " + list.get(0).getCountryCode());
                 editor.apply();
             }
         } catch (IOException e) {

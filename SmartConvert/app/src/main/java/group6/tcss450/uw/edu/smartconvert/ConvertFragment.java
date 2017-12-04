@@ -314,7 +314,7 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
         private void setSpinner() {
             SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.prefs), Context.MODE_PRIVATE);
             String code = preferences.getString(getString(R.string.locationCode_key), null);
-            //Log.d("SET SPINNER", code);
+            Log.d("SET SPINNER", code);
             String currencyCode = getCountryCode(code);
             if (currencyCode != null) {
                 for (int i = 0; i < mCurBSpinner.getAdapter().getCount(); i++) {
@@ -324,6 +324,7 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                 }
             }
         }
+
         protected String getCountryCode(String countryCode) {
             String response = "";
             String code;
