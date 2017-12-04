@@ -15,18 +15,21 @@ import android.widget.Button;
  * A simple {@link Fragment} subclass.
  * to handle interaction events.
  */
-public class ProfileFragment extends Fragment implements View.OnClickListener{
+public class EditProfileFragment extends Fragment implements View.OnClickListener{
 
-    private ProfileOnFragmentInteractionListener mListener;
-    public ProfileFragment() { }
+    private EditProfileOnFragmentInteractionListener mListener;
+
+    public EditProfileFragment() {
+        // Required empty public constructor
+    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_profile, container, false);
-        Button b = v.findViewById(R.id.Pedit_Button);
+        View v = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        Button b = v.findViewById(R.id.Psave_Button);
         b.setOnClickListener(this);
 
         return v;
@@ -35,8 +38,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ProfileOnFragmentInteractionListener) {
-            mListener = (ProfileOnFragmentInteractionListener) context;
+        if (context instanceof EditProfileOnFragmentInteractionListener) {
+            mListener = (EditProfileOnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -52,9 +55,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if (mListener != null) {
-            if (v.getId() == R.id.Pedit_Button) {
-                //Log.d("PROFILE", "user wants to edit profile page");
-                mListener.profileOnFragmentInteraction("EditProfile");
+            if (v.getId() == R.id.Psave_Button) {
+                Log.d("PROFILE", "user wants to save profile page");
+                //save the data in the sharedPref
+                mListener.editProfileOnFragmentInteraction("SaveProfile");
             }
         }
     }
@@ -69,7 +73,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface ProfileOnFragmentInteractionListener {
-        void profileOnFragmentInteraction(String page);
+    public interface EditProfileOnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void editProfileOnFragmentInteraction(String page);
     }
 }
