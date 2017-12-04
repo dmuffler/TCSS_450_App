@@ -69,6 +69,8 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
     /** the spinner reference to the TO available currencies**/
     private Spinner mCurBSpinner;
 
+    private String currencyCode;
+
     /**
      * Constructor.
      */
@@ -241,9 +243,6 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
-
         }
     }
     /**
@@ -314,15 +313,19 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
         private void setSpinner() {
             SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.prefs), Context.MODE_PRIVATE);
             String code = preferences.getString(getString(R.string.locationCode_key), null);
-            Log.d("SET SPINNER", code);
-            String currencyCode = getCountryCode(code);
-            if (currencyCode != null) {
-                for (int i = 0; i < mCurBSpinner.getAdapter().getCount(); i++) {
-                    if (mCurBSpinner.getAdapter().getItem(i).toString().equals(code)) {
-                        mCurBSpinner.setSelection(i);
-                    }
-                }
-            }
+            AsyncTask<String, String, String> task = null;
+            task = new GetCurrencyCode();
+            task.execute(code);
+            //Log.d("SET SPINNER", code);
+
+            //String currencyCode = getCountryCode(code);
+            //if (currencyCode != null) {
+               // for (int i = 0; i < mCurBSpinner.getAdapter().getCount(); i++) {
+                  //  if (mCurBSpinner.getAdapter().getItem(i).toString().equals(currencyCode)) {
+                   //     mCurBSpinner.setSelection(i);
+                   // }
+               // }
+           // }
         }
 
         protected String getCountryCode(String countryCode) {
@@ -360,6 +363,54 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                 e.printStackTrace();
             }
             return code;
+        }
+    }
+    private class GetCurrencyCode extends AsyncTask<String, String, String> {
+        private final String GETCOUNTRYCODE = "http://countryapi.gear.host/v1/Country/getCountries?pAlpha2Code=";
+        @Override
+        protected String doInBackground(String... params) {
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            //everything that is needed for the API calls is taken care of before calling this class
+            String code = params[0];
+            try {
+                URL urlObject = new URL(GETCOUNTRYCODE + code);
+                urlConnection = (HttpURLConnection) urlObject.openConnection();
+                InputStream content = urlConnection.getInputStream();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                String s = "";
+                while ((s = buffer.readLine()) != null) {
+                    response += s + "\n";
+                }
+            } catch (Exception e) {
+                Log.d("ERROR CONN", "ay");
+                response = "Unable to connect, Reason: " + e.getMessage();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            Log.e("SUCCESSFUL", "CONVERT CURRENCIES " + response);
+            return response;
+        }
+        @Override
+        protected void onPostExecute (String result) {
+            try {
+                JSONObject jObject = new JSONObject(result);
+                JSONArray response = jObject.getJSONArray("Response");
+                JSONObject respObj = response.getJSONObject(0);
+                String code = respObj.getString("CurrencyCode");
+                currencyCode = code;
+
+                if (currencyCode != null) {
+                    for (int i = 0; i < mCurBSpinner.getAdapter().getCount(); i++) {
+                        if (mCurBSpinner.getAdapter().getItem(i).toString().equals(currencyCode)) {
+                            mCurBSpinner.setSelection(i);
+                        }
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
