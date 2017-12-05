@@ -51,6 +51,8 @@ import group6.tcss450.uw.edu.smartconvert.fragments.StartFrag;
 import group6.tcss450.uw.edu.smartconvert.fragments.Tutorial1Fragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.Tutorial2Fragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.Tutorial3Fragment;
+import group6.tcss450.uw.edu.smartconvert.misc.Prefs;
+import group6.tcss450.uw.edu.smartconvert.misc.Translate;
 
 /**
  * Main class that handles fragment transactions and data passing between screens.
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity
      * The desired interval for location updates.
      * Inexact. Updates may be more or less frequent.  */
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+
     /**
      *  The fastest rate for active location updates.
      *  Exact. Updates will never be more frequent
@@ -276,13 +279,13 @@ public class MainActivity extends AppCompatActivity
     public void startFragInteraction(String fragString) {
         switch (fragString) {
             case "Login":
-                switchFragment(new LoginFrag(), "Login");
+                switchFragment(new LoginFrag(), fragString);
                 break;
             case "Skip":
-                switchFragment(new HomeFragment(), "Home_Skip");
+                switchFragment(new HomeFragment(), fragString);
                 break;
             case "Register":
-                switchFragment(new RegisterFragment(), "Register");
+                switchFragment(new RegisterFragment(), fragString);
                 break;
         }
     }
@@ -295,13 +298,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void loginFragmentInteraction(String fragString, String emailString) {
         if (fragString.equals("Home")) {
-            switchFragment(new HomeFragment(), "Home");
+            switchFragment(new HomeFragment(), fragString);
         } else if (fragString.equals("Confirm Email")) {
             ConfirmEmailFragment confirmEmailFragment = new ConfirmEmailFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable(getString(R.string.email_key), emailString);
             confirmEmailFragment.setArguments(bundle);
-            switchFragment(confirmEmailFragment, "Comfirm Email");
+            switchFragment(confirmEmailFragment, fragString);
         }
     }
 
@@ -317,7 +320,7 @@ public class MainActivity extends AppCompatActivity
             Bundle bundle = new Bundle();
             bundle.putSerializable(getString(R.string.email_key), emailString);
             confirmEmailFragment.setArguments(bundle);
-            switchFragment(confirmEmailFragment, "Confirm Email");
+            switchFragment(confirmEmailFragment, fragString);
         }
     }
 
@@ -399,9 +402,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d("HERE", "IN LOC");
         mCurrentLocation = location;
-        translateCoord();
+        String code = Translate.translateCoord(this, mCurrentLocation, Translate.COUNTRY_CODE);
+        String name = Translate.translateCoord(this, mCurrentLocation, Translate.COUNTRY_NAME);
+        Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.location_key), name);
+        Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.locationCode_key), code);
     }
 
     @Override
@@ -520,32 +525,11 @@ public class MainActivity extends AppCompatActivity
         }
         super.onStop(); }
 
-
-
     /**
      * The interface that should be implemented by main activities
      * or any activities that contain this fragment.
      */
     public interface HomeFragmentInteractionListener {
         void homeFragmentInteraction(String fragString);
-    }
-
-    private void translateCoord() {
-        Geocoder geo = new Geocoder(this, Locale.getDefault());
-        Currency code = Currency.getInstance(Locale.getDefault());
-        try {
-            List<Address> list = geo.getFromLocation(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), 1);
-            SharedPreferences pref = getSharedPreferences(getString(R.string.prefs), this.MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
-            if (list.size() > 0) {
-                editor.putString(getString(R.string.location_key), list.get(0).getCountryName());
-                //editor.putString(getString(R.string.currency_key), list.get(0).getCurrencyCode());
-                editor.putString(getString(R.string.locationCode_key), list.get(0).getCountryCode());
-                Log.d("SharedPrefs ", "Country Code: " + list.get(0).getCountryCode());
-                editor.apply();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
