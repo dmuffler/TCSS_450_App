@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import group6.tcss450.uw.edu.smartconvert.R;
+import group6.tcss450.uw.edu.smartconvert.misc.Prefs;
 
 /**
  * Home Fragment is a fragment that handles the home fragment or where the user will go to after login.
@@ -116,8 +117,7 @@ public class HomeFragment extends Fragment implements  View.OnClickListener {
     }
 
     private void postCountry() {
-        SharedPreferences pref = getActivity().getSharedPreferences(getString(R.string.prefs), Context.MODE_PRIVATE);
-        mCurrentLocation = pref.getString(getString(R.string.location_key), null);
+        mCurrentLocation = (String) Prefs.getFromPrefs(getActivity(), getActivity().getString(R.string.prefs), getActivity().getString(R.string.location_key), Prefs.STRING);
         if (mCurrentLocation != null) {
             mCurrentLocationField.setText(mCurrentLocation);
         }
