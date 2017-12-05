@@ -327,7 +327,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 "\\.[a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~]+)*@([a-zA-Z]{2,})(\\.[a-zA-Z]{2,})*$")) {
             validEmail = true;
         } else {
-            mEmailTextField.setError("A valid uw email must be entered");
+            mEmailTextField.setError("A valid email must be entered");
         }
 
         String password1 = mPasswordTextField.getText().toString();

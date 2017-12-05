@@ -58,5 +58,7 @@
     <string name="profile_navText">Profile</string>
     <string name="settingsString">Settings</string>
     <string name="locationCode_key">locationCode</string>
+    <string name="alert_message_string">Would you like to save this location as your default locaiton?</string>
+    <string name="alert_title_string">Set Default</string>
 
 </resources>
