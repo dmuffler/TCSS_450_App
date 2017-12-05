@@ -7,12 +7,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import group6.tcss450.uw.edu.smartconvert.R;
+import group6.tcss450.uw.edu.smartconvert.misc.Prefs;
 
 
 public class SettingFragment extends Fragment {
+
     private SettingOnFragmentInteractionListener mListener;
+
+    private TextView mDefaultField;
+    private TextView mCurrentField;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -22,7 +29,16 @@ public class SettingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting, container, false);
+        View v = inflater.inflate(R.layout.fragment_setting, container, false);
+        mDefaultField = (TextView) v.findViewById(R.id.defCountryName);
+        mCurrentField = (TextView) v.findViewById(R.id.curCountryName);
+
+        Boolean accepted = (Boolean) Prefs.getFromPrefs(getActivity(), getString(R.string.prefs), getString(R.string.alert_boo), Prefs.BOOLEAN);
+        if (accepted) {
+            mDefaultField.setText((String) Prefs.getFromPrefs(getActivity(), getString(R.string.prefs), getString(R.string.location_key), Prefs.STRING));
+            mCurrentField.setText((String) Prefs.getFromPrefs(getActivity(), getString(R.string.prefs), getString(R.string.location_key), Prefs.STRING));
+        }
+        return v;
     }
 
     @Override
