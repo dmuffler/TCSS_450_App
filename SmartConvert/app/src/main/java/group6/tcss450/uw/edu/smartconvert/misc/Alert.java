@@ -41,10 +41,12 @@ public class Alert extends AlertDialog implements Dialog.OnClickListener{
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
+        Boolean accept = false;
         // -1 for yes, -2 for no.
         if (i == -1) {
-/*            String country = Translate.translateCoord(mContext, mLocation, Translate.COUNTRY_NAME);
-            Prefs.saveToPrefs(mContext, mContext.getString(R.string.prefs), mContext.getString(R.string.location_key), country, Prefs.STRING);*/
+            accept = true;
         }
+        Prefs.saveToPrefs(mContext, mContext.getString(R.string.prefs), mContext.getString(R.string.alert_boo), accept, Prefs.BOOLEAN);
+        Prefs.saveToPrefs(mContext, mContext.getString(R.string.prefs), mContext.getString(R.string.alert_done_boo), (Boolean) true, Prefs.BOOLEAN);
     }
 }

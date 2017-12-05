@@ -64,5 +64,8 @@
     <string name="logoutText">Log out</string>
     <string name="exitText">Exit</string>
     <string name="saveText">Save</string>
+    <string name="alert_boo">alert_boo</string>
+    <string name="no_country_string">No Country</string>
+    <string name="alert_done_boo">alert_done_boo</string>
 
 </resources>

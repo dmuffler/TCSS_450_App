@@ -79,10 +79,6 @@ public class MainActivity extends AppCompatActivity
     private LocationRequest mLocationRequest;
     private Location mCurrentLocation;
 
-
-
-
-
     /**
      * The view of the main container adds in the first fragment.
      * @param savedInstanceState the state the program was last in.
@@ -142,7 +138,9 @@ public class MainActivity extends AppCompatActivity
                     MY_PERMISSIONS_LOCATIONS);
         }
 
-        new Alert(this, mCurrentLocation);
+        if ((Boolean) Prefs.getFromPrefs(this, getString(R.string.prefs), getString(R.string.alert_done_boo), Prefs.BOOLEAN) == false) {
+            new Alert(this, mCurrentLocation);
+        }
     }
 
     /**

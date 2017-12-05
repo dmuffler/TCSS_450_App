@@ -360,15 +360,21 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                 String code = respObj.getString("CurrencyCode");
                 currencyCode = code;
 
-                if (currencyCode != null) {
-                    for (int i = 0; i < mCurBSpinner.getAdapter().getCount(); i++) {
-                        if (mCurBSpinner.getAdapter().getItem(i).toString().equals(currencyCode)) {
-                            mCurBSpinner.setSelection(i);
-                        }
-                    }
-                }
+                setSpinner(mCurASpinner, currencyCode);
+                setSpinner(mCurBSpinner, currencyCode);
+
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+        }
+
+        private void setSpinner(Spinner theSpinner, String theString) {
+            if (theString != null) {
+                for (int i = 0; i < theSpinner.getAdapter().getCount(); i++) {
+                    if (theSpinner.getAdapter().getItem(i).toString().equals(theString)) {
+                        theSpinner.setSelection(i);
+                    }
+                }
             }
         }
     }
