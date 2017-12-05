@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
         Tutorial2Fragment.TutorialFragmentInteractionListener, Tutorial3Fragment.TutorialFragmentInteractionListener,
         HomeFragment.HomeFragmentInteractionListener, ConvertFragment.ConvertFragmentInteractionListener,
         ProfileFragment.ProfileOnFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener, SettingFragment.SettingOnFragmentInteractionListener {
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, SettingFragment.SettingOnFragmentInteractionListener, EditProfileFragment.EditProfileOnFragmentInteractionListener{
 
 
     private GoogleApiClient mGoogleApiClient;
@@ -211,15 +211,9 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             switchFragment(new ProfileFragment(), "Profile");
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_history) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logout) {
 
         }
 
@@ -370,7 +364,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void profileOnFragmentInteraction(String page) {
+        switchFragment(new EditProfileFragment(), "EditProfile");
+    }
 
+    @Override
+    public void settingOnFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void editProfileOnFragmentInteraction(String page) {
+        switchFragment(new ProfileFragment(), "Profile");
     }
 
     /***********************************************************************************************
@@ -502,10 +506,7 @@ public class MainActivity extends AppCompatActivity
         }
         super.onStop(); }
 
-    @Override
-    public void settingOnFragmentInteraction(Uri uri) {
 
-    }
 
     /**
      * The interface that should be implemented by main activities

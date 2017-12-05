@@ -60,5 +60,9 @@
     <string name="locationCode_key">locationCode</string>
     <string name="alert_message_string">Would you like to save this location as your default locaiton?</string>
     <string name="alert_title_string">Set Default</string>
+    <string name="history_Text">History</string>
+    <string name="logoutText">Log out</string>
+    <string name="exitText">Exit</string>
+    <string name="saveText">Save</string>
 
 </resources>
