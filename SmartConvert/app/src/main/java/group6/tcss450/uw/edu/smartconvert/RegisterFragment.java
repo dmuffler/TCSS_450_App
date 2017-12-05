@@ -124,43 +124,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 String confirmPass = mConfirmPasswordTextField.getText().toString();
 
                 Log.d("REGISTER",  fName + " " + lName + " " + email + " " + pass + " " + confirmPass);
-/*                if(email.contains("@") && email.contains(".") && pass.equals(confirmPass) &&
-                        (pass.length() >= 6 && pass.length() <= 12) &&
-                        !(fName.isEmpty())){
-                    task = new RegisterData();
-                    task.execute(PARTIAL_URL, fName, lName, email, pass);
-                } else {*/
-
-/*                // Inspired by https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
-                Pattern pattern = Pattern.compile("([a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~])+(" +
-                        "\\.[a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~]+)*@([a-zA-Z]{2,})(\\.[a-zA-Z]{2,})*$");
-                Matcher matcher = pattern.matcher(email);
-
-                *//*
-                 * Checker to see if the input is valid
-                 * We allow last name to be empty because not everyone has a last name
-                 *//*
-                if (matcher.find()&& pass.equals(confirmPass) &&
-                        (pass.length() >= 6 && pass.length() <= 12) && !(fName.isEmpty())) {
-                    AsyncTask<String, String, String> task = new RegisterData();
-                    pass = Encryption.encodePass(pass);
-                    if (pass != null) {
-                        task.execute(PARTIAL_URL, fName, lName, email, pass);
-                    }
-                } else {
-                    if(!(pass.length() >= 6 && pass.length() <= 12)){
-                        mPasswordTextField.setError("Password length has to be between 6-12 characters");
-                    }
-                    if(!(pass.equals(confirmPass))){
-                        mConfirmPasswordTextField.setError("Password not the same");
-                    }
-                    if (fName.isEmpty()){
-                        mFNameTextField.setError("Please enter your first name");
-                    }
-                    if (!matcher.find()){
-                        mEmailTextField.setError("Please Enter a valid Email Address");
-                    }
-                }*/
 
                 if (validateInput()) {
                     pass = Encryption.encodePass(pass);
