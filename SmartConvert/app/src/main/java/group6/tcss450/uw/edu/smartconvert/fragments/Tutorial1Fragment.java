@@ -1,4 +1,4 @@
-package group6.tcss450.uw.edu.smartconvert;
+package group6.tcss450.uw.edu.smartconvert.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,13 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import group6.tcss450.uw.edu.smartconvert.R;
+
 
 /**
  * Tutorial Fragment that shows the user the different screens that are in the app.
  * @author Irene Fransiga, Donald Muffler, Josh Lau
  * @version Nov 10, 2017
  */
-public class Tutorial3Fragment extends Fragment implements View.OnClickListener {
+public class Tutorial1Fragment extends Fragment implements View.OnClickListener {
 
     /**
      * An interface that reports back to the containing activiy.
@@ -24,10 +26,9 @@ public class Tutorial3Fragment extends Fragment implements View.OnClickListener 
     /**
      * Constructor.
      */
-    public Tutorial3Fragment() {
+    public Tutorial1Fragment() {
         // Required empty public constructor
     }
-
 
     /**
      * Creates the view of the fragment.
@@ -40,9 +41,9 @@ public class Tutorial3Fragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_tutorial3, container, false);
+        View v = inflater.inflate(R.layout.fragment_tutorial1, container, false);
 
-        Button b = (Button) v.findViewById(R.id.arrowTutorialLeftButton);
+        Button b = (Button) v.findViewById(R.id.arrowTutorialRightButton);
         b.setOnClickListener(this);
         b = (Button) v.findViewById(R.id.skipTutorialButton);
         b.setOnClickListener(this);
@@ -86,7 +87,7 @@ public class Tutorial3Fragment extends Fragment implements View.OnClickListener 
                 case R.id.skipTutorialButton:
                     frag = "Home";
                     break;
-                case R.id.arrowTutorialLeftButton:
+                case R.id.arrowTutorialRightButton:
                     frag = "Tutorial2";
                     break;
             }

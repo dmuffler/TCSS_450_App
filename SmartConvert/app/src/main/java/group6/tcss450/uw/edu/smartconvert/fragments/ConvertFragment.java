@@ -1,4 +1,4 @@
-package group6.tcss450.uw.edu.smartconvert;
+package group6.tcss450.uw.edu.smartconvert.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -26,6 +26,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import group6.tcss450.uw.edu.smartconvert.R;
 
 
 /**

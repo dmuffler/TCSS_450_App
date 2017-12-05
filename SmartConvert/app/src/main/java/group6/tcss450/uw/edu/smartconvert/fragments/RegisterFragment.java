@@ -1,10 +1,9 @@
-package group6.tcss450.uw.edu.smartconvert;
+package group6.tcss450.uw.edu.smartconvert.fragments;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +15,13 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import group6.tcss450.uw.edu.smartconvert.misc.Encryption;
+import group6.tcss450.uw.edu.smartconvert.R;
 
 
 /**

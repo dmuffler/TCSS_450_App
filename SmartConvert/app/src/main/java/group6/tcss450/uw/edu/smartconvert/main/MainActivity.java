@@ -1,4 +1,4 @@
-package group6.tcss450.uw.edu.smartconvert;
+package group6.tcss450.uw.edu.smartconvert.main;
 
 import android.Manifest;
 import android.content.SharedPreferences;
@@ -19,7 +19,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -37,6 +36,21 @@ import java.io.IOException;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
+
+import group6.tcss450.uw.edu.smartconvert.misc.Alert;
+import group6.tcss450.uw.edu.smartconvert.R;
+import group6.tcss450.uw.edu.smartconvert.fragments.ConfirmEmailFragment;
+import group6.tcss450.uw.edu.smartconvert.fragments.ConvertFragment;
+import group6.tcss450.uw.edu.smartconvert.fragments.EditProfileFragment;
+import group6.tcss450.uw.edu.smartconvert.fragments.HomeFragment;
+import group6.tcss450.uw.edu.smartconvert.fragments.LoginFrag;
+import group6.tcss450.uw.edu.smartconvert.fragments.ProfileFragment;
+import group6.tcss450.uw.edu.smartconvert.fragments.RegisterFragment;
+import group6.tcss450.uw.edu.smartconvert.fragments.SettingFragment;
+import group6.tcss450.uw.edu.smartconvert.fragments.StartFrag;
+import group6.tcss450.uw.edu.smartconvert.fragments.Tutorial1Fragment;
+import group6.tcss450.uw.edu.smartconvert.fragments.Tutorial2Fragment;
+import group6.tcss450.uw.edu.smartconvert.fragments.Tutorial3Fragment;
 
 /**
  * Main class that handles fragment transactions and data passing between screens.

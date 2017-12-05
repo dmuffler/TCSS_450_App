@@ -1,4 +1,4 @@
-package group6.tcss450.uw.edu.smartconvert;
+package group6.tcss450.uw.edu.smartconvert.misc;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -9,6 +9,8 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 
+import group6.tcss450.uw.edu.smartconvert.R;
+
 /**
  * Created by donal on 12/4/2017.
  */
@@ -17,7 +19,7 @@ public class Alert extends AlertDialog implements Dialog.OnClickListener{
 
     Location mLocation = null;
 
-    protected Alert(@NonNull Context theContext, Location theLocation) {
+    public Alert(@NonNull Context theContext, Location theLocation) {
         super(theContext);
         mLocation = theLocation;
         create();

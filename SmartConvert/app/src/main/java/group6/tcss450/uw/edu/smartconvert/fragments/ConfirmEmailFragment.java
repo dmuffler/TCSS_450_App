@@ -1,4 +1,4 @@
-package group6.tcss450.uw.edu.smartconvert;
+package group6.tcss450.uw.edu.smartconvert.fragments;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -18,33 +18,34 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import group6.tcss450.uw.edu.smartconvert.R;
+
 
 /**
- * Login Fragment is a fragment that handles the login page.
- * User already have an acount registered with the app should be able to login successfully.
- * Otherwise, it will not let user log in and they will stay in the login page
- *
- * This class is making one ASYNC CALL
+ * Confirm Email Fragment is a fragment that handles the confirmation page.
+ * User who just registered or tried to login in without without first confirming
+ * their credential will be directed to this page.
  *
  * @author Irene Fransiga, Donald Muffler, Josh Lau
  * @version Nov 10, 2017
  */
-public class LoginFrag extends Fragment implements View.OnClickListener {
+public class ConfirmEmailFragment extends Fragment implements View.OnClickListener {
+
     /**The URL to connect to the main database**/
     private static final String PARTIAL_URL = "http://cssgate.insttech.washington.edu/~if30/";
     /**The Listener to communicate with main activity class**/
-    private LoginFragmentInteractionListener mListener;
+    private ConfirmEmailFragmentInteractionListener mListener;
+    /**The field to refer to the code that the user will be entering**/
+    private EditText mVerificationTextField;
+    /**field to store the user email for database use**/
+    private String mEmail;
     /**A reference to the confirm email fragment**/
     private View mView;
-    /**The field that will handle the email text that the user will type**/
-    private EditText mUserNameTextField;
-    /**The field that will handle the password text that the user will type**/
-    private EditText mUserPassTextField;
 
     /**
-     * Constructor.
+     * This is just an empty constructor, to call this class
      */
-    public LoginFrag() {}
+    public ConfirmEmailFragment() { }
 
     /**
      * Creates the view of the fragment.
@@ -56,16 +57,27 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        mView = inflater.inflate(R.layout.fragment_login, container, false);
 
-        Button b = (Button) mView.findViewById(R.id.submitButton);
+        mView = inflater.inflate(R.layout.fragment_confirm_email, container, false);
+
+        Button b = (Button) mView.findViewById(R.id.enterVerificationButton);
         b.setOnClickListener(this);
 
-        mUserNameTextField = (EditText) mView.findViewById(R.id.usernameField);
-        mUserPassTextField = (EditText) mView.findViewById(R.id.passwordField);
-
+        mVerificationTextField = (EditText) mView.findViewById(R.id.verificationField);
         return mView;
+    }
+
+    /**
+     * To get email from Bundle
+     */
+    @Override
+    public void onStart(){
+        super.onStart();
+        if(getArguments()!= null){
+            String email = getArguments().getString(getString(R.string.email_key));
+            //Log.d("CONFIRM EMAIL", getString(R.string.email_key) + email);
+            mEmail = email;
+        }
     }
 
     /**
@@ -75,8 +87,8 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof LoginFragmentInteractionListener) {
-            mListener = (LoginFragmentInteractionListener) context;
+        if (context instanceof ConfirmEmailFragmentInteractionListener) {
+            mListener = (ConfirmEmailFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -94,18 +106,19 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
 
     /**
      * Listener of items in the fragment.
-     * In this case, the button is doing an async task to verify the the user has already registered
+     * In this case, the button is doing an async task to verify the code entered
      * @param view of the item that is being clicked
      */
     @Override
     public void onClick(View view) {
         if (mListener != null) {
-            if (view.getId() == R.id.submitButton) {
-                String username = ((EditText) mView.findViewById(R.id.usernameField)).getText().toString();
-                String password = ((EditText) mView.findViewById(R.id.passwordField)).getText().toString();
-                password = Encryption.encodePass(password);
-                AsyncTask<String, String, String> task = new CheckLoginData();
-                task.execute(PARTIAL_URL, username, password);
+            if (view.getId() == R.id.enterVerificationButton) {
+                AsyncTask<String, String, String> task = new SendConfirmation();
+                String code = ((EditText) mView.findViewById(R.id.verificationField)).getText().toString();
+                Log.d("CONFIRM",  mEmail + " " + code);
+                task.execute(PARTIAL_URL, mEmail, code);
+                //String confirmFrag = "Tutorial1";
+                //mListener.confirmEmailFragmentInteraction(confirmFrag);
             }
         }
     }
@@ -114,40 +127,37 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
      * The interface that should be implemented by main activities
      * or any activities that contain this fragment.
      */
-    public interface LoginFragmentInteractionListener {
-        void loginFragmentInteraction(String fragString, String emailString);
+    public interface ConfirmEmailFragmentInteractionListener {
+        void confirmEmailFragmentInteraction(String fragString);
     }
+
     /**
-     * This class's job is to connect to the php file to check if the user has already registered
+     * This class's job is to connect to the php file to check if the code matches with the email ID.
      */
-    private class CheckLoginData extends AsyncTask<String, String, String>{
+    private class SendConfirmation extends AsyncTask<String, String, String> {
         /**the file name to connect to. PARTIAL_URL + this file name**/
-        private final String LOGIN ="checkUserLogin.php";
-        /**The email to be sent to the main activity to sent to the confirmation page**/
-        String emailToSend;
+        private final String CHECK_CODE ="checkCode.php";
 
         /**
-         * Sends user credentials to database.
-         * @param strings
-         * @return String, login successful or not.
+         * Connects to php to send confirmation email.
+         * @param strings user email and code to send to email.
+         * @return boolean, confirmation code successful or not.
          */
         @Override
         protected String doInBackground(String... strings){
-            //EXPECTED = partial url, username(email), and password
+            //REQUIRED = PARTIAL_URL + the user email + the code
             if (strings.length != 3) {
                 Log.d("ACTIVITY" , strings.length + "");
                 throw new IllegalArgumentException("Three String arguments required.");
             }
-
             String response = "";
             HttpURLConnection urlConnection = null;
             String url = strings[0];
-            emailToSend = strings[1];
-            String username = "?my_username=" + strings[1];
-            String password = "&my_password=" + strings[2];
+            String email = "?my_email=" + strings[1];
+            String code = "&my_code=" + strings[2];
 
             try {
-                URL urlObject = new URL(url + LOGIN + username + password);
+                URL urlObject = new URL(url + CHECK_CODE + email + code);
                 urlConnection = (HttpURLConnection) urlObject.openConnection();
                 InputStream content = urlConnection.getInputStream();
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
@@ -156,30 +166,27 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
                     response += s;
                 }
             } catch (Exception e) {
-                Log.d("ERROR CONN", url + LOGIN + username + password);
+                Log.e("ERROR CONN", url + CHECK_CODE + email + code);
                 response = "Unable to connect, Reason: " + e.getMessage();
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            Log.e("HERE", response);
+            //Log.e("CONFIRMATION RESPONSE", response);
             return response;
         }
 
         /**
          * Called once doInBackground ic completed. Wraps up the aSynch task.
-         * @param result the result from doInBackground - a string denoting if login was successful.
+         * @param result the result from doInBackground - a boolean if confirmation was successful.
          */
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
-            if (result.equals("Login Successful")) {
-                String homeFrag = "Home";
-                mListener.loginFragmentInteraction(homeFrag, emailToSend);
-            } else if (result.equals("Email not confirmed yet")){
-                String homeFrag = "Confirm Email";
-                Log.d("CONFIRM", emailToSend);
-                mListener.loginFragmentInteraction(homeFrag, emailToSend);
+            if (result.equals("True")) {
+                String confirmFrag = "Tutorial1";
+                mListener.confirmEmailFragmentInteraction(confirmFrag);
+            } else {
+                Toast.makeText(getActivity(), "Incorrect Code", Toast.LENGTH_LONG).show();
             }
         }
     }

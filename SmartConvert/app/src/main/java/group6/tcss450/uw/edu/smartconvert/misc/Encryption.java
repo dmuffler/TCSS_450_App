@@ -1,4 +1,4 @@
-package group6.tcss450.uw.edu.smartconvert;
+package group6.tcss450.uw.edu.smartconvert.misc;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
