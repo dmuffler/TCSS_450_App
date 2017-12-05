@@ -17,10 +17,13 @@ import group6.tcss450.uw.edu.smartconvert.R;
 
 public class Alert extends AlertDialog implements Dialog.OnClickListener{
 
-    Location mLocation = null;
+    Context mContext;
+
+    Location mLocation;
 
     public Alert(@NonNull Context theContext, Location theLocation) {
         super(theContext);
+        mContext = theContext;
         mLocation = theLocation;
         create();
     }
@@ -40,7 +43,8 @@ public class Alert extends AlertDialog implements Dialog.OnClickListener{
     public void onClick(DialogInterface dialogInterface, int i) {
         // -1 for yes, -2 for no.
         if (i == -1) {
-            // Do something
+/*            String country = Translate.translateCoord(mContext, mLocation, Translate.COUNTRY_NAME);
+            Prefs.saveToPrefs(mContext, mContext.getString(R.string.prefs), mContext.getString(R.string.location_key), country, Prefs.STRING);*/
         }
     }
 }

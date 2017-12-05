@@ -20,10 +20,28 @@ public class Prefs {
 
     }
 
-    public static void saveToPrefs(Context theContext, String thePrefs, String theKey, String theValue) {
+    public static void saveToPrefs(Context theContext, String thePrefs, String theKey, Object theValue, int theSwitch) {
         SharedPreferences pref = theContext.getSharedPreferences(thePrefs, theContext.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putString(theKey, theValue);
+        switch (theSwitch) {
+            case (STRING):
+                editor.putString(theKey, (String) theValue);
+                break;
+            case (INT):
+                editor.putInt(theKey, (Integer) theValue);
+                break;
+            case (BOOLEAN):
+                editor.putBoolean(theKey, (Boolean) theValue);
+                break;
+            case (FLOAT):
+                editor.putFloat(theKey, (Float) theValue);
+                break;
+            case (LONG):
+                editor.putLong(theKey, (Long) theValue);
+                break;
+            default:
+                return;
+        }
         editor.apply();
     }
 

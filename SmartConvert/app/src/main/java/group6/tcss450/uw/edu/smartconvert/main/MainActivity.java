@@ -397,8 +397,8 @@ public class MainActivity extends AppCompatActivity
         mCurrentLocation = location;
         String code = Translate.translateCoord(this, mCurrentLocation, Translate.COUNTRY_CODE);
         String name = Translate.translateCoord(this, mCurrentLocation, Translate.COUNTRY_NAME);
-        Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.location_key), name);
-        Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.locationCode_key), code);
+        Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.location_key), name, Prefs.STRING);
+        Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.locationCode_key), code, Prefs.STRING);
     }
 
     @Override
