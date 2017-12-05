@@ -1,7 +1,6 @@
 package group6.tcss450.uw.edu.smartconvert.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import group6.tcss450.uw.edu.smartconvert.R;
+import group6.tcss450.uw.edu.smartconvert.misc.Prefs;
 
 
 /**
@@ -318,8 +318,7 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
         }
 
         private void setSpinner() {
-            SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.prefs), Context.MODE_PRIVATE);
-            String code = preferences.getString(getString(R.string.locationCode_key), null);
+            String code = (String) Prefs.getFromPrefs(getActivity(), getActivity().getString(R.string.prefs), getActivity().getString(R.string.locationCode_key), Prefs.STRING);
             AsyncTask<String, String, String> task = null;
             task = new GetCurrencyCode();
             task.execute(code);

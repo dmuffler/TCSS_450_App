@@ -19,14 +19,14 @@ import group6.tcss450.uw.edu.smartconvert.R;
  * @author Irene Fransiga, Donald Muffler, Josh Lau
  * @version Nov 10, 2017
  */
-public class StartFrag extends Fragment implements View.OnClickListener {
+public class StartFragment extends Fragment implements View.OnClickListener {
     /**The Listener to communicate with main activity class**/
     private StartFragInteractionListener mListener;
 
     /**
      * Constructor.
      */
-    public StartFrag() {}
+    public StartFragment() {}
 
     /**
      * Creates the view of the fragment.

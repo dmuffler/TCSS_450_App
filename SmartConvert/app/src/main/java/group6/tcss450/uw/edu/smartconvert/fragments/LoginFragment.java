@@ -32,7 +32,7 @@ import group6.tcss450.uw.edu.smartconvert.R;
  * @author Irene Fransiga, Donald Muffler, Josh Lau
  * @version Nov 10, 2017
  */
-public class LoginFrag extends Fragment implements View.OnClickListener {
+public class LoginFragment extends Fragment implements View.OnClickListener {
     /**The URL to connect to the main database**/
     private static final String PARTIAL_URL = "http://cssgate.insttech.washington.edu/~if30/";
     /**The Listener to communicate with main activity class**/
@@ -47,7 +47,7 @@ public class LoginFrag extends Fragment implements View.OnClickListener {
     /**
      * Constructor.
      */
-    public LoginFrag() {}
+    public LoginFragment() {}
 
     /**
      * Creates the view of the fragment.

@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by donal on 11/29/2017.
+ * Created by donald on 11/29/2017.
  */
 
 public class Encryption {

@@ -1,10 +1,7 @@
 package group6.tcss450.uw.edu.smartconvert.main;
 
 import android.Manifest;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,22 +29,17 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-import java.io.IOException;
-import java.util.Currency;
-import java.util.List;
-import java.util.Locale;
-
 import group6.tcss450.uw.edu.smartconvert.misc.Alert;
 import group6.tcss450.uw.edu.smartconvert.R;
 import group6.tcss450.uw.edu.smartconvert.fragments.ConfirmEmailFragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.ConvertFragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.EditProfileFragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.HomeFragment;
-import group6.tcss450.uw.edu.smartconvert.fragments.LoginFrag;
+import group6.tcss450.uw.edu.smartconvert.fragments.LoginFragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.ProfileFragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.RegisterFragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.SettingFragment;
-import group6.tcss450.uw.edu.smartconvert.fragments.StartFrag;
+import group6.tcss450.uw.edu.smartconvert.fragments.StartFragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.Tutorial1Fragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.Tutorial2Fragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.Tutorial3Fragment;
@@ -60,8 +52,8 @@ import group6.tcss450.uw.edu.smartconvert.misc.Translate;
  * @version Nov 10, 2017
  */
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, StartFrag.StartFragInteractionListener,
-        LoginFrag.LoginFragmentInteractionListener, RegisterFragment.RegisterFragmentInteractionListener,
+        implements NavigationView.OnNavigationItemSelectedListener, StartFragment.StartFragInteractionListener,
+        LoginFragment.LoginFragmentInteractionListener, RegisterFragment.RegisterFragmentInteractionListener,
         ConfirmEmailFragment.ConfirmEmailFragmentInteractionListener, Tutorial1Fragment.TutorialFragmentInteractionListener,
         Tutorial2Fragment.TutorialFragmentInteractionListener, Tutorial3Fragment.TutorialFragmentInteractionListener,
         HomeFragment.HomeFragmentInteractionListener, ConvertFragment.ConvertFragmentInteractionListener,
@@ -105,7 +97,7 @@ public class MainActivity extends AppCompatActivity
             setSupportActionBar(toolbar);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.main_container, new StartFrag(), "Start")
+                    .add(R.id.main_container, new StartFragment(), "Start")
                     .commit();
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -279,7 +271,7 @@ public class MainActivity extends AppCompatActivity
     public void startFragInteraction(String fragString) {
         switch (fragString) {
             case "Login":
-                switchFragment(new LoginFrag(), fragString);
+                switchFragment(new LoginFragment(), fragString);
                 break;
             case "Skip":
                 switchFragment(new HomeFragment(), fragString);
