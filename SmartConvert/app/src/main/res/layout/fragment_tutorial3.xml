@@ -15,6 +15,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="-10dp"
+            android:layout_marginStart="-10dp"
             android:background="?android:attr/selectableItemBackground"
             android:text="&lt;"
             android:textSize="36sp"
@@ -28,9 +29,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:background="?android:attr/selectableItemBackground"
-            android:text="@string/skip_string"
+            android:text="@string/end_string"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
@@ -66,67 +68,63 @@
                 android:enabled="false" />
         </RadioGroup>
 
-        <RadioGroup
-            android:layout_width="272dp"
-            android:layout_height="257dp"
-            app:layout_constraintLeft_toLeftOf="parent"
+        <TextView
+            android:id="@+id/inst1"
+            android:layout_width="245dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="56dp"
+            android:layout_marginRight="56dp"
+            android:layout_marginTop="122dp"
+            android:text="@string/end_tutorial_first_string"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/radioGroup">
-
-            <RadioButton
-                android:id="@+id/radioButton4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/end_tutorial_first_string"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_editor_absoluteY="113dp" />
-
-            <RadioButton
-                android:id="@+id/radioButton7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/end_tutorial_second_string"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <RadioButton
-                android:id="@+id/radioButton6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/end_tutorial_third_string"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <RadioButton
-                android:id="@+id/radioButton5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/end_tutorial_fourth_string"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </RadioGroup>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/inst2"
+            android:layout_width="245dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="56dp"
+            android:layout_marginRight="56dp"
+            android:layout_marginTop="169dp"
+            android:text="@string/end_tutorial_second_string"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/inst3"
+            android:layout_width="245dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="56dp"
+            android:layout_marginRight="56dp"
+            android:layout_marginTop="216dp"
+            android:text="@string/end_tutorial_third_string"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/inst4"
+            android:layout_width="245dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="56dp"
+            android:layout_marginRight="56dp"
+            android:layout_marginTop="262dp"
+            android:text="@string/end_tutorial_fourth_string"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/EnjoyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="392dp"
             android:text="@string/end_tutorial_fifth_string"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
