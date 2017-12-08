@@ -162,6 +162,7 @@ public class MainActivity extends AppCompatActivity
             new Alert(this, mCurrentLocation);
         }
         enableMenu(R.id.nav_profile, false);
+        enableMenu(R.id.nav_logout, false);
     }
 
     /**
@@ -186,8 +187,10 @@ public class MainActivity extends AppCompatActivity
 
             if (fragName.equals("Home") || fragName.equals("Confirm Email") || fragName.equals("Tutorial1")) {
                 enableMenu(R.id.nav_profile, false);
+                enableMenu(R.id.nav_logout, false);
                 popStack(1);
                 onBackPressed();
+            // Prevents closing of the app on brack pressed.
             } else if (fragMan.getBackStackEntryCount() > 0) {
                 super.onBackPressed();
             }

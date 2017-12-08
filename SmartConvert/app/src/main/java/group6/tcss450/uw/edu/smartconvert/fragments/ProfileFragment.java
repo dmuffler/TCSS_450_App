@@ -79,11 +79,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         mFirstName = (TextView) v.findViewById(R.id.fName_Text);
         mLastName = (TextView) v.findViewById(R.id.lastnameText);
 
-        String email = (String) Prefs.getFromPrefs(getActivity(), getString(R.string.prefs), getString(R.string.email_key), Prefs.STRING);
-
-        AsyncTask<String, String, String> task = new GetProfileData();
-        task.execute(PARTIAL_URL, email);
-
         return v;
     }
 
@@ -109,6 +104,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String email = (String) Prefs.getFromPrefs(getActivity(), getString(R.string.prefs), getString(R.string.email_key), Prefs.STRING);
+        AsyncTask<String, String, String> task = new GetProfileData();
+        task.execute(PARTIAL_URL, email);
     }
 
     /**
@@ -160,7 +164,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
             //EXPECTED = partial url, username(email), and password
             if (strings.length != 2) {
                 Log.d("ACTIVITY" , strings.length + "");
-                throw new IllegalArgumentException("Three String arguments required.");
+                throw new IllegalArgumentException("Two String arguments required.");
             }
 
             String response = "";
