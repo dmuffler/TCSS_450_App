@@ -15,10 +15,6 @@ import group6.tcss450.uw.edu.smartconvert.misc.Prefs;
 /**
  * Home Fragment is a fragment that handles the home fragment or where the user will go to after login.
  * User who have completed their tutorial or successfully login will be redirected to this fragment.
- * Home Fragment is not yet doing any API calls of ASYNC TASK call
- *
- * As of version Nov10,2017 Home Fragment is not display user's current location yet
- * as we have not implemented the API calls for this
  *
  * @author Irene Fransiga, Donald Muffler, Josh Lau
  * @version Nov 10, 2017
@@ -59,7 +55,7 @@ public class HomeFragment extends Fragment implements  View.OnClickListener {
         b.setOnClickListener(this);
         mCurrentLocationField = (TextView) mView.findViewById(R.id.currentLocationText);
         postCountry();
-
+        
         return mView;
     }
 
