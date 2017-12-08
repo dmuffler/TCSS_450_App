@@ -189,7 +189,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            Log.e("HERE", response);
             return response;
         }
 
