@@ -68,5 +68,7 @@
     <string name="no_country_string">No Country</string>
     <string name="alert_done_boo">alert_done_boo</string>
     <string name="end_string">End</string>
+    <string name="lat_key">lat</string>
+    <string name="long_key">long</string>
 
 </resources>

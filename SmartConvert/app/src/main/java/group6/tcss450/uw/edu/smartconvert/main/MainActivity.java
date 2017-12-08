@@ -5,14 +5,12 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -29,7 +27,6 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-import group6.tcss450.uw.edu.smartconvert.misc.Alert;
 import group6.tcss450.uw.edu.smartconvert.R;
 import group6.tcss450.uw.edu.smartconvert.fragments.ConfirmEmailFragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.ConvertFragment;
@@ -43,6 +40,7 @@ import group6.tcss450.uw.edu.smartconvert.fragments.StartFragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.Tutorial1Fragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.Tutorial2Fragment;
 import group6.tcss450.uw.edu.smartconvert.fragments.Tutorial3Fragment;
+import group6.tcss450.uw.edu.smartconvert.misc.Alert;
 import group6.tcss450.uw.edu.smartconvert.misc.Prefs;
 import group6.tcss450.uw.edu.smartconvert.misc.Translate;
 
@@ -58,25 +56,39 @@ public class MainActivity extends AppCompatActivity
         Tutorial2Fragment.TutorialFragmentInteractionListener, Tutorial3Fragment.TutorialFragmentInteractionListener,
         HomeFragment.HomeFragmentInteractionListener, ConvertFragment.ConvertFragmentInteractionListener,
         ProfileFragment.ProfileOnFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener, SettingFragment.SettingOnFragmentInteractionListener, EditProfileFragment.EditProfileOnFragmentInteractionListener{
+        GoogleApiClient.OnConnectionFailedListener, LocationListener,
+        SettingFragment.SettingOnFragmentInteractionListener, EditProfileFragment.EditProfileOnFragmentInteractionListener{
 
-
+    /**
+     * Google api client.
+     */
     private GoogleApiClient mGoogleApiClient;
 
-   // private static final String TAG = "MyLocationsActivity";
     /**
      * The desired interval for location updates.
      * Inexact. Updates may be more or less frequent.  */
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
-
     /**
-     *  The fastest rate for active location updates.
-     *  Exact. Updates will never be more frequent
-     *  than this value.  */
+     * The fastest rate for active location updates. Exact. Updates will
+     never be more frequent
+     * than this value.
+     */
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
+
+    /**
+     * Permission code.
+     */
     private static final int MY_PERMISSIONS_LOCATIONS = 814;
+
+    /**
+     * Location request.
+     */
     private LocationRequest mLocationRequest;
+
+    /**
+     * The current location.
+     */
     private Location mCurrentLocation;
 
     /**
@@ -119,18 +131,20 @@ public class MainActivity extends AppCompatActivity
 
         // Sets the desired interval for active location updates. This interval is
         // inexact. You may not receive updates at all if no location sources are available, or
-        // you may receive them slower than requested. You may also receive updates faster than //
+        // you may receive them slower than requested. You may also receive updates faster than
         // requested if other applications are requesting location at a faster interval.
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
 
         // Sets the fastest rate for active location updates. This interval is exact, and your
         // application will never receive updates faster than this value.
-        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS) ;
+        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION
@@ -138,6 +152,7 @@ public class MainActivity extends AppCompatActivity
                     MY_PERMISSIONS_LOCATIONS);
         }
 
+        // Calls an alert per device that asks the user if current location is okay to set as default.
         if ((Boolean) Prefs.getFromPrefs(this, getString(R.string.prefs), getString(R.string.alert_done_boo), Prefs.BOOLEAN) == false) {
             new Alert(this, mCurrentLocation);
         }
@@ -272,10 +287,11 @@ public class MainActivity extends AppCompatActivity
                 switchFragment(new LoginFragment(), fragString);
                 break;
             case "Skip":
-                switchFragment(new HomeFragment(), fragString);
+                HomeFragment home = new HomeFragment();
+                switchFragment(new HomeFragment(), "Home");
                 break;
             case "Register":
-                switchFragment(new RegisterFragment(), fragString);
+                switchFragment(new RegisterFragment(), "Register");
                 break;
         }
     }
@@ -288,7 +304,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void loginFragmentInteraction(String fragString, String emailString) {
         if (fragString.equals("Home")) {
-            switchFragment(new HomeFragment(), fragString);
+            HomeFragment home = new HomeFragment();
+/*
+            home.setArguments(putCoords());
+*/
+            switchFragment(home, fragString);
         } else if (fragString.equals("Confirm Email")) {
             ConfirmEmailFragment confirmEmailFragment = new ConfirmEmailFragment();
             Bundle bundle = new Bundle();
@@ -342,7 +362,11 @@ public class MainActivity extends AppCompatActivity
                 switchFragment(new Tutorial3Fragment(), "Tutorial3");
                 break;
             case "Home":
-                switchFragment(new HomeFragment(), "Home");
+                HomeFragment home = new HomeFragment();
+/*
+                home.setArguments(putCoords());
+*/
+                switchFragment(home, "Home");
                 break;
         }
     }
@@ -369,16 +393,28 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Sets the current frag as edit profile.
+     * @param page
+     */
     @Override
     public void profileOnFragmentInteraction(String page) {
         switchFragment(new EditProfileFragment(), "EditProfile");
     }
 
+    /**
+     * Place holder for the setting page interaction.
+     * @param uri
+     */
     @Override
     public void settingOnFragmentInteraction(Uri uri) {
 
     }
 
+    /**
+     * Switches to the profile fragment.
+     * @param page
+     */
     @Override
     public void editProfileOnFragmentInteraction(String page) {
         switchFragment(new ProfileFragment(), "Profile");
@@ -389,16 +425,24 @@ public class MainActivity extends AppCompatActivity
      ***********************************************************************************************
      */
 
-
+    /**
+     * Sets the location and saves to prefs when the location changes.
+     * @param location the new location.
+     */
     @Override
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;
+        Log.d("Location", location.toString());
         String code = Translate.translateCoord(this, mCurrentLocation, Translate.COUNTRY_CODE);
         String name = Translate.translateCoord(this, mCurrentLocation, Translate.COUNTRY_NAME);
         Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.location_key), name, Prefs.STRING);
         Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.locationCode_key), code, Prefs.STRING);
     }
 
+    /**
+     * Connects locations and sets if initially not found.
+     * @param bundle location information.
+     */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         // If the initial location was never previously requested, we use
@@ -406,40 +450,57 @@ public class MainActivity extends AppCompatActivity
         // its value in the Bundle and check for it in onCreate(). We
         // do not request it again unless the user specifically requests location updates by pressing
         // the Start Updates button.
-
+        //
         // Because we cache the value of the initial location in the Bundle, it means that if the
         // user launches the activity,
         // moves to a new location, and then changes the device orientation, the original location
         // is displayed as the activity is re-created.
         if (mCurrentLocation == null) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    && ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
-                mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                //if (mCurrentLocation != null)
-                //    Log.i(TAG, mCurrentLocation.toString());
+                mCurrentLocation =
+                        LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                if (mCurrentLocation != null)
+                    //Log.i(TAG, mCurrentLocation.toString());
                 startLocationUpdates();
             }
         }
     }
 
+    /**
+     * Connection to lcoations lost.
+     * @param cause
+     */
     @Override
-    public void onConnectionSuspended(int i) {
+    public void onConnectionSuspended(int cause) {
         // The connection to Google Play services was lost for some reason. We call connect() to
         // attempt to re-establish the connection.
         //Log.i(TAG, "Connection suspended");
         mGoogleApiClient.connect();
     }
 
+    /**
+     * Connection to locations fails.
+     * @param connectionResult
+     */
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // Refer to the javadoc for ConnectionResult to see what error codes
-        // might be returned in
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
         // onConnectionFailed.
-        //Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+        //Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " +
+        //        connectionResult.getErrorCode());
     }
 
+    /**
+     * Request permission to gather location information.
+     * @param requestCode the request code.
+     * @param permissions permission to gather information.
+     * @param grantResults array to grant results.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -456,7 +517,8 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(this, "Locations need to be working for this portion, please provide permission"
                             , Toast.LENGTH_SHORT)
                             .show();
-                }             return;
+                }
+                return;
             }
             // other 'case' lines to check for other
             // permissions this app might request
@@ -464,14 +526,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     *  Requests location updates from the FusedLocationApi.
+     * Requests location updates from the FusedLocationApi.
      */
     protected void startLocationUpdates() {
         // The final argument to {@code requestLocationUpdates()} is a LocationListener
-        // (http://developer.android.com/reference/com/google/android/gms/location/Loca tionListener.html).
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                //(http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(
                     mGoogleApiClient, mLocationRequest, this);
@@ -482,16 +546,21 @@ public class MainActivity extends AppCompatActivity
      *  Removes location updates from the FusedLocationApi.
      */
     protected void stopLocationUpdates() {
-        // It is a good practice to remove location requests when the activity is in a paused or
+        // It is a good practice to remove location requests when the activityis in a paused or
         // stopped state. Doing so helps battery performance and is especially
         // recommended in applications that request frequent location updates.
         // The final argument to {@code requestLocationUpdates()} is a LocationListener
-        // (http://developer.android.com/reference/com/google/android/gms/location/Loca tionListener.html).
+        //(http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,
+                    this);
         }
     }
 
+    /**
+     * Disconnects location services.
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -500,20 +569,25 @@ public class MainActivity extends AppCompatActivity
             mGoogleApiClient.disconnect();
     }
 
-    @Override
-    public void onStart() {
+    /**
+     * Connects location services.
+     */
+    protected void onStart() {
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
         super.onStart();
     }
 
-    @Override
-    public void onStop() {
+    /**
+     * Disconnects location services.
+     */
+    protected void onStop() {
         if (mGoogleApiClient != null) {
             mGoogleApiClient.disconnect();
         }
-        super.onStop(); }
+        super.onStop();
+    }
 
     /**
      * The interface that should be implemented by main activities

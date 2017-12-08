@@ -34,6 +34,7 @@ public class HomeFragment extends Fragment implements  View.OnClickListener {
     /**A reference to the confirm email fragment**/
     private View mView;
 
+    /** Current location **/
     private String mCurrentLocation;
 
     /**
@@ -57,7 +58,6 @@ public class HomeFragment extends Fragment implements  View.OnClickListener {
         Button b = mView.findViewById(R.id.convertHomeButton);
         b.setOnClickListener(this);
         mCurrentLocationField = (TextView) mView.findViewById(R.id.currentLocationText);
-
         postCountry();
 
         return mView;
@@ -78,6 +78,9 @@ public class HomeFragment extends Fragment implements  View.OnClickListener {
         }
     }
 
+    /**
+     * Sets the country is the back button is pushed on the following frag.
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -114,6 +117,9 @@ public class HomeFragment extends Fragment implements  View.OnClickListener {
         void homeFragmentInteraction(String fragString);
     }
 
+    /**
+     * Helper method to post the current country.
+     */
     private void postCountry() {
         mCurrentLocation = (String) Prefs.getFromPrefs(getActivity(), getActivity().getString(R.string.prefs), getActivity().getString(R.string.location_key), Prefs.STRING);
         if (mCurrentLocation != null) {
