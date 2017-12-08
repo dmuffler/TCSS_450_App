@@ -2,6 +2,8 @@ SmartConvert README
 Author: Irene Fransiga, Donald Muffler, Joshua Lau
 Project Phase: 2
 
+
+
 Project Requirements:
 1. Fix any bugs from the previous phase that the instructor or peer reviewers found.
 	Bugs from previous phase that were fixed:
@@ -27,8 +29,8 @@ Project Requirements:
 	F. Convert Currency
 
 	Use Cases that are not implemented:
-	A. Manually set the default country and currency. This use cases falls under 
-	not implemented because user is not able to manually set the default country.
+	A. Manually set the default country and currency. 
+	This use cases falls under not implemented because user is not able to manually set the default country.
 	However, user is able to manually change the currency in the spinner whenever they like.
 
 3. Your app must save data to the device’s storage using SQLite or 
@@ -49,12 +51,23 @@ Project Requirements:
 4. Your app must use web services to make the app functional.
 	Yes, our app is using web services. Here are the web services that we use:
 	A. Free Currency API by Amdoren 	https://www.amdoren.com/currency-api/
+	This web services is called in the convert page where user convert values. 
+	We use this web service because this API helps us convert currency with real time rate update.
+
 	B. Country API by Fabian7593		https://fabian7593.github.io/CountryAPI/
-	C. Google Location API by Google 
+	This web service is called in the convert page. We use this API to find the country’s currency code
+	using country’s code. This API is just what we needed because we are using user’s location to get the
+	currency in that country and his API was super easy to use and free.
+
+	C. Google Location API by Google
+	This web service is called in the main activity page, we called it there so that it is always active
+	and updating. Using this API, we got coordinate of latitude and longitude then we get the country’s name
+	and country’s 2 letter acronym to be send to Country API (above api).
 
 5. Your app must allow Sign-In and Register.
 	Yes, our app allow Sign-in and Register
 
 6. Your app uses graphics to display images.
-	Yes, we have an icon and a logo for our app
+	Yes, we have an icon and a logo for our app. 
 
+7. Meeting notes link: https://docs.google.com/document/d/19KkbCvxdy4WRDITyhckGlgHHKMgYFVZbpnJL9J8Xn1w/edit?usp=sharing
