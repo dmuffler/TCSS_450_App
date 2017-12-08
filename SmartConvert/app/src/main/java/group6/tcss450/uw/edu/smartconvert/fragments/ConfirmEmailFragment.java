@@ -179,7 +179,6 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            //Log.e("CONFIRMATION RESPONSE", response);
             return response;
         }
 

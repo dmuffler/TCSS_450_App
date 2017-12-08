@@ -156,7 +156,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         private String mLName;
         /**The field to take the user's password**/
         private String mPass;
-
+        /**The user email**/
+        private String mUserEmail;
         /**
          * Tries to register the user based on the data inputed.
          * @param strings user data to send to database.
@@ -176,6 +177,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             mLName = "&my_lastname=" + strings[2];
             mEmail = "&my_email=" + strings[3];
             mPass = "&my_password=" + strings[4];
+            mUserEmail = strings[3];
             try {
                 URL urlObject = new URL(url + REGISTER + mFName + mLName + mEmail + mPass);
                 urlConnection = (HttpURLConnection) urlObject.openConnection();
@@ -197,16 +199,16 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         }
 
         /**
-         * Called once doInBackground ic completed. Wraps up the aSynch task.
+         * Called once doInBackground is completed. Wraps up the aSynch task.
          * @param result the result from doInBackground - if registration was successful.
          */
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("Register successful.")) {
                 AsyncTask<String, String, String> cTask = new SendConfirmation();
-                cTask.execute(PARTIAL_URL, mEmail);
+                cTask.execute(PARTIAL_URL, mUserEmail);
                 String confirmEmail = "Confirm Email";
-                mListener.registerFragmentInteraction(confirmEmail, mEmail);
+                mListener.registerFragmentInteraction(confirmEmail, mUserEmail);
                 Toast.makeText(getActivity(), "Confirmation Code sending, " +
                         "please wait for a few minutes", Toast.LENGTH_LONG).show();
             } else if (result.equals("LoginDataFailed")){

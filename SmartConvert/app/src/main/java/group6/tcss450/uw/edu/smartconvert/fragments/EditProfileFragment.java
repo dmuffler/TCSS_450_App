@@ -83,6 +83,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         mFNameField = (EditText) v.findViewById(R.id.firstNameEdit);
         mLNameField = (EditText) v.findViewById(R.id.lastNameEdit);
 
+        mEmailField.setText((String) Prefs.getFromPrefs(getActivity(), getString(R.string.prefs), getString(R.string.email_key), Prefs.STRING));
         return v;
     }
 
