@@ -19,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import group6.tcss450.uw.edu.smartconvert.R;
+import group6.tcss450.uw.edu.smartconvert.misc.Prefs;
 
 
 /**
@@ -75,7 +76,6 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
         super.onStart();
         if(getArguments()!= null){
             String email = getArguments().getString(getString(R.string.email_key));
-            //Log.d("CONFIRM EMAIL", getString(R.string.email_key) + email);
             mEmail = email;
         }
     }
@@ -139,6 +139,11 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
         private final String CHECK_CODE ="checkCode.php";
 
         /**
+         * User email.
+         */
+        private String mEmail;
+
+        /**
          * Connects to php to send confirmation email.
          * @param strings user email and code to send to email.
          * @return boolean, confirmation code successful or not.
@@ -155,6 +160,8 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
             String url = strings[0];
             String email = "?my_email=" + strings[1];
             String code = "&my_code=" + strings[2];
+
+            mEmail = strings[1];
 
             try {
                 URL urlObject = new URL(url + CHECK_CODE + email + code);
@@ -183,6 +190,7 @@ public class ConfirmEmailFragment extends Fragment implements View.OnClickListen
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("True")) {
+                Prefs.saveToPrefs(getActivity(), getString(R.string.prefs), getString(R.string.email_key), mEmail, Prefs.STRING);
                 String confirmFrag = "Tutorial1";
                 mListener.confirmEmailFragmentInteraction(confirmFrag);
             } else {

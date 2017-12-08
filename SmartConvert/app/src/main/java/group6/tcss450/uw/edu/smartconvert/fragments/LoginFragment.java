@@ -20,6 +20,7 @@ import java.net.URL;
 
 import group6.tcss450.uw.edu.smartconvert.misc.Encryption;
 import group6.tcss450.uw.edu.smartconvert.R;
+import group6.tcss450.uw.edu.smartconvert.misc.Prefs;
 
 
 /**
@@ -120,6 +121,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public interface LoginFragmentInteractionListener {
         void loginFragmentInteraction(String fragString, String emailString);
     }
+
     /**
      * This class's job is to connect to the php file to check if the user has already registered
      */
@@ -177,6 +179,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         protected void onPostExecute(String result) {
             Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
             if (result.equals("Login Successful")) {
+                Prefs.saveToPrefs(getActivity(), getString(R.string.prefs), getString(R.string.email_key), emailToSend, Prefs.STRING);
                 String homeFrag = "Home";
                 mListener.loginFragmentInteraction(homeFrag, emailToSend);
             } else if (result.equals("Email not confirmed yet")){

@@ -91,6 +91,9 @@ public class MainActivity extends AppCompatActivity
      */
     private Location mCurrentLocation;
 
+
+    private Menu mNavMenu;
+
     /**
      * The view of the main container adds in the first fragment.
      * @param savedInstanceState the state the program was last in.
@@ -116,6 +119,7 @@ public class MainActivity extends AppCompatActivity
 
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
+            mNavMenu = navigationView.getMenu();
         }
 
         // Create an instance of GoogleAPIClient.
@@ -157,6 +161,7 @@ public class MainActivity extends AppCompatActivity
         if ((Boolean) Prefs.getFromPrefs(this, getString(R.string.prefs), getString(R.string.alert_done_boo), Prefs.BOOLEAN) == false) {
             new Alert(this, mCurrentLocation);
         }
+        enableMenu(R.id.nav_profile, false);
     }
 
     /**
@@ -180,6 +185,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             if (fragName.equals("Home") || fragName.equals("Confirm Email") || fragName.equals("Tutorial1")) {
+                enableMenu(R.id.nav_profile, false);
                 popStack(1);
                 onBackPressed();
             } else if (fragMan.getBackStackEntryCount() > 0) {
@@ -278,6 +284,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
+     * Enables or disables a menu item given the id.
+     * @param theMenuItemID the menu item id.
+     * @param theSwitch enable or disable boolean.
+     */
+    private void enableMenu(int theMenuItemID, boolean theSwitch) {
+        mNavMenu.findItem(theMenuItemID).setEnabled(theSwitch);
+    }
+
+    /**
      * Fragment interaction for the starting screen.
      * @param fragString which button was pressed on the start screen.
      */
@@ -305,11 +320,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void loginFragmentInteraction(String fragString, String emailString) {
         if (fragString.equals("Home")) {
-            HomeFragment home = new HomeFragment();
-/*
-            home.setArguments(putCoords());
-*/
-            switchFragment(home, fragString);
+            enableMenu(R.id.nav_profile, true);
+            switchFragment(new HomeFragment(), fragString);
         } else if (fragString.equals("Confirm Email")) {
             ConfirmEmailFragment confirmEmailFragment = new ConfirmEmailFragment();
             Bundle bundle = new Bundle();
@@ -363,6 +375,7 @@ public class MainActivity extends AppCompatActivity
                 switchFragment(new Tutorial3Fragment(), "Tutorial3");
                 break;
             case "Home":
+                enableMenu(R.id.nav_profile, true);
                 switchFragment(new HomeFragment(), "Home");
                 break;
         }
