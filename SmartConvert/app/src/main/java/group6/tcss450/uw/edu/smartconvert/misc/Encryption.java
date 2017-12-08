@@ -4,12 +4,17 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by donald on 11/29/2017.
+ * Encrypts user credentials.
+ *
+ * @author Irene Fransiga, Donald Muffler, Josh Lau
+ * @version Dec 7, 2017
  */
-
 public class Encryption {
 
-    public Encryption() {}
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private Encryption() {}
 
     /**
      * Encodes the password using SHA-1 encryption.

@@ -9,21 +9,39 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by donal on 12/4/2017.
- */
 
+/**
+ * Utility class to return a country code or country name given a location.
+ *
+ * @author Irene Fransiga, Donald Muffler, Josh Lau
+ * @version Dec 7, 2017
+ */
 public class Translate {
 
+    /**
+     * Country name constant.
+     */
     public static final int COUNTRY_NAME = 0;
 
+    /**
+     * Country code constant.
+     */
     public static final int COUNTRY_CODE = 1;
 
-
+    /**
+     * Private constructor to prevent instantiation.
+     */
     private Translate() {
 
     }
 
+    /**
+     * Translates a location to a country code or country name.
+     * @param theContext the context of the app.
+     * @param theLocation the location to translate.
+     * @param theSwitch the switch to choose which to return.
+     * @return the name or code.
+     */
     public static String translateCoord(Context theContext, Location theLocation, int theSwitch) {
         String theString = null;
         Geocoder geo = new Geocoder(theContext, Locale.getDefault());

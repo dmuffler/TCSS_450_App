@@ -14,15 +14,30 @@ import group6.tcss450.uw.edu.smartconvert.R;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * to handle interaction events.
+ * Profile Fragment that allows the user to view their profile in the app.
+ *
+ * @author Irene Fransiga, Donald Muffler, Josh Lau
+ * @version Dec 7, 2017
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener{
 
+    /**
+     * Profile listener.
+     */
     private ProfileOnFragmentInteractionListener mListener;
+
+    /**
+     * Constructor for the profile.
+     */
     public ProfileFragment() { }
 
-
+    /**
+     * Creates the view of the fragment.
+     * @param inflater infates the view.
+     * @param container the container.
+     * @param savedInstanceState the saved state.
+     * @return the view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,6 +49,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         return v;
     }
 
+    /**
+     * Attaches a fragment to an activity.
+     * @param context context of the current state.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -45,12 +64,19 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    /**
+     * Detaches the fragment from the activity.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Listener of items in the fragment.
+     * @param v of the item that is being clicked
+     */
     @Override
     public void onClick(View v) {
         if (mListener != null) {

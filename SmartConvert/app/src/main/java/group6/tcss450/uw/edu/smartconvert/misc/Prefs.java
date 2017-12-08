@@ -4,22 +4,53 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * Created by donald on 12/4/2017.
+ * Utility class to save and retrieve data to prefs with one call, rather than multiple.
+ *
+ * @author Irene Fransiga, Donald Muffler, Josh Lau
+ * @version Dec 7, 2017
  */
-
 public class Prefs {
 
+    /**
+     * String constant.
+     */
     public static final int STRING = 0;
+
+    /**
+     * Int constant.
+     */
     public static final int INT = 1;
+
+    /**
+     * Boolean constant.
+     */
     public static final int BOOLEAN = 2;
+
+    /**
+     * Float constant.
+     */
     public static final int FLOAT = 3;
+
+    /**
+     * Long constant.
+     */
     public static final int LONG = 4;
 
-
+    /**
+     * Private constructor to prevent instantiation.
+     */
     private Prefs() {
 
     }
 
+    /**
+     * Saves data to shared preferences with one call.
+     * @param theContext the context of the app.
+     * @param thePrefs the prefs to save to.
+     * @param theKey the key.
+     * @param theValue the value.
+     * @param theSwitch type of data to save.
+     */
     public static void saveToPrefs(Context theContext, String thePrefs, String theKey, Object theValue, int theSwitch) {
         SharedPreferences pref = theContext.getSharedPreferences(thePrefs, theContext.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
@@ -45,6 +76,14 @@ public class Prefs {
         editor.apply();
     }
 
+    /**
+     * Retrieves data from shared preferences with once call.
+     * @param theContext the context of the app.
+     * @param thePrefs the prefs to save to.
+     * @param theKey the key.
+     * @param theSwitch type of data to retrieve.
+     * @return the data.
+     */
     public static Object getFromPrefs(Context theContext, String thePrefs, String theKey, int theSwitch) {
         SharedPreferences pref = theContext.getSharedPreferences(thePrefs, theContext.MODE_PRIVATE);
         switch (theSwitch) {

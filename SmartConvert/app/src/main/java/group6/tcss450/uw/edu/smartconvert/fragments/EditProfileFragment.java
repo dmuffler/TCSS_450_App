@@ -14,18 +14,32 @@ import group6.tcss450.uw.edu.smartconvert.R;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * to handle interaction events.
+ * Edit profile Fragment that allows the user to change their profile in the app.
+ *
+ * @author Irene Fransiga, Donald Muffler, Josh Lau
+ * @version Dec 7, 2017
  */
 public class EditProfileFragment extends Fragment implements View.OnClickListener{
 
+    /**
+     * Listener for edit profile.
+     */
     private EditProfileOnFragmentInteractionListener mListener;
 
+    /**
+     * Construcs edit profile fragment.
+     */
     public EditProfileFragment() {
         // Required empty public constructor
     }
 
-
+    /**
+     * Creates the view of the fragment.
+     * @param inflater infates the view.
+     * @param container the container.
+     * @param savedInstanceState the saved state.
+     * @return the view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,6 +51,10 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         return v;
     }
 
+    /**
+     * Attaches a fragment to an activity.
+     * @param context context of the current state.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -48,12 +66,19 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    /**
+     * Detaches the fragment from the activity.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Listener for button presses.
+     * @param v the button that was pressed.
+     */
     @Override
     public void onClick(View v) {
         if (mListener != null) {
@@ -76,7 +101,6 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface EditProfileOnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void editProfileOnFragmentInteraction(String page);
     }
 }

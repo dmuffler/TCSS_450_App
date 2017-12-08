@@ -97,17 +97,38 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
         mCurBSpinner = mView.findViewById(R.id.CurrencyBSpinner);
 
         mCurASpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            /**
+             * Action when the spinner is set.
+             * @param parent adapter.
+             * @param view the view.
+             * @param position position of spinner.
+             * @param id id of spinner value.
+             */
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String curFrom = (String) parent.getAdapter().getItem(position);
                 mCurrencyFrom = curFrom;
                 Toast.makeText(getActivity(), "The currency FROM is " + curFrom, Toast.LENGTH_SHORT).show();
             }
+
+            /**
+             * Nothing was selected in spinner.
+             * @param parent adapter.
+             */
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         mCurBSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            /**
+             * Action when the spinner is set.
+             * @param parent adapter.
+             * @param view the view.
+             * @param position position of spinner.
+             * @param id id of spinner value.
+             */
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String curTo = (String) parent.getAdapter().getItem(position);
@@ -115,6 +136,10 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
                 Toast.makeText(getActivity(), "The currency TO is " + curTo, Toast.LENGTH_SHORT).show();
             }
 
+            /**
+             * Nothing was selected in spinner.
+             * @param parent adapter.
+             */
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
@@ -317,6 +342,9 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
             }
         }
 
+        /**
+         * Sets the spinner to country saved to prefs.
+         */
         private void setSpinner() {
             String code = (String) Prefs.getFromPrefs(getActivity(), getActivity().getString(R.string.prefs), getActivity().getString(R.string.locationCode_key), Prefs.STRING);
             AsyncTask<String, String, String> task = null;
@@ -324,8 +352,22 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
             task.execute(code);
         }
     }
+
+    /**
+     * API call to get a currency code from a country ode.
+     */
     private class GetCurrencyCode extends AsyncTask<String, String, String> {
+
+        /**
+         * Part of url to convert currency code to country code.
+         */
         private final String GETCOUNTRYCODE = "http://countryapi.gear.host/v1/Country/getCountries?pAlpha2Code=";
+
+        /**
+         * Background task that handles the url connection and currency oode retrieval.
+         * @param params list of strings to set url.
+         * @return response from web.
+         */
         @Override
         protected String doInBackground(String... params) {
             String response = "";
@@ -351,6 +393,11 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
             Log.e("SUCCESSFUL", "CONVERT CURRENCIES " + response);
             return response;
         }
+
+        /**
+         * Parses response and sets the spinner to the country.
+         * @param result result of the web call.
+         */
         @Override
         protected void onPostExecute (String result) {
             try {
@@ -368,6 +415,11 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
             }
         }
 
+        /**
+         * Sets the goven spinner to the given sstring if found.
+         * @param theSpinner the spinner to be set.
+         * @param theString the string to set to.
+         */
         private void setSpinner(Spinner theSpinner, String theString) {
             if (theString != null) {
                 for (int i = 0; i < theSpinner.getAdapter().getCount(); i++) {
@@ -378,7 +430,12 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
             }
         }
     }
+
+    /**
+     * Gets the api key.
+     */
     private class GetApiKey extends AsyncTask<String, String, String> {
+
         /**the file name to connect to. PARTIAL_API_URL + this file name**/
         private final String PHP ="apisql.php";
 
@@ -387,7 +444,6 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
          * @param strings user email and code to send to email.
          * @return boolean, confirmation code successful or not.
          */
-
         @Override
         protected String doInBackground(String... strings){
             //REQUIRED = PARTIAL_URL + the user email + the code
@@ -418,12 +474,6 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
 
         }
 
-
-
-
-
-
-
         /**
          * Called once doInBackground ic completed. Wraps up the aSynch task.
          * @param result the result from doInBackground - a json with conversion information.
@@ -439,10 +489,6 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
-
         }
-
     }
 }

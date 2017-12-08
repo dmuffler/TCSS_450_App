@@ -12,15 +12,28 @@ import android.view.View;
 import group6.tcss450.uw.edu.smartconvert.R;
 
 /**
- * Created by donal on 12/4/2017.
+ * Creates an alert dialog to ask if the app can save current location as default.
+ *
+ * @author Irene Fransiga, Donald Muffler, Josh Lau
+ * @version Dec 7, 2017
  */
-
 public class Alert extends AlertDialog implements Dialog.OnClickListener{
 
+    /**
+     * Context of the app.
+     */
     Context mContext;
 
+    /**
+     * Current location.
+     */
     Location mLocation;
 
+    /**
+     * Constructs the alert.
+     * @param theContext the context of the app.
+     * @param theLocation the current location.
+     */
     public Alert(@NonNull Context theContext, Location theLocation) {
         super(theContext);
         mContext = theContext;
@@ -28,6 +41,9 @@ public class Alert extends AlertDialog implements Dialog.OnClickListener{
         create();
     }
 
+    /**
+     * Builds the alert and set the listener.
+     */
     public void create() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(getContext().getString(R.string.alert_title_string));
@@ -39,6 +55,11 @@ public class Alert extends AlertDialog implements Dialog.OnClickListener{
     }
 
 
+    /**
+     * Listener for the yes or no click.
+     * @param dialogInterface the dialog.
+     * @param i which button was clicked.
+     */
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
         Boolean accept = false;
@@ -46,6 +67,8 @@ public class Alert extends AlertDialog implements Dialog.OnClickListener{
         if (i == -1) {
             accept = true;
         }
+
+        // Saves alert data to prefs, so the app only calls the alert once per device.
         Prefs.saveToPrefs(mContext, mContext.getString(R.string.prefs), mContext.getString(R.string.alert_boo), accept, Prefs.BOOLEAN);
         Prefs.saveToPrefs(mContext, mContext.getString(R.string.prefs), mContext.getString(R.string.alert_done_boo), (Boolean) true, Prefs.BOOLEAN);
     }

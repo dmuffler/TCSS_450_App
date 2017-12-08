@@ -276,6 +276,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * Validates the registration input.
+     * @return true if valid, false if not.
+     */
     private boolean validateInput() {
         boolean validEmail = false;
         boolean validPass = false;
@@ -283,8 +287,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         boolean validLast = false;
 
         String email = mEmailTextField.getText().toString();
+
         // Regex inspired by https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
         // Expanded upon to fit our needs.
+        // Chekcs email validity.
         if (checkString(email, "([a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~])+(" +
                 "\\.[a-zA-Z0-9!#$%&\'*+-/=?^_`{|}~]+)*@([a-zA-Z]{2,})(\\.[a-zA-Z]{2,})*$")) {
             validEmail = true;
@@ -294,6 +300,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
         String password1 = mPasswordTextField.getText().toString();
         String password2 = mConfirmPasswordTextField.getText().toString();
+
+        // Checks password validity.
         if (checkString(password1, "[a-z]")
                 && checkString(password1, "[A-Z]")
                 && checkLength(password1, 8)
@@ -306,6 +314,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         }
 
         String firstName = mFNameTextField.getText().toString();
+        // Checks first name validity.
         if (checkString(firstName, "([a-zA-Z])$"))  {
             validFirst = true;
         } else {
@@ -313,6 +322,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         }
 
         String lastName = mLNameTextField.getText().toString();
+        // Chekcs last name validity.
         if (checkString(lastName, "([a-zA-Z])$")) {
             validLast = true;
         } else {
@@ -322,12 +332,24 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         return validEmail && validPass && validFirst && validLast;
     }
 
+    /**
+     * Function to check against a pattern.
+     * @param theString the string to check against.
+     * @param thePattern the pattern to check.
+     * @return true if found, false if not.
+     */
     private boolean checkString(String theString, String thePattern) {
         Pattern casePattern = Pattern.compile(thePattern);
         Matcher matcher = casePattern.matcher(theString);
         return matcher.find();
     }
 
+    /**
+     * checks the length of a string.
+     * @param theString the string to check.
+     * @param theLength the length to check against.
+     * @return true if at least the length, false if less.
+     */
     private boolean checkLength(String theString, int theLength) {
         return theString.length() >= theLength;
     }
