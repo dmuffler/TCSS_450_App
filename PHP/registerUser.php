@@ -24,7 +24,6 @@ error_reporting(E_ALL);
          * 1 = confirmed
          */
         $insertLoginData = "insert into LoginData (Email, Pwd, UserID, Confirmed) values ('$uEmail', '$uPass', $lastID,0)";
-    
         //echo json_encode($insertUserInfo);
         //echo json_encode($insertLoginData);
         $userInfo_query = $db->query($insertUserInfo);
@@ -43,7 +42,7 @@ error_reporting(E_ALL);
                 print("LoginDataFailed");
                 $deleteUserInfo = "delete from UserInfo where UserID = $lastID";
                 $deleteUserInfo_query = $db->query($deleteUserInfo);
-            }
+            } 
         }
     } catch (PDOException $e){
         $error_message = $e->getMessage();
