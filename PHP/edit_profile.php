@@ -17,11 +17,11 @@ error_reporting(E_ALL);
         $users = $id_query->fetchAll(PDO::FETCH_ASSOC);
         //echo json_encode($users);
         $id = $users[0]['UserID'];
-        echo json_encode($users[0]['UserID']);
-        
-        $updateProfile = "update UserInfo set FName = '$fName' and LName = '$lName' where UserID = '$id'";
-        echo json_encode($updateProfile);
-        $user_query = $db->query($updateProfile);
+        //echo json_encode($users[0]['UserID']);
+
+        $updateName = "update UserInfo set FName = '$fName', LName = '$lName' where UserID = '$id'";
+        echo json_encode($updateName);
+        $user_query = $db->query($updateName);
     } catch (PDOException $e){
         $error_message = $e->getMessage();
         $result = array("code"=>300, "message"=>"There was an error connecting to
