@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .build();
+            mGoogleApiClient.connect();
         }
 
         mLocationRequest = new LocationRequest();
@@ -362,11 +363,7 @@ public class MainActivity extends AppCompatActivity
                 switchFragment(new Tutorial3Fragment(), "Tutorial3");
                 break;
             case "Home":
-                HomeFragment home = new HomeFragment();
-/*
-                home.setArguments(putCoords());
-*/
-                switchFragment(home, "Home");
+                switchFragment(new HomeFragment(), "Home");
                 break;
         }
     }
@@ -432,11 +429,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;
-        Log.d("Location", location.toString());
-        String code = Translate.translateCoord(this, mCurrentLocation, Translate.COUNTRY_CODE);
-        String name = Translate.translateCoord(this, mCurrentLocation, Translate.COUNTRY_NAME);
-        Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.location_key), name, Prefs.STRING);
-        Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.locationCode_key), code, Prefs.STRING);
+        updateCoords();
     }
 
     /**
@@ -464,9 +457,10 @@ public class MainActivity extends AppCompatActivity
                     == PackageManager.PERMISSION_GRANTED) {
                 mCurrentLocation =
                         LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                if (mCurrentLocation != null)
-                    //Log.i(TAG, mCurrentLocation.toString());
-                startLocationUpdates();
+                if (mCurrentLocation != null) {
+                    updateCoords();
+                    startLocationUpdates();
+                }
             }
         }
     }
@@ -595,5 +589,15 @@ public class MainActivity extends AppCompatActivity
      */
     public interface HomeFragmentInteractionListener {
         void homeFragmentInteraction(String fragString);
+    }
+
+    /**
+     * Helper method to update prefs with the current coordinates.
+     */
+    private void updateCoords() {
+        String code = Translate.translateCoord(this, mCurrentLocation, Translate.COUNTRY_CODE);
+        String name = Translate.translateCoord(this, mCurrentLocation, Translate.COUNTRY_NAME);
+        Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.location_key), name, Prefs.STRING);
+        Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.locationCode_key), code, Prefs.STRING);
     }
 }
