@@ -173,7 +173,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
             String lName = "&lastname=" + strings[3];
 
             try {
-                URL urlObject = new URL(url + INFO + username);
+                URL urlObject = new URL(url + INFO + username + fName + lName);
                 urlConnection = (HttpURLConnection) urlObject.openConnection();
                 InputStream content = urlConnection.getInputStream();
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
@@ -182,13 +182,12 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                     response += s;
                 }
             } catch (Exception e) {
-                Log.d("ERROR CONN", url + INFO + username);
+                Log.d("ERROR CONN", url + INFO + username + fName + lName);
                 response = "Unable to connect, Reason: " + e.getMessage();
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            Log.e("HERE", response);
             return response;
         }
 
