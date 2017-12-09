@@ -451,6 +451,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;
+        Log.d("LOCATION", mCurrentLocation.toString());
         updateCoords();
     }
 
@@ -480,8 +481,8 @@ public class MainActivity extends AppCompatActivity
                 mCurrentLocation =
                         LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 if (mCurrentLocation != null) {
-                    startLocationUpdates();
                     updateCoords();
+                    startLocationUpdates();
                 }
             }
         }
@@ -617,14 +618,11 @@ public class MainActivity extends AppCompatActivity
      * Helper method to update prefs with the current coordinates.
      */
     private void updateCoords() {
-        Log.d("ASDFG", "ASDFG");
-        Log.d("In Update Coords", "" + (Boolean) Prefs.getFromPrefs(this, getString(R.string.prefs), getString(R.string.def_set_boo), Prefs.BOOLEAN));
         if ((Boolean) Prefs.getFromPrefs(this, getString(R.string.prefs), getString(R.string.def_set_boo), Prefs.BOOLEAN) == false
                 && (Boolean) Prefs.getFromPrefs(this, getString(R.string.prefs), getString(R.string.alert_boo), Prefs.BOOLEAN) == true
                 && mCurrentLocation != null) {
             Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.default_location_key),
                     Translate.translateCoord(this, mCurrentLocation, Translate.COUNTRY_NAME), Prefs.STRING);
-            Log.d("Setting Default To", mCurrentLocation.toString());
             Boolean boo = true;
             Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.def_set_boo), boo, Prefs.BOOLEAN);
         }
