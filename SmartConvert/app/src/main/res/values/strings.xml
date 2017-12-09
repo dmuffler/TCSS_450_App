@@ -52,7 +52,8 @@
     <string name="username_profile">Email:</string>
     <string name="edit_String">Edit</string>
     <string name="curLocation_text">Current Location =</string>
-    <string name="location_key">location_key</string>
+    <string name="default_location_key">default_location_key</string>
+    <string name="current_location_key">current_location_key</string>
     <string name="prefs">prefs</string>
     <string name="currency_key">currency_key</string>
     <string name="profile_navText">Profile</string>
@@ -65,6 +66,7 @@
     <string name="exitText">Exit</string>
     <string name="saveText">Save</string>
     <string name="alert_boo">alert_boo</string>
+    <string name="def_set_boo">alert_boo</string>
     <string name="no_country_string">No Country</string>
     <string name="alert_done_boo">alert_done_boo</string>
     <string name="end_string">End</string>

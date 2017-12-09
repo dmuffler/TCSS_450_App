@@ -117,7 +117,7 @@ public class HomeFragment extends Fragment implements  View.OnClickListener {
      * Helper method to post the current country.
      */
     private void postCountry() {
-        mCurrentLocation = (String) Prefs.getFromPrefs(getActivity(), getActivity().getString(R.string.prefs), getActivity().getString(R.string.location_key), Prefs.STRING);
+        mCurrentLocation = (String) Prefs.getFromPrefs(getActivity(), getActivity().getString(R.string.prefs), getActivity().getString(R.string.current_location_key), Prefs.STRING);
         if (mCurrentLocation != null) {
             mCurrentLocationField.setText(mCurrentLocation);
         }
