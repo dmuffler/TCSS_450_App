@@ -60,8 +60,8 @@ public class SettingFragment extends Fragment {
 
         Boolean accepted = (Boolean) Prefs.getFromPrefs(getActivity(), getString(R.string.prefs), getString(R.string.alert_boo), Prefs.BOOLEAN);
         if (accepted) {
-            mDefaultField.setText((String) Prefs.getFromPrefs(getActivity(), getString(R.string.prefs), getString(R.string.location_key), Prefs.STRING));
-            mCurrentField.setText((String) Prefs.getFromPrefs(getActivity(), getString(R.string.prefs), getString(R.string.location_key), Prefs.STRING));
+            mDefaultField.setText((String) Prefs.getFromPrefs(getActivity(), getString(R.string.prefs), getString(R.string.default_location_key), Prefs.STRING));
+            mCurrentField.setText((String) Prefs.getFromPrefs(getActivity(), getString(R.string.prefs), getString(R.string.current_location_key), Prefs.STRING));
         }
         return v;
     }

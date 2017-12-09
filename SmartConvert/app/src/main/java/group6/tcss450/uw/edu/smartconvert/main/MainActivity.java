@@ -159,10 +159,16 @@ public class MainActivity extends AppCompatActivity
 
         // Calls an alert per device that asks the user if current location is okay to set as default.
         if ((Boolean) Prefs.getFromPrefs(this, getString(R.string.prefs), getString(R.string.alert_done_boo), Prefs.BOOLEAN) == false) {
+            Boolean boo = false;
+            Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.def_set_boo), boo, Prefs.BOOLEAN);
             new Alert(this, mCurrentLocation);
         }
         enableMenu(R.id.nav_profile, false);
         enableMenu(R.id.nav_logout, false);
+
+        if (mCurrentLocation != null) {
+            updateCoords();
+        }
     }
 
     /**
@@ -474,8 +480,8 @@ public class MainActivity extends AppCompatActivity
                 mCurrentLocation =
                         LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 if (mCurrentLocation != null) {
-                    updateCoords();
                     startLocationUpdates();
+                    updateCoords();
                 }
             }
         }
@@ -611,9 +617,20 @@ public class MainActivity extends AppCompatActivity
      * Helper method to update prefs with the current coordinates.
      */
     private void updateCoords() {
+        Log.d("ASDFG", "ASDFG");
+        Log.d("In Update Coords", "" + (Boolean) Prefs.getFromPrefs(this, getString(R.string.prefs), getString(R.string.def_set_boo), Prefs.BOOLEAN));
+        if ((Boolean) Prefs.getFromPrefs(this, getString(R.string.prefs), getString(R.string.def_set_boo), Prefs.BOOLEAN) == false
+                && (Boolean) Prefs.getFromPrefs(this, getString(R.string.prefs), getString(R.string.alert_boo), Prefs.BOOLEAN) == true
+                && mCurrentLocation != null) {
+            Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.default_location_key),
+                    Translate.translateCoord(this, mCurrentLocation, Translate.COUNTRY_NAME), Prefs.STRING);
+            Log.d("Setting Default To", mCurrentLocation.toString());
+            Boolean boo = true;
+            Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.def_set_boo), boo, Prefs.BOOLEAN);
+        }
         String code = Translate.translateCoord(this, mCurrentLocation, Translate.COUNTRY_CODE);
         String name = Translate.translateCoord(this, mCurrentLocation, Translate.COUNTRY_NAME);
-        Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.location_key), name, Prefs.STRING);
+        Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.current_location_key), name, Prefs.STRING);
         Prefs.saveToPrefs(this, getString(R.string.prefs), getString(R.string.locationCode_key), code, Prefs.STRING);
     }
 }
