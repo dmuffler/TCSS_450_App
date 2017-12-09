@@ -46,16 +46,8 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
     private final String PARTIAL_KEY_URL = "http://cssgate.insttech.washington.edu/~jtml/";
     /**The partial URL to call the Currency API**/
     private static final String API_URL = "https://www.amdoren.com/api/currency.php?api_key=";
-    /**The API key to access the Currency API
-     * (50 limit/month)
-     * **/
-    //private static final String API_KEY = "?api_key=RDyzVhu8ThK2dLnEPximNXmkGFMbNn";
+    /** to hold the api key **/
     private String mApiKey = "";
-    /**The API key to access the Currency API
-     * (50 limit/month)
-     * **/
-    /*private static final String API_KEY = "?api_key=qY3C5xzDnLREziBPh8aekJ2DErsRyf";*/
-    
     /**The field that will know which currency that the user wanted to convert from**/
     private String mCurrencyFrom;
     /**The field that will know which currency that the user wanted to convert to**/
@@ -72,7 +64,7 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
     private Spinner mCurASpinner;
     /** the spinner reference to the TO available currencies**/
     private Spinner mCurBSpinner;
-
+    /** hold the currency code **/
     private String currencyCode;
 
     /**
@@ -354,7 +346,7 @@ public class ConvertFragment extends Fragment implements View.OnClickListener{
     }
 
     /**
-     * API call to get a currency code from a country ode.
+     * API call to get a currency code from a country code.
      */
     private class GetCurrencyCode extends AsyncTask<String, String, String> {
 
