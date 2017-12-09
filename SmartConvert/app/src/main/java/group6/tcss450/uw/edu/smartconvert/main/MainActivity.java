@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity
         }
         enableMenu(R.id.nav_profile, false);
         enableMenu(R.id.nav_logout, false);
+        enableMenu(R.id.nav_main, false);
 
         if (mCurrentLocation != null) {
             updateCoords();
@@ -194,6 +195,7 @@ public class MainActivity extends AppCompatActivity
             if (fragName.equals("Home") || fragName.equals("Confirm Email") || fragName.equals("Tutorial1")) {
                 enableMenu(R.id.nav_profile, false);
                 enableMenu(R.id.nav_logout, false);
+                enableMenu(R.id.nav_main, false);
                 popStack(1);
                 onBackPressed();
             // Prevents closing of the app on brack pressed.
@@ -249,8 +251,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             switchFragment(new ProfileFragment(), "Profile");
-        } else if (id == R.id.nav_history) {
-
+        } else if (id == R.id.nav_main) {
+            switchFragment(new HomeFragment(), "Home");
         } else if (id == R.id.nav_logout) {
 
         }
@@ -330,6 +332,8 @@ public class MainActivity extends AppCompatActivity
     public void loginFragmentInteraction(String fragString, String emailString) {
         if (fragString.equals("Home")) {
             enableMenu(R.id.nav_profile, true);
+            enableMenu(R.id.nav_main, true);
+            enableMenu(R.id.nav_logout, true);
             switchFragment(new HomeFragment(), fragString);
         } else if (fragString.equals("Confirm Email")) {
             ConfirmEmailFragment confirmEmailFragment = new ConfirmEmailFragment();
@@ -385,6 +389,8 @@ public class MainActivity extends AppCompatActivity
                 break;
             case "Home":
                 enableMenu(R.id.nav_profile, true);
+                enableMenu(R.id.nav_main, true);
+                enableMenu(R.id.nav_logout, true);
                 switchFragment(new HomeFragment(), "Home");
                 break;
         }

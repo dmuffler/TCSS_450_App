@@ -72,5 +72,6 @@
     <string name="end_string">End</string>
     <string name="lat_key">lat</string>
     <string name="long_key">long</string>
+    <string name="home_Text">Home</string>
 
 </resources>
